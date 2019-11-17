@@ -5,7 +5,7 @@ class Rival(pg.sprite.Sprite):
     """clase rival"""
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface([40,40])
+        self.image = pg.Surface([30,40])
         self.image.fill(rojo)
         self.rect=self.image.get_rect()
         self.rect.x=0
@@ -16,10 +16,10 @@ class Rival(pg.sprite.Sprite):
 
     def update(self):
         # BRASHEO DE RIVALES CONTINUO
-        if self.rect.x < 0:
-            self.velx= 5
-        if self.rect.x > ancho - self.rect.width:
-            self.velx= -5
+        # if self.rect.x < 0:
+        #     self.velx= 5
+        # if self.rect.x > ancho - self.rect.width:
+        #     self.velx= -5
         self.rect.x += self.velx
         self.rect.y += self.vely
         self.tempo -=1
