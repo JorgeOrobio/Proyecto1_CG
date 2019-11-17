@@ -262,7 +262,7 @@ def Rotar_Puntos_AntiHorario(puntos,angulo):
 	for i in range(len(puntos)):
 		puntos[i] = Rotar_AntiHorario(puntos[i],angulo)
     #return puntos
-    
+
 def matriz_sprites(imagen,anc,alt,height,high):
     pass
     x,y = 0,0
@@ -350,10 +350,11 @@ def menu(display,p1,p2,p3,p4):
     pg.display.flip()
     return p1,p2,p3,p4
 
-def menu_creditos(display,p1,p2,p3,p4):
+def menu_creditos(display,p5,p6):
     display.fill(negro)
     size_img = 32
     Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
     creator_1 = "Jorge Orobio Auz"
     creator_1 = Messages.render(creator_1,True,verde,blanco)
 
@@ -361,27 +362,27 @@ def menu_creditos(display,p1,p2,p3,p4):
     creator_2 = Messages.render(creator_2,True,verde,blanco)
 
     back_message = "MENU"
-    if not p2:
-        back_message = Messages.render(back_message,True,rojo,azul)
+    if not p5:
+        back_message = Messages2.render(back_message,True,rojo,azul)
     else:
-        back_message = Messages.render(back_message,True,azul,rojo)
+        back_message = Messages2.render(back_message,True,azul,rojo)
 
     exit_message = "EXIT"
-    if not p4:
-        exit_message = Messages.render(exit_message,True,rojo,azul)
+    if not p6:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
     else:
-        exit_message = Messages.render(exit_message,True,azul,rojo)
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
 
 
     y = size_img * 2
     x = centrar_texto(back_message)
-    display.blit(back_message,[x,size_img])
-    p2 = rango_menu(back_message,[x,y])
+    display.blit(back_message,[x,y])
+    p5= rango_menu(back_message,[x,y])
 
-    y += size_img
+    y += size_img *2
     x = centrar_texto(exit_message)
     display.blit(exit_message,[x,y])
-    p4 = rango_menu(exit_message,[x,y])
+    p6 = rango_menu(exit_message,[x,y])
 
     y += size_img * 4
     x = centrar_texto(creator_1)
@@ -392,4 +393,4 @@ def menu_creditos(display,p1,p2,p3,p4):
     display.blit(creator_2,[x,y])
 
     pg.display.flip()
-    return p1,p2,p3,p4
+    return p5,p6
