@@ -2,6 +2,8 @@ import pygame as pg
 from libreria import*
 from Personaje2 import*
 from Bala import*
+from Mothership import *
+from Mothership_E import *
 import time
 
 if __name__ == '__main__':
@@ -14,12 +16,25 @@ if __name__ == '__main__':
     # GRUPOS
     jugadores=pg.sprite.Group()
     balas_jugador=pg.sprite.Group()
+    nodriza_a = pg.sprite.Group()
+    nodriza_e = pg.sprite.Group()
     # JUGADOR
 
     dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
     # dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
     imagen_jugador=pg.image.load(dirreccion_imagen_jugador)
     matriz_jugador=matriz_sprites(imagen_jugador,320,512,64,64)
+
+    # NAVE NODRIZA
+    dirreccion_imagen_naveM="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
+    # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
+    imagen_naveM=pg.image.load(dirreccion_imagen_naveM)
+
+    # NAVE NODRIZA ENEMIGA
+    dirreccion_imagen_naveME="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/enemigos/mothership.png"
+    # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
+    imagen_naveME=pg.image.load(dirreccion_imagen_naveME)
+
     # BALAS
     # BALAS JUGADOR
     direccion_imagen_bala_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
@@ -34,6 +49,13 @@ if __name__ == '__main__':
     # CREACION DE JUGADOR
     j=Jugador(matriz_jugador)
     jugadores.add(j)
+
+    # CREACION NAVE NODRIZA
+    mothership = Mothership(imagen_naveM)
+    nodriza_a.add(mothership)
+    mothership2 = Mothership_E(imagen_naveME)
+    nodriza_e.add(mothership2)
+
     # CONSTANTES
     salud=1000
     reloj=pg.time.Clock()
@@ -92,9 +114,13 @@ if __name__ == '__main__':
             if b.rect.x<0 or b.rect.x>ancho or b.rect.y>alto or b.rect.y<0:
                 balas_jugador.remove(b)
         jugadores.update()
+        nodriza_a.update()
+        nodriza_e.update()
         balas_jugador.update()
         pantalla.fill(negro)
         jugadores.draw(pantalla)
+        nodriza_a.draw(pantalla)
+        nodriza_e.draw(pantalla)
         balas_jugador.draw(pantalla)
         pg.display.flip()
         reloj.tick(30)
