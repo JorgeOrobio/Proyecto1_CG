@@ -218,7 +218,9 @@ def matriz_sprites(imagen,anc,alt,height,high):
         for i in range(0,alt,high):
             imag=imagen.subsurface(j,i,height,high)
             lista.append(imag)
+            #print(i,j)
         matriz.append(lista)
+        print(lista)
         lista=[]
     return matriz
 

@@ -17,6 +17,7 @@ if __name__ == '__main__':
     jugadores=pg.sprite.Group()
     balas_jugador=pg.sprite.Group()
     enemigos = pg.sprite.Group()
+    balas_enemigos = pg.sprite.Group()
     # JUGADOR
 
     dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
@@ -31,26 +32,32 @@ if __name__ == '__main__':
     direccion_imagen_bala_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
     imagen_bala_enemigo=pg.image.load(direccion_imagen_bala_enemigo)
     matriz_bala_enemigo=matriz_sprites(imagen_bala_enemigo,304,38,38,38)
+    # ENEMIGOS
+    direccion_imagen_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
+    imagen_enemigo=pg.image.load(direccion_imagen_enemigo)
+    matriz_enemigo=matriz_sprites(imagen_enemigo,560,80,80,80)
     ##SPAWN DE LOS Enemigos
-    direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Communicationship2.png"
+    direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
     imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
-    matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,304,38,38,38)
+    matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
     # CREACION DE JUGADOR
     j=Jugador(matriz_jugador)
     jugadores.add(j)
     #CREACION SPAWN
     spawns = pg.sprite.Group()
-    x = 1000
+    x = 980
     y = 40
     esp_entre = 20
-    s = Spawn([x,y])
+    s = Spawn([x,y],matriz_spawn_enemigo)
     ##aumentar x para que el spawn quede fuera de la pantalla
     print(ancho-s.rect.height)
     for i in range(y,alto - s.rect.height-esp_entre,s.rect.height+esp_entre):
-        s = Spawn([x,y])
+        s = Spawn([x,y],matriz_spawn_enemigo)
         spawns.add(s)
         y += s.rect.height+esp_entre
-        print(y)
+
+    #CREACION DE LOS ENEMIGOS
+    n = random.randrange(20,50)
 
 
     # CONSTANTES
@@ -110,17 +117,36 @@ if __name__ == '__main__':
         for b in balas_jugador:
             if b.rect.x<0 or b.rect.x>ancho or b.rect.y>alto or b.rect.y<0:
                 balas_jugador.remove(b)
+        for s in spawns:
+            if s.tempo == 0 :
+                s.tempo = random.randrange(50,100)
+                pos = s.rect.topleft
+                e = Rival(matriz_enemigo,pos)
+                enemigos.add(e)
+        for e in enemigos:
+            if e.tempo == 0:
+                e.tempo = random.randrange(10)
+                pos = e.rect.topleft
+                pos1 = [pos[0],pos[1]+20]
+                e = Bala(pos1,matriz_bala_enemigo,5)
+                balas_enemigos.add(e)
+                e.velx = -30
 
-        # for e in enemigos:
+
         #     ls = pg.sprite.spritecollide(e,enemigos,False)
         #     for b in ls:
         #         enemigos.remove(b)
 
         jugadores.update()
         balas_jugador.update()
+        balas_enemigos.update()
+        spawns.update()
+        enemigos.update()
         pantalla.fill(negro)
         jugadores.draw(pantalla)
         spawns.draw(pantalla)
+        enemigos.draw(pantalla)
         balas_jugador.draw(pantalla)
+        balas_enemigos.draw(pantalla)
         pg.display.flip()
         reloj.tick(30)

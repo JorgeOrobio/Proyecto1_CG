@@ -3,23 +3,25 @@ from libreria import*
 
 class Rival(pg.sprite.Sprite):
     """clase rival"""
-    def __init__(self):
+    def __init__(self,archivo,pos):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface([30,40])
-        self.image.fill(rojo)
+        self.fila=0
+        self.col=0
+        self.matriz=archivo
+        self.image = self.matriz[self.col][self.fila]
         self.rect=self.image.get_rect()
-        self.rect.x=0
-        self.rect.y=0
+        self.rect.x=pos[0]
+        print(pos[1])
+        self.rect.y=pos[1]
         self.velx=-5
         self.vely=0
-        self.tempo=random.randrange(200)
+        self.tempo=random.randrange(100)
 
     def update(self):
-        # BRASHEO DE RIVALES CONTINUO
-        # if self.rect.x < 0:
-        #     self.velx= 5
-        # if self.rect.x > ancho - self.rect.width:
-        #     self.velx= -5
         self.rect.x += self.velx
-        self.rect.y += self.vely
         self.tempo -=1
+        self.image = self.matriz[self.col][self.fila]
+        if self.col >=6:
+            self.col=0
+        else:
+            self.col+=1
