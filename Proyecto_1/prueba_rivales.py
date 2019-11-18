@@ -131,11 +131,11 @@ if __name__ == '__main__':
                 e = Bala(pos1,matriz_bala_enemigo,5)
                 balas_enemigos.add(e)
                 e.velx = -30
-
-
-        #     ls = pg.sprite.spritecollide(e,enemigos,False)
-        #     for b in ls:
-        #         enemigos.remove(b)
+        for b in balas_jugador:
+            ls = pg.sprite.spritecollide(b,enemigos,False)#no borra cuando hay colisión
+            for r in ls:
+                enemigos.remove(r)
+                balas_jugador.remove(b)
 
         jugadores.update()
         balas_jugador.update()
