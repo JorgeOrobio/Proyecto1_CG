@@ -9,7 +9,7 @@ rojo = [255,0,0]
 azul = [0,0,255]
 verde = [0,255,0]
 #dimensiones pantalla
-ancho,alto = [1080,600]
+ancho,alto = [1080,640]
 #centro de la pantalla
 centro_x = ancho//2
 centro_y = alto//2
