@@ -24,7 +24,7 @@ if __name__ == '__main__':
     tam_sy, tam_sx = 64,64
     x,y=0,0
     i,j=0,0
-    matrix_background = matriz_sprites(background,6400,1344,tam_sx,tam_sy)
+    matrix_background = matriz_sprites(background,9216,1344,tam_sx,tam_sy)
     # TIEMPOS
     reloj= pg.time.Clock()
     # MAPA
@@ -46,16 +46,7 @@ if __name__ == '__main__':
         i=0
         j+=tam_sy
         pg.display.flip()
-    # CICLO PARA IR MOVIENDO LO ANTERIORMENTE MAPEADO
-    # for i in range(0,2080):
-    #     for j in range(0,)
-    # print("SALIO")
-    # for i in matriz:
-    #     for j in i:
-    #         pantalla.blit(j,[0,0])
-    #         pg.display.flip()
-    #         reloj.tick(1)
-    # pantalla.blit(matriz[x][y],[0,0])
+    i=4
     fin = False
     # CICLO PRINCIPAL
     while not fin:
@@ -63,6 +54,11 @@ if __name__ == '__main__':
             #EVENTOS
             if event.type ==pg.QUIT:
                 fin = True
+
+        i-=4
+        bloques.update()
         bloques.draw(pantalla)
+        pantalla.blit(background,[i,0])
+        print(i)
         pg.display.flip()
-        reloj.tick(1)
+        reloj.tick(60)

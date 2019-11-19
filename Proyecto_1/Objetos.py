@@ -10,10 +10,12 @@ class Bloque(pg.sprite.Sprite):
         self.rect=self.image.get_rect()
         self.rect.x=pos[0]
         self.rect.y=pos[1]
-        self.velx=0
+        self.velx=-4
         self.error=10
         # self.grito_arc="/home/jorge/Escritorio/CGrafica/Music/Wilhelm_Scream.ogg"
         # self.grito = pg.mixer.Sound(self.grito_arc)
+    def update(self):
+        self.rect.x+=self.velx
 
 
 class Torre(pg.sprite.Sprite):
