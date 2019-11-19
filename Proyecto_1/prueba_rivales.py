@@ -20,10 +20,14 @@ if __name__ == '__main__':
     balas_enemigos = pg.sprite.Group()
     spawns = pg.sprite.Group()
     # JUGADOR
-
     dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
     imagen_jugador=pg.image.load(dirreccion_imagen_jugador)
     matriz_jugador=matriz_sprites(imagen_jugador,320,512,64,64)
+    #EXPLOSION JUGADOR
+    dirreccion_imagen_jugador_explosion="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    imagen_jugador_explosion=pg.image.load(dirreccion_imagen_jugador_explosion)
+    matriz_jugador_explosion=matriz_sprites(imagen_jugador_explosion,1088,64,64,64)
+
     # BALAS
     # BALAS JUGADOR
     direccion_imagen_bala_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
@@ -50,7 +54,7 @@ if __name__ == '__main__':
     imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
     matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
     # CREACION DE JUGADOR
-    j=Jugador(matriz_jugador)
+    j=Jugador(matriz_jugador,matriz_jugador_explosion)
     jugadores.add(j)
     #manejo de la vidas jugador
     vidas_jugador = j.vidas
@@ -159,36 +163,30 @@ if __name__ == '__main__':
             ls = pg.sprite.spritecollide(b,spawns,False)#
             for r in ls:
                 r.vidas -= 1
-                print(r.vidas)
+                #print(r.vidas)
                 balas_jugador.remove(b)
         for s in spawns:
             if s.vidas <= 0 and s.col2 == 13:
                 spawns.remove(s)
 
         #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
-        # for be in balas_enemigos:
-        #     ls = pg.sprite.spritecollide(be,jugadores,False)
-        #     for r in ls:
-        #         balas_enemigos.remove(be)
-        #         vidas_jugador = j.vidas -1
-        #         print(j.vidas)
-        #
-        #
-        # if len(jugadores.sprites()) == 0:
-        #     #print (vidas_jugador)
-        #     if vidas_jugador > 0:
-        #         j = Jugador([200,centro_y])
-        #         j.vidas = vidas_jugador
-        #         jugadores.add(j)
-        #     else:
-        #         j.muerte = True
+        for b in balas_enemigos:
+            ls = pg.sprite.spritecollide(b,jugadores,False)
+            for r in ls:
+                balas_enemigos.remove(b)
+                # vidas_jugador = j.vidas -1
+                j.vidas -= 1
+                print(vidas_jugador)
+                if vidas_jugador > 0:
+                    vidas_jugador = j.vidas
+
+        for j in jugadores:
+            if j.vidas <= 0 and j.col2 == 16:
+                jugadores.remove(j)
 
 
-        # for b in balas_jugador:
-        #     ls = pg.sprite.spritecollide(b,spawns,False)
-        #     print('disparo ')
-        #     s.vidas -=1
-        #     print('vidas'+str(s.vidas))
+
+
 
         jugadores.update()
         balas_jugador.update()
@@ -196,13 +194,15 @@ if __name__ == '__main__':
         spawns.update()
         enemigos.update()
         pantalla.fill(negro)
-        # s_vidas = 'Vidas:'+ str(vidas_jugador)
-        # texto = fuente.render(s_vidas,True,blanco)
-        # pantalla.blit(texto,[50,20])
         jugadores.draw(pantalla)
         spawns.draw(pantalla)
         enemigos.draw(pantalla)
         balas_jugador.draw(pantalla)
         balas_enemigos.draw(pantalla)
+        #mostrar vidas en pantalla
+        j_vidas = 'Vidas:'+ str(vidas_jugador)
+        texto = fuente.render(j_vidas,True,blanco)
+        pantalla.blit(texto,[50,20])
+        #Refresco de pantalla
         pg.display.flip()
         reloj.tick(30)
