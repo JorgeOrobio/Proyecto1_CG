@@ -14,8 +14,9 @@ class Jugador(pg.sprite.Sprite):
         self.rect.y=centro_y
         self.disparo=self.rect.midtop
         self.velx=0
-        self.vidas = 10
+        self.vidas = 3
         self.vely=0
+        self.muerte = False 
 
     def update(self):
         # ANIMACION DE PERSONAJE
