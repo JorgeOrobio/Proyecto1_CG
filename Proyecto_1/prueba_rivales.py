@@ -45,6 +45,10 @@ if __name__ == '__main__':
     direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
     imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
     matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
+    #MUERTE DE LOS ENEMIGOS
+    direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
+    matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
     # CREACION DE JUGADOR
     j=Jugador(matriz_jugador)
     jugadores.add(j)
@@ -55,10 +59,10 @@ if __name__ == '__main__':
     x = 980
     y = 60
     esp_entre = 20
-    s = Spawn([x,y],matriz_spawn_enemigo)
+    s = Spawn([x,y],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
     ##aumentar x para que el spawn quede fuera de la pantalla
     for i in range(y,alto - s.rect.height-esp_entre,s.rect.height+esp_entre):
-        s = Spawn([x,y],matriz_spawn_enemigo)
+        s = Spawn([x,y],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
         spawns.add(s)
         y += s.rect.height+esp_entre
 
@@ -151,6 +155,15 @@ if __name__ == '__main__':
             if e.muerte == 1 and e.col2 == 13:
                 enemigos.remove(e)
         #Eliminar spawn con balas jugador
+        for b in balas_jugador:
+            ls = pg.sprite.spritecollide(b,spawns,False)#
+            for r in ls:
+                r.vidas -= 1
+                print(r.vidas)
+                balas_jugador.remove(b)
+        for s in spawns:
+            if s.vidas <= 0 and s.col2 == 13:
+                spawns.remove(s)
 
         #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
         # for be in balas_enemigos:
