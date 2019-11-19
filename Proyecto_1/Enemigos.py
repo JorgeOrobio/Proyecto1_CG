@@ -33,9 +33,12 @@ class Rival(pg.sprite.Sprite):
                 self.col=0
             else:
                 self.col+=1
-        self.image2 = self.matriz2[self.col2][self.fila2]
+
         if self.muerte == 1:
+            self.image = self.matriz2[self.col2][self.fila2]
+            print('entro')
             if self.col2 >=13:
                 self.col2=0
             else:
                 self.col2+=1
+                print(self.col2)

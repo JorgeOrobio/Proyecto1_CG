@@ -20,24 +20,21 @@ if __name__ == '__main__':
     balas_enemigos = pg.sprite.Group()
     spawns = pg.sprite.Group()
     # JUGADOR
-    dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
-    # dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
+
+    dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
     imagen_jugador=pg.image.load(dirreccion_imagen_jugador)
     matriz_jugador=matriz_sprites(imagen_jugador,320,512,64,64)
     # BALAS
     # BALAS JUGADOR
-    direccion_imagen_bala_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
-    # direccion_imagen_bala_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
+    direccion_imagen_bala_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
     imagen_bala_jugador=pg.image.load(direccion_imagen_bala_jugador)
     matriz_bala_jugador=matriz_sprites(imagen_bala_jugador,304,38,38,38)
     # BALAS ENEMIGO
-    direccion_imagen_bala_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
-    # direccion_imagen_bala_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
+    direccion_imagen_bala_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
     imagen_bala_enemigo=pg.image.load(direccion_imagen_bala_enemigo)
     matriz_bala_enemigo=matriz_sprites(imagen_bala_enemigo,304,38,38,38)
     # ENEMIGOS
-    direccion_imagen_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
-    # direccion_imagen_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
+    direccion_imagen_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
     imagen_enemigo=pg.image.load(direccion_imagen_enemigo)
     matriz_enemigo=matriz_sprites(imagen_enemigo,560,80,80,80)
     #MUERTE ENEMIGOS
@@ -45,8 +42,7 @@ if __name__ == '__main__':
     imagen_enemigo_explosion=pg.image.load(direccion_imagen_enemigo_expl)
     matriz_enemigo_explosion=matriz_sprites(imagen_enemigo_explosion,896,64,64,64)
     ##SPAWN DE LOS Enemigos
-    direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
-    # direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
     imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
     matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
     # CREACION DE JUGADOR
@@ -57,7 +53,7 @@ if __name__ == '__main__':
     #CREACION SPAWN
     spawns = pg.sprite.Group()
     x = 980
-    y = 40
+    y = 60
     esp_entre = 20
     s = Spawn([x,y],matriz_spawn_enemigo)
     ##aumentar x para que el spawn quede fuera de la pantalla
@@ -147,9 +143,15 @@ if __name__ == '__main__':
         for b in balas_jugador:
             le = pg.sprite.spritecollide(b,enemigos,False)#no borra cuando hay colisión
             for r in le:
-                enemigos.muerte = 1
-                enemigos.remove(r)
+                r.muerte = 1
+                print(r.muerte)
                 balas_jugador.remove(b)
+        #Eliminar enemigos con balas jugador
+        for e in enemigos:
+            if e.muerte == 1 and e.col2 == 13:
+                enemigos.remove(e)
+        #Eliminar spawn con balas jugador
+
         #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
         # for be in balas_enemigos:
         #     ls = pg.sprite.spritecollide(be,jugadores,False)
