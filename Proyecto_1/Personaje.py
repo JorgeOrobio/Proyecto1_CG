@@ -58,7 +58,6 @@ class Jugador(pg.sprite.Sprite):
         posl = block.rect.left
         posd = block.rect.bottom
         posu = block.rect.top
-        print(posu,liminfy)
         if  posl - 8 < limsupx < posl + 8:
             print("murio")
             condition=True
