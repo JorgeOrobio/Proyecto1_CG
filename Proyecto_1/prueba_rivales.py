@@ -183,6 +183,7 @@ if __name__ == '__main__':
         for j in jugadores:
             if j.vidas <= 0 and j.col2 == 16:
                 jugadores.remove(j)
+                fin = True
 
 
 
@@ -205,4 +206,4 @@ if __name__ == '__main__':
         pantalla.blit(texto,[50,20])
         #Refresco de pantalla
         pg.display.flip()
-        reloj.tick(30)
+        reloj.tick(60)

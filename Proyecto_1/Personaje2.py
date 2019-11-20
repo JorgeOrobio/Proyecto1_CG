@@ -19,26 +19,26 @@ class Jugador(pg.sprite.Sprite):
         self.rect.y=centro_y
         self.disparo=self.rect.midtop
         self.velx=0
-        self.vidas = 3
         self.vely=0
+        self.vidas = 3
 
     def update(self):
         # ANIMACION DE PERSONAJE
-        self.image = self.matriz[self.col][self.fila]
         if self.vidas > 0:
+            self.image = self.matriz[self.col][self.fila]
             if self.col >=4:
                 self.col=0
             else:
                 self.col+=1
 
         #llamado a matriz de la explosion
-        if self.vidas < 0:
+        if self.vidas <= 0:
             print('entro')
             self.image = self.matriz2[self.col2][self.fila2]
-            if self.col >=16:
-                self.col=0
+            if self.col2 >=16:
+                self.col2=0
             else:
-                self.col+=1
+                self.col2+=1
 
         # LIMITES DE PANTALLA PERSONAJE
         if self.rect.x > (ancho - self.rect.width):
