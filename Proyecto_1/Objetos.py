@@ -8,14 +8,49 @@ class Bloque(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.image = imagen
         self.rect=self.image.get_rect()
-        self.rect.x=pos[0]
+        self.pos = pos
+        self.rect.x=pos[0]+240
         self.rect.y=pos[1]
-        self.velx=-4
-        self.error=10
+        self.velx=-6
+        self.error=32
         # self.grito_arc="/home/jorge/Escritorio/CGrafica/Music/Wilhelm_Scream.ogg"
         # self.grito = pg.mixer.Sound(self.grito_arc)
     def update(self):
         self.rect.x+=self.velx
+
+    def OnLimit(self,pos_jugador):
+        condition=False
+        liminfx=self.rect.center[0] - self.error
+        liminfy=self.rect.center[1] + self.error
+        liminf = [liminfx,liminfy]
+        limsupx=self.rect.center[0] + self.error
+        limsupy=self.rect.center[1] - self.error
+        limsup = [limsupx,limsupy]
+        if  liminf < pos_jugador <limsup :
+            condition=True
+        else:
+            condition=False
+        return condition
+
+    def Death(self,pos_jugador):
+        condition=False
+        liminfx=self.rect.center[0] - self.error
+        liminfy=self.rect.center[1] + self.error
+        liminf = [liminfx,liminfy]
+        limsupx=self.rect.center[0] + self.error
+        limsupy=self.rect.center[1] - self.error
+        limsup = [limsupx,limsupy]
+        posr = pos_jugador[0] + 32
+        posl = pos_jugador[0] - 32
+        posu = pos_jugador[1] + 32
+        posd = pos_jugador[1] - 32
+        if  posr == liminfx:
+            condition=True
+        else:
+            condition=False
+        return condition
+
+
 
 
 class Torre(pg.sprite.Sprite):
