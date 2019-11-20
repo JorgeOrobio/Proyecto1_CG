@@ -29,7 +29,7 @@ class Rival(pg.sprite.Sprite):
         self.image = self.matriz[self.col][self.fila]
 
         if self.muerte == 0:
-            if self.col >=6:
+            if self.col >=5:
                 self.col=0
             else:
                 self.col+=1

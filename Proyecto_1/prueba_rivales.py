@@ -206,4 +206,4 @@ if __name__ == '__main__':
         pantalla.blit(texto,[50,20])
         #Refresco de pantalla
         pg.display.flip()
-        reloj.tick(60)
+        reloj.tick(30)
