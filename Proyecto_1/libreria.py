@@ -8,8 +8,9 @@ negro = [0,0,0]
 rojo = [255,0,0]
 azul = [0,0,255]
 verde = [0,255,0]
+gris = [156,156,156]
 #dimensiones pantalla
-ancho,alto = [1080,640]
+ancho,alto = [1080,600]
 #centro de la pantalla
 centro_x = ancho//2
 centro_y = alto//2
@@ -209,20 +210,6 @@ def Aumentar_Radio_Disparo(punto,radio,centro):
     punto=DCA_UnPunto(punto,centro)
     return [punto[0],punto[1]]
 
-def matriz_sprites(imagen,anc,alt,height,high):
-    pass
-    x,y = 0,0
-    matriz=[]
-    lista=[]
-    for j in range(0,anc,height):
-        for i in range(0,alt,high):
-            imag=imagen.subsurface(j,i,height,high)
-            lista.append(imag)
-        matriz.append(lista)
-        lista=[]
-    return matriz
-
-
 def Rosa_polar(a,tam):
 	R = []
 	for i in range(0,360):
@@ -276,3 +263,135 @@ def Rotar_Puntos_AntiHorario(puntos,angulo):
 	for i in range(len(puntos)):
 		puntos[i] = Rotar_AntiHorario(puntos[i],angulo)
     #return puntos
+
+def matriz_sprites(imagen,anc,alt,height,high):
+    pass
+    x,y = 0,0
+    matriz=[]
+    lista=[]
+    for j in range(0,anc,height):
+        for i in range(0,alt,high):
+            imag=imagen.subsurface(j,i,height,high)
+            lista.append(imag)
+        matriz.append(lista)
+        lista=[]
+    return matriz
+
+def centrar_texto(imagen):
+    info = imagen.get_rect()
+    position = centro_x - (info.width/2) #CENTRAR LA IMAGEN
+    return(position)
+
+def rango_menu(box,pos_box):
+    limits = box.get_rect()
+    pos = pg.mouse.get_pos()
+    # print(pos)
+    # print(limits)
+    if pos_box[0] < pos[0] and pos[0] < pos_box[0] + limits.width and pos_box[1] < pos[1] and pos[1] < pos_box[1] + limits.height:
+        # print("si")
+        return True
+    pass
+
+def menu(display,p1,p2,p3,p4):
+    display.fill(negro)
+    size_img = 64
+    Messages = pg.font.Font(None,size_img)
+    top_message = "SOME SPACE GAME"
+    top_message = Messages.render(top_message,True,rojo,blanco)
+
+    play_message = "PLAY"
+    if not p1:
+        play_message = Messages.render(play_message,True,rojo,azul)
+    else:
+        play_message = Messages.render(play_message,True,azul,rojo)
+
+    option_message = "OPTIONS"
+    if not p2:
+        option_message = Messages.render(option_message,True,rojo,azul)
+    else:
+        option_message = Messages.render(option_message,True,azul,rojo)
+
+    credit_message = "CREDITS"
+    if not p3:
+        credit_message = Messages.render(credit_message,True,rojo,azul)
+    else:
+        credit_message = Messages.render(credit_message,True,azul,rojo)
+
+    exit_message = "EXIT"
+    if not p4:
+        exit_message = Messages.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages.render(exit_message,True,azul,rojo)
+
+
+    y = size_img * 2
+    x = centrar_texto(top_message)
+    display.blit(top_message,[x,size_img])
+
+    y += size_img
+    x = centrar_texto(play_message)
+    display.blit(play_message,[x,y])
+    p1 = rango_menu(play_message,[x,y])
+
+    y += size_img
+    x = centrar_texto(option_message)
+    display.blit(option_message,[x,y])
+    p2 = rango_menu(option_message,[x,y])
+
+    y += size_img
+    x = centrar_texto(credit_message)
+    display.blit(credit_message,[x,y])
+    p3 = rango_menu(credit_message,[x,y])
+
+    y += size_img
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p4 = rango_menu(exit_message,[x,y])
+
+    pg.display.flip()
+    return p1,p2,p3,p4
+
+def menu_creditos(display,p5,p6):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "Jorge Orobio Auz"
+    creator_1 = Messages.render(creator_1,True,verde,blanco)
+
+    creator_2 = "Nicolas Aguirre Espinosa"
+    creator_2 = Messages.render(creator_2,True,verde,blanco)
+
+    back_message = "MENU"
+    if not p5:
+        back_message = Messages2.render(back_message,True,rojo,azul)
+    else:
+        back_message = Messages2.render(back_message,True,azul,rojo)
+
+    exit_message = "EXIT"
+    if not p6:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+
+
+    y = size_img * 2
+    x = centrar_texto(back_message)
+    display.blit(back_message,[x,y])
+    p5= rango_menu(back_message,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p6 = rango_menu(exit_message,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    pg.display.flip()
+    return p5,p6
