@@ -15,6 +15,7 @@ class Jugador(pg.sprite.Sprite):
         self.matriz2=archivo2
         self.image2 = self.matriz2[self.col2][self.fila2]
         self.rect=self.image.get_rect()
+        self.pos = [self.rect.center[0],self.rect.center[1]]
         self.rect.x=200
         self.rect.y=centro_y
         self.disparo=self.rect.midtop
@@ -33,7 +34,6 @@ class Jugador(pg.sprite.Sprite):
 
         #llamado a matriz de la explosion
         if self.vidas <= 0:
-            print('entro')
             self.image = self.matriz2[self.col2][self.fila2]
             if self.col2 >=16:
                 self.col2=0
@@ -56,8 +56,36 @@ class Jugador(pg.sprite.Sprite):
 
         self.rect.x+=self.velx
         self.rect.y+=self.vely
+        self.pos = [self.rect.center[0],self.rect.center[1]]
 
-
+    def BlockDeath(self,block):
+        condition=False
+        # LOS CUATRO BORDES DEL JUGADOR
+        liminfx=self.rect.left
+        liminfy=self.rect.bottom
+        liminf = [liminfx,liminfy]
+        limsupx=self.rect.right
+        limsupy=self.rect.top
+        limsup = [limsupx,limsupy]
+        # LOS CUATRO BORDES DEL BLOQUE
+        posr = block.rect.right
+        posl = block.rect.left
+        posd = block.rect.bottom
+        posu = block.rect.top
+        if  posl - 8 < limsupx < posl + 8:
+            print("murio")
+            condition=True
+            self.vely = 0
+        elif posu + self.vely < liminfy < posu - self.vely:
+            self.rect.y = posu - 64
+            self.vely=0
+        elif posd == limsupy:
+            self.rect.y = posd
+            self.vely=0
+        else:
+            condition=False
+        return condition
+        pass
 
     def get_all(self):
         pass

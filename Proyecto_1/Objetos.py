@@ -11,7 +11,7 @@ class Bloque(pg.sprite.Sprite):
         self.pos = pos
         self.rect.x=pos[0]+240
         self.rect.y=pos[1]
-        self.velx=-6
+        self.velx=-8
         self.error=32
         # self.grito_arc="/home/jorge/Escritorio/CGrafica/Music/Wilhelm_Scream.ogg"
         # self.grito = pg.mixer.Sound(self.grito_arc)

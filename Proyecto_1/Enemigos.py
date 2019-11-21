@@ -9,14 +9,15 @@ class Rival(pg.sprite.Sprite):
         self.col=0
         self.matriz=archivo
         self.image = self.matriz[self.col][self.fila]
-        ##para la explosión
+        ##para la explosion
         self.fila2=0
         self.col2=0
         self.matriz2=archivo2
         self.image2= self.matriz2[self.col2][self.fila2]
 
         self.rect=self.image.get_rect()
-        self.rect.x=pos[0]
+        self.limit = pos[0]
+        self.rect.x=pos[0] + 300
         self.rect.y=pos[1]
         self.velx=-5
         self.vely=0
