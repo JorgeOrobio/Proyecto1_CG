@@ -41,4 +41,3 @@ class Rival(pg.sprite.Sprite):
                 self.col2=0
             else:
                 self.col2+=1
-                print(self.col2)

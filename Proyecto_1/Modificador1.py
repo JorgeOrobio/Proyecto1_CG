@@ -30,7 +30,7 @@ class Skin(pg.sprite.Sprite):
 
         if self.muerte == 0:
             self.image = self.matriz[self.col][self.fila]
-            if self.col >=2:
+            if self.col >=1:
                 self.col=0
             else:
                 self.col+=1
