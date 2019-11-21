@@ -1,9 +1,12 @@
 import pygame as pg
 from libreria import*
-from Personaje import*
+from Personaje2 import*
+from Spawn import *
 from Bala import*
 from Mothership import *
 from Objetos import *
+from Enemigos import *
+from Enemigos2 import *
 from Mothership_E import *
 import time
 import random
@@ -12,6 +15,52 @@ import sys
 def menu_options():
     pass
 
+def endgame(display,p8,p9):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "GAME OVER"
+    creator_1 = Messages.render(creator_1,True,verde,blanco)
+
+    creator_2 = "MANCO CULIAO"
+    creator_2 = Messages.render(creator_2,True,verde,blanco)
+
+    back_message = "TRY AGAIN"
+    if not p8:
+        back_message = Messages2.render(back_message,True,rojo,azul)
+    else:
+        back_message = Messages2.render(back_message,True,azul,rojo)
+
+    exit_message = "EXIT"
+    if not p9:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+
+
+    y = size_img * 2
+    x = centrar_texto(back_message)
+    display.blit(back_message,[x,y])
+    p8= rango_menu(back_message,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p9 = rango_menu(exit_message,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    pg.display.flip()
+    return p8,p9
+
+    pass
 
 if __name__ == '__main__':
 
@@ -21,21 +70,25 @@ if __name__ == '__main__':
     display_credits = None
     display_options = None
     display_game = None
+    display_endgame = None
 
     # GRUPOS
+    bloques = pg.sprite.Group()
     jugadores=pg.sprite.Group()
     balas_jugador=pg.sprite.Group()
     nodriza_a = pg.sprite.Group()
+    enemigos = pg.sprite.Group()
+    balas_enemigos = pg.sprite.Group()
     nodriza_e = pg.sprite.Group()
-    bloques = pg.sprite.Group()
-
+    spawns = pg.sprite.Group()
+##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
     # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
 
     # APARTADO DE BLOQUES
     tam_sy, tam_sx = 64,64
-    x,y=0,0
+    matrix_x,matrix_y=0,0
     i,j=0,0
     ancho_fondo = 9216
     alto_fondo = 1344
@@ -48,16 +101,18 @@ if __name__ == '__main__':
         for ele in filas:
             # AQUI PUEDE AGREGAR LA CONDICION PARA AGREGAR BLOQUES
             if ele == "#":
-                x,y = 0,0
-                b = Bloque(matrix_background[x][y],[i,j])
+                matrix_x,matrix_y = 0,0
+                b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
                 bloques.add(b)
             if ele == ".":
-                x,y = 0,4
-            # display_game.blit(matrix_background[x][y],[i,j])
+                matrix_x,matrix_y = 0,4
+            # display_game.blit(matrix_background[x][matrix_y],[i,j])
             i+=tam_sx
         i=0
         j+=tam_sy
+##################################################################################################################################################################
 
+    # ALIADOS
 
     # JUGADOR
     dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
@@ -65,30 +120,88 @@ if __name__ == '__main__':
     imagen_jugador=pg.image.load(dirreccion_imagen_jugador)
     matriz_jugador=matriz_sprites(imagen_jugador,320,512,64,64)
 
+    #EXPLOSION JUGADOR
+    dirreccion_imagen_jugador_explosion="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    # dirreccion_imagen_jugador_explosion="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    imagen_jugador_explosion=pg.image.load(dirreccion_imagen_jugador_explosion)
+    matriz_jugador_explosion=matriz_sprites(imagen_jugador_explosion,1088,64,64,64)
+
     # NAVE NODRIZA
     dirreccion_imagen_naveM="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
     # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
     imagen_naveM=pg.image.load(dirreccion_imagen_naveM)
+
+
+##################################################################################################################################################################
+    # ENEMIGOS
+
+    # ENEMIGOS
+    direccion_imagen_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
+    # direccion_imagen_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
+    imagen_enemigo=pg.image.load(direccion_imagen_enemigo)
+    matriz_enemigo=matriz_sprites(imagen_enemigo,560,80,80,80)
 
     # NAVE NODRIZA ENEMIGA
     dirreccion_imagen_naveME="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/enemigos/mothership.png"
     # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
     imagen_naveME=pg.image.load(dirreccion_imagen_naveME)
 
+    #MUERTE ENEMIGOS
+    direccion_imagen_enemigo_expl="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    # direccion_imagen_enemigo_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    imagen_enemigo_explosion=pg.image.load(direccion_imagen_enemigo_expl)
+    matriz_enemigo_explosion=matriz_sprites(imagen_enemigo_explosion,896,64,64,64)
+
+    ##SPAWN DE LOS ENEMIGOS
+    direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    # direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
+    matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
+
+    #MUERTE DE LOS SPAWNS ENEMIGOS
+    direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    # direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
+    matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
+
+
+##################################################################################################################################################################
     # BALAS
+
     # BALAS JUGADOR
     direccion_imagen_bala_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
     # direccion_imagen_bala_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
     imagen_bala_jugador=pg.image.load(direccion_imagen_bala_jugador)
     matriz_bala_jugador=matriz_sprites(imagen_bala_jugador,304,38,38,38)
+
     # BALAS ENEMIGO
     direccion_imagen_bala_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
     # direccion_imagen_bala_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
     imagen_bala_enemigo=pg.image.load(direccion_imagen_bala_enemigo)
     matriz_bala_enemigo=matriz_sprites(imagen_bala_enemigo,304,38,38,38)
+
+##################################################################################################################################################################
+
+    # CREACIONES
+
     # CREACION DE JUGADOR
-    j=Jugador(matriz_jugador)
+    j=Jugador(matriz_jugador,matriz_jugador_explosion)
     jugadores.add(j)
+    #manejo de la vidas jugador
+    vidas_jugador = j.vidas
+
+
+    #CREACION SPAWN
+    posx_spawns = 980
+    posy_spawns = 60
+    esp_entre = 20
+    s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
+    ##aumentar posx_spawns para que el spawn quede fuera de la pantalla
+    for i in range(posy_spawns,alto - s.rect.height-esp_entre,s.rect.height+esp_entre):
+        s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
+        spawns.add(s)
+        posy_spawns += s.rect.height+esp_entre
+    vidas_spawn = s.vidas
 
     # CREACION NAVE NODRIZA
     mothership = Mothership(imagen_naveM)
@@ -96,7 +209,7 @@ if __name__ == '__main__':
     mothership2 = Mothership_E(imagen_naveME)
     nodriza_e.add(mothership2)
 
-
+##################################################################################################################################################################
     # MENSAJES DE ESCUDO, VIDAS Y ADVERTENCIA
     Messages = pg.font.Font(None,32)
     shield = 100000
@@ -116,7 +229,7 @@ if __name__ == '__main__':
 
     escudo= "SHIELD"
     escudo = Messages.render(escudo,True,negro,gris)
-
+##################################################################################################################################################################
     # FINALIZADORES DE ETAPAS(JUEGO, PAUSA, MENU), Y VARIABLES
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
     nivel=0
@@ -124,7 +237,7 @@ if __name__ == '__main__':
     end = False
     game_over = False
     pause = False
-    p1,p2,p3,p4,p5,p6,p7 = False,False,False,False,False,False,False
+    p1,p2,p3,p4,p5,p6,p7,p8,p9 = False,False,False,False,False,False,False,False,False
 
     while not end and not game_over and not pause:
         event=pg.event.get()
@@ -132,6 +245,8 @@ if __name__ == '__main__':
             p1,p2,p3,p4 = menu(display,p1,p2,p3,p4)
         if display_credits != None:
             p5,p6 = menu_creditos(display_credits,p5,p6)
+        if display_endgame != None:
+            p8,p9 = endgame(display_endgame,p8,p9)
         if display_options != None:# CAMBIAR LAS OPCIONES CUANDO SE NOS OCURRA ALGO
             p1,p2,p3,p4 = menu(display_options,p1,p2,p3,p4)
         for event in event:
@@ -145,6 +260,7 @@ if __name__ == '__main__':
                 display = None
                 display_game = None
                 display_options = None
+                display_endgame = None
                 display_credits = pg.display.set_mode([ancho,alto])
                 display_credits.fill(negro)
                 p3 = False
@@ -154,6 +270,7 @@ if __name__ == '__main__':
                 display = None
                 display_game = None
                 display_credits = None
+                display_endgame = None
                 display_options = pg.display.set_mode([ancho,alto])
                 display_options.fill(negro)
                 p2 = False
@@ -163,6 +280,7 @@ if __name__ == '__main__':
                 display = None
                 display_credits = None
                 display_options = None
+                display_endgame = None
                 display_game = pg.display.set_mode([ancho,alto])
                 display_game.fill(negro)
                 p1 = False
@@ -173,12 +291,34 @@ if __name__ == '__main__':
                 display_game = None
                 display_credits = None
                 display_options = None
+                display_endgame = None
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p5 = False
                 pg.display.flip()
+            if event.type == pg.MOUSEBUTTONDOWN and p8:# PERDIO Y VA A REINTENTAR
+                pg.display.quit()
+                display_endgame = None
+                display_credits = None
+                display_options = None
+                display = None
+                display_game = pg.display.set_mode([ancho,alto])
+                display_game.fill(negro)
+                p8 = False
+                pg.display.flip()
+            if event.type == pg.MOUSEBUTTONDOWN and p9: #PERDIO Y VA A SALIR
+                pg.display.quit()
+                display_game = None
+                display_credits = None
+                display_options = None
+                display_endgame = None
+                display = pg.display.set_mode([ancho,alto])
+                display.fill(negro)
+                p9 = False
+                pg.display.flip()
             # OPCIONES DEL MENU DE OPCIONES XD
             if display_game != None:
+##################################################################################################################################################################
                 if event.type==pg.KEYDOWN:
                     if event.key == pg.K_DOWN:
                         j.vely=10
@@ -219,48 +359,133 @@ if __name__ == '__main__':
                     j.velx=0
                     j.vely=0
                     j.fila=2
-        # LIMPIEZA DE BALAS AL SALIR DE PANTALLA
+##################################################################################################################################################################
         if display_game != None:
+        # CAJA DE CONTROL
+
+            # LIMPIEZA DE BALAS AL SALIR DE PANTALLA
             for b in balas_jugador:
                 if b.rect.x<0 or b.rect.x>ancho or b.rect.y>alto or b.rect.y<0:
                     balas_jugador.remove(b)
+
+            # ESCUDO DE INTANGIBILIDAD
             ls = pg.sprite.spritecollide(j,bloques,False)
             for b in ls:
-                # print(j.rect.center)
-                # print(b.rect.center)
-                # print(j.pos)
                 if b.OnLimit(j.pos):
                     shield-=10
                     shield_s = str(shield)
                     shield_M = Messages.render(shield_s,True,negro,gris)
                     j.BlockDeath(b)
-            i-=6
-            if shield <=0:
-                game_over = True
-            jugadores.update()
+##################################################################################################################################################################
+
             if nivel != 0:
-                nodriza_a.update()
-                # nodriza_e.update()
-            balas_jugador.update()
-            bloques.update()
-            # display_game.fill(negro)
-            display_game.blit(background,[i,nivel])
-            jugadores.draw(display_game)
-            balas_jugador.draw(display_game)
-            bloques.draw(display_game)
-            nodriza_a.draw(display_game)
-            nodriza_e.draw(display_game)
-            if i >= -2000 and nivel == 0:
-                display_game.blit(WarningM,[pos_w,0])
-            print(i)
-            if i == -ancho_fondo + ancho:
-                i = 0
-                nivel = -64*11
-                for b in bloques:
-                    bloques.remove(b)
-            display_game.blit(salud,[0,0])
-            display_game.blit(escudo,[0,32])
-            display_game.blit(hp,[100,0])
-            display_game.blit(shield_M,[100,32])
-            pg.display.flip()
-            reloj.tick(60)
+                #CREACION DE LOS RIVALES DESDE EL SPAWN
+                for s in spawns:
+                    if s.tempo == 0 :
+                        s.tempo = random.randrange(50,100)
+                        pos = s.rect.topleft
+                        e = Rival(matriz_enemigo,matriz_enemigo_explosion,pos)
+                        enemigos.add(e)
+
+                #DISPAROS DE LOS RIVALES
+                for e in enemigos:
+                    if e.tempo == 0:
+                        e.tempo = random.randrange(10)
+                        pos = e.rect.topleft
+                        pos1 = [pos[0],pos[1]+20]
+                        e = Bala(pos1,matriz_bala_enemigo,5)
+                        balas_enemigos.add(e)
+                        e.velx = -30
+
+                #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS
+                for b in balas_jugador:
+                    le = pg.sprite.spritecollide(b,enemigos,False)#no borra cuando hay colision
+                    for r in le:
+                        r.muerte = 1
+                        balas_jugador.remove(b)
+
+                #Eliminar enemigos con balas jugador
+                for e in enemigos:
+                    if e.muerte == 1 and e.col2 == 12:
+                        enemigos.remove(e)
+
+                #Eliminar spawn con balas jugador
+                for b in balas_jugador:
+                    ls = pg.sprite.spritecollide(b,spawns,False)#
+                    for r in ls:
+                        r.vidas -= 1
+                        balas_jugador.remove(b)
+
+                # ELIMINACION DE SPAWNS
+                for s in spawns:
+                    if s.vidas <= 0 and s.col2 == 13:
+                        spawns.remove(s)
+
+                #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
+                for b in balas_enemigos:
+                    ls = pg.sprite.spritecollide(b,jugadores,False)
+                    for r in ls:
+                        balas_enemigos.remove(b)
+                        j.vidas -= 1
+                        if vidas_jugador > 0:
+                            vidas_jugador = j.vidas
+
+                # ELIMINACION DEL JUGADOR
+                for j in jugadores:
+                    if j.vidas <= 0 and j.col2 == 16:
+                        print("loser")
+                        j.vidas = 3
+                        pg.display.quit()
+                        display_game = None
+                        display_credits = None
+                        display_options = None
+                        display_endgame = pg.display.set_mode([ancho,alto])
+                        display_endgame.fill(negro)
+##################################################################################################################################################################
+            if display_game != None:
+                if i == -ancho_fondo + ancho:
+                    i = 0
+                    nivel = -64*11
+                    for b in bloques:
+                        bloques.remove(b)
+    ##################################################################################################################################################################
+                i-=8
+                if shield <=0:
+                    game_over = True
+                jugadores.update()
+                if nivel != 0:
+                    nodriza_a.update()
+                    spawns.update()
+                    enemigos.update()
+                    balas_enemigos.update()
+                if len(spawns) <= 0:
+                    nodriza_e.update()
+                if nivel == 0:
+                    bloques.update()
+                balas_jugador.update()
+                # ACTUALIZACIONES
+                display_game.blit(background,[i,nivel])
+                jugadores.draw(display_game)
+                if nivel ==0:
+                    bloques.draw(display_game)
+                if nivel!=0:
+                    nodriza_a.draw(display_game)
+                    spawns.draw(display_game)
+                    enemigos.draw(display_game)
+                    balas_jugador.draw(display_game)
+                    balas_enemigos.draw(display_game)
+                if len(spawns) <= 0:
+                    nodriza_e.draw(display_game)
+
+                # MENSAJE DE ADVERTENCIA INICIAL
+                if i >= -2000 and nivel == 0:
+                    display_game.blit(WarningM,[pos_w,0])
+                j_vidas = 'Vidas: '+ str(vidas_jugador)
+                texto = Messages.render(j_vidas,True,negro,gris)
+                display_game.blit(texto,[200,0])
+                display_game.blit(salud,[0,0])
+                display_game.blit(escudo,[0,32])
+                display_game.blit(hp,[100,0])
+                display_game.blit(shield_M,[100,32])
+                pg.display.flip()
+                reloj.tick(30)

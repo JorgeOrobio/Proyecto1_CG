@@ -9,7 +9,7 @@ class Rival2(pg.sprite.Sprite):
         self.col=0
         self.matriz=archivo
         self.image = self.matriz[self.col][self.fila]
-        ##para la explosión
+        ##para la explosion
         self.fila2=0
         self.col2=0
         self.matriz2=archivo2

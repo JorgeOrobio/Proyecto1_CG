@@ -47,7 +47,7 @@ if __name__ == '__main__':
     direccion_imagen_enemigo_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     imagen_enemigo_explosion=pg.image.load(direccion_imagen_enemigo_expl)
     matriz_enemigo_explosion=matriz_sprites(imagen_enemigo_explosion,896,64,64,64)
-    ##SPAWN DE LOS Enemigos
+    ##SPAWN DE LOS ENEMIGOS
     direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
     imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
     matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
@@ -81,7 +81,6 @@ if __name__ == '__main__':
         y += s.rect.height+esp_entre
 
     #CREACION DE LOS ENEMIGOS
-    n = random.randrange(20,50)
     vidas_spawn = s.vidas
 
     # CONSTANTES

@@ -9,14 +9,16 @@ class Spawn(pg.sprite.Sprite):
         self.col=0
         self.matriz=archivo
         self.image = self.matriz[self.col][self.fila]
-        ##para la explosión
+        ##para la explosion
         self.fila2=0
         self.col2=0
         self.matriz2=archivo2
         self.image2= self.matriz2[self.col2][self.fila2]
         self.rect =self.image.get_rect()
-        self.rect.x = pto[0]
+        self.limit =  pto[0]
+        self.rect.x = pto[0] + 300
         self.rect.y = pto[1]
+        self.velx = -5
         self.tempo=random.randrange(600)
         self.vidas = 20
 
@@ -35,3 +37,5 @@ class Spawn(pg.sprite.Sprite):
                 self.col2=0
             else:
                 self.col2+=1
+        if self.rect.x >= self.limit:
+            self.rect.x += self.velx
