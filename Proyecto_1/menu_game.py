@@ -8,6 +8,7 @@ from Objetos import *
 from Enemigos import *
 from Enemigos2 import *
 from Mothership_E import *
+from Modificador1 import*
 import time
 import random
 import sys
@@ -71,7 +72,8 @@ if __name__ == '__main__':
     display_options = None
     display_game = None
     display_endgame = None
-
+    #MUSICA
+    #msfondo = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/MUSE.ogg")
     # GRUPOS
     bloques = pg.sprite.Group()
     jugadores=pg.sprite.Group()
@@ -81,10 +83,11 @@ if __name__ == '__main__':
     balas_enemigos = pg.sprite.Group()
     nodriza_e = pg.sprite.Group()
     spawns = pg.sprite.Group()
+    modificadores1 = pg.sprite.Group()
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
-    # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
-    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    #background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
 
     # APARTADO DE BLOQUES
     tam_sy, tam_sx = 64,64
@@ -115,20 +118,28 @@ if __name__ == '__main__':
     # ALIADOS
 
     # JUGADOR
-    dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
-    # dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada.png"
+    #dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
+    dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
     imagen_jugador=pg.image.load(dirreccion_imagen_jugador)
     matriz_jugador=matriz_sprites(imagen_jugador,320,512,64,64)
 
+    #SKIN ROJA JUGADOR
+    #dirreccion_imagen_jugador_explosion="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    dirreccion_imagen_jugador2="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf_OP.png"
+    imagen_jugador2=pg.image.load(dirreccion_imagen_jugador2)
+    matriz_jugador2=matriz_sprites(imagen_jugador2,320,512,64,64)
+
     #EXPLOSION JUGADOR
-    dirreccion_imagen_jugador_explosion="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
-    # dirreccion_imagen_jugador_explosion="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    #dirreccion_imagen_jugador_explosion="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    dirreccion_imagen_jugador_explosion="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
     imagen_jugador_explosion=pg.image.load(dirreccion_imagen_jugador_explosion)
     matriz_jugador_explosion=matriz_sprites(imagen_jugador_explosion,1088,64,64,64)
 
+
+
     # NAVE NODRIZA
-    dirreccion_imagen_naveM="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
-    # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
+    #dirreccion_imagen_naveM="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
+    dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
     imagen_naveM=pg.image.load(dirreccion_imagen_naveM)
 
 
@@ -136,47 +147,57 @@ if __name__ == '__main__':
     # ENEMIGOS
 
     # ENEMIGOS
-    direccion_imagen_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
-    # direccion_imagen_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
+    #direccion_imagen_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
+    direccion_imagen_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/Enemy_animation/enemigo11.png"
     imagen_enemigo=pg.image.load(direccion_imagen_enemigo)
     matriz_enemigo=matriz_sprites(imagen_enemigo,560,80,80,80)
 
     # NAVE NODRIZA ENEMIGA
-    dirreccion_imagen_naveME="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/enemigos/mothership.png"
-    # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
-    imagen_naveME=pg.image.load(dirreccion_imagen_naveME)
+    #dirreccion_imagen_naveME="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/enemigos/mothership.png"
+    dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
+    imagen_naveME=pg.image.load(dirreccion_imagen_naveM)
 
     #MUERTE ENEMIGOS
-    direccion_imagen_enemigo_expl="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
-    # direccion_imagen_enemigo_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    #direccion_imagen_enemigo_expl="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    direccion_imagen_enemigo_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     imagen_enemigo_explosion=pg.image.load(direccion_imagen_enemigo_expl)
     matriz_enemigo_explosion=matriz_sprites(imagen_enemigo_explosion,896,64,64,64)
 
     ##SPAWN DE LOS ENEMIGOS
-    direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
-    # direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    #direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
     imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
     matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
 
     #MUERTE DE LOS SPAWNS ENEMIGOS
-    direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
-    # direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    #direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
     matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
 
+    #MODIFICADORES DE ASPECTO
+    #direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    direccion_imagen_modificador1 = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Blue/Spacemines/minas.png"
+    imagen_modificador1 = pg.image.load(direccion_imagen_modificador1)
+    matriz_modificador1=matriz_sprites(imagen_modificador1,80,40,40,40)
 
+    #MODIFICADOR DESTRUIDO
+    #direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    direccion_imagen_modificador1_explosion ="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Blue Effects/explosion_blue.png"
+    imagen_modificador1_explosion = pg.image.load(direccion_imagen_modificador1_explosion)
+    matriz_modificador1_explosion=matriz_sprites(imagen_modificador1_explosion,1088,64,64,64)
 ##################################################################################################################################################################
     # BALAS
 
     # BALAS JUGADOR
-    direccion_imagen_bala_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
-    # direccion_imagen_bala_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
+    #direccion_imagen_bala_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
+    direccion_imagen_bala_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_blue.png"
     imagen_bala_jugador=pg.image.load(direccion_imagen_bala_jugador)
     matriz_bala_jugador=matriz_sprites(imagen_bala_jugador,304,38,38,38)
 
     # BALAS ENEMIGO
-    direccion_imagen_bala_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
-    # direccion_imagen_bala_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
+    #direccion_imagen_bala_enemigo="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
+    direccion_imagen_bala_enemigo="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Efectos/bullets_red.png"
     imagen_bala_enemigo=pg.image.load(direccion_imagen_bala_enemigo)
     matriz_bala_enemigo=matriz_sprites(imagen_bala_enemigo,304,38,38,38)
 
@@ -185,7 +206,7 @@ if __name__ == '__main__':
     # CREACIONES
 
     # CREACION DE JUGADOR
-    j=Jugador(matriz_jugador,matriz_jugador_explosion)
+    j=Jugador(matriz_jugador,matriz_jugador_explosion,matriz_jugador2)
     jugadores.add(j)
     #manejo de la vidas jugador
     vidas_jugador = j.vidas
@@ -238,8 +259,9 @@ if __name__ == '__main__':
     game_over = False
     pause = False
     p1,p2,p3,p4,p5,p6,p7,p8,p9 = False,False,False,False,False,False,False,False,False
-
+    #msfondo.play()
     while not end and not game_over and not pause:
+
         event=pg.event.get()
         if display != None:
             p1,p2,p3,p4 = menu(display,p1,p2,p3,p4)
@@ -386,7 +408,15 @@ if __name__ == '__main__':
                         pos = s.rect.topleft
                         e = Rival(matriz_enemigo,matriz_enemigo_explosion,pos)
                         enemigos.add(e)
-
+                        m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
+                        modificadores1.add(m)
+                #CREACION DE LOS MODIFICADORES 1
+                for s in spawns:
+                    if s.tempo == 0 :
+                        s.tempo = random.randrange(50,130)
+                        m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
+                        modificadores1.add(m)
+                        pos = s.rect.topleft
                 #DISPAROS DE LOS RIVALES
                 for e in enemigos:
                     if e.tempo == 0:
@@ -408,7 +438,17 @@ if __name__ == '__main__':
                 for e in enemigos:
                     if e.muerte == 1 and e.col2 == 12:
                         enemigos.remove(e)
+                #COLISION DE LAS BALAS DEL JUGADOR CON LOS MODIFICADORES 1
+                for b in balas_jugador:
+                    le = pg.sprite.spritecollide(b,modificadores1,False)#no borra cuando hay colision
+                    for r in le:
+                        r.muerte = 1
+                        j.modificador = True
 
+                #Eliminar enemigos con balas jugador
+                for e in modificadores1:
+                    if e.muerte == 1 and e.col2 == 16:
+                        modificadores1.remove(e)
                 #Eliminar spawn con balas jugador
                 for b in balas_jugador:
                     ls = pg.sprite.spritecollide(b,spawns,False)#
@@ -458,6 +498,7 @@ if __name__ == '__main__':
                     spawns.update()
                     enemigos.update()
                     balas_enemigos.update()
+                    modificadores1.update()
                 if len(spawns) <= 0:
                     nodriza_e.update()
                 if nivel == 0:
@@ -474,6 +515,7 @@ if __name__ == '__main__':
                     enemigos.draw(display_game)
                     balas_jugador.draw(display_game)
                     balas_enemigos.draw(display_game)
+                    modificadores1.draw(display_game)
                 if len(spawns) <= 0:
                     nodriza_e.draw(display_game)
 
