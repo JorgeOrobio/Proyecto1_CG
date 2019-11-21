@@ -258,6 +258,7 @@ if __name__ == '__main__':
     # FINALIZADORES DE ETAPAS(JUEGO, PAUSA, MENU), Y VARIABLES
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
     nivel=0
+    probMod1 = 80
     reloj=pg.time.Clock()
     end = False
     game_over = False
@@ -413,13 +414,6 @@ if __name__ == '__main__':
                         pos = s.rect.topleft
                         e = Rival(matriz_enemigo,matriz_enemigo_explosion,pos)
                         enemigos.add(e)
-                #CREACION DE LOS MODIFICADORES 1
-                for s in spawns:
-                    if s.tempo == 0 :
-                        s.tempo = random.randrange(10,50)
-                        pos = s.rect.topleft
-                        m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
-                        modificadores1.add(m)
                 #DISPAROS DE LOS RIVALES
                 for e in enemigos:
                     if e.tempo == 0:
@@ -437,9 +431,16 @@ if __name__ == '__main__':
                         r.muerte = 1
                         balas_jugador.remove(b)
 
-                #Eliminar enemigos con balas jugador
+                #Eliminar enemigos con balas jugador Y CREACION DE LOS MODIFICADORES 1
                 for e in enemigos:
                     if e.muerte == 1 and e.col2 == 12:
+                        if not(e.luck):
+                            e.luck = True
+                            luck = random.randrange(100)
+                            if luck < probMod1:
+                                pos = e.rect.topleft
+                                m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
+                                modificadores1.add(m)
                         enemigos.remove(e)
                 #COLISION DE LAS BALAS DEL JUGADOR CON LOS MODIFICADORES 1
                 for b in balas_jugador:

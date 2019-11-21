@@ -22,6 +22,7 @@ class Rival(pg.sprite.Sprite):
         self.velx=-5
         self.vely=0
         self.tempo=random.randrange(300)
+        self.luck = False
         self.muerte = 0
 
     def update(self):
