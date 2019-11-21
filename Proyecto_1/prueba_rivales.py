@@ -3,6 +3,7 @@ from libreria import*
 from Personaje2 import*
 from Bala import*
 from Enemigos import*
+from Enemigos2 import*
 from Spawn import*
 import time
 
@@ -17,6 +18,7 @@ if __name__ == '__main__':
     jugadores=pg.sprite.Group()
     balas_jugador=pg.sprite.Group()
     enemigos = pg.sprite.Group()
+    enemigos2 = pg.sprite.Group()
     balas_enemigos = pg.sprite.Group()
     spawns = pg.sprite.Group()
     # JUGADOR
@@ -53,6 +55,14 @@ if __name__ == '__main__':
     direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
     matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
+    # ENEMIGOS2
+    direccion_imagen_enemigo2="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/small_ship_animation/enemigo2.png"
+    imagen_enemigo2=pg.image.load(direccion_imagen_enemigo2)
+    matriz_enemigo2=matriz_sprites(imagen_enemigo2,340,61,68,61)
+    #MUERTE ENEMIGOS
+    direccion_imagen_enemigo2_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    imagen_enemigo2_explosion=pg.image.load(direccion_imagen_enemigo2_expl)
+    matriz_enemigo2_explosion=matriz_sprites(imagen_enemigo2_explosion,896,64,64,64)
     # CREACION DE JUGADOR
     j=Jugador(matriz_jugador,matriz_jugador_explosion)
     jugadores.add(j)
@@ -95,12 +105,6 @@ if __name__ == '__main__':
                     j.vely=-10
                     j.velx=0
                     j.fila=7
-                # if event.key == pg.K_RIGHT:
-                #     time.sleep(0.01)
-                #     if event.key == pg.K_UP:
-                #         j.velx=10
-                #         j.vely=-10
-                #         j.fila=7
                 if event.key== pg.K_SPACE:
                     # CREAR BALA
                     if j.fila == 7 or j.fila == 4:
@@ -136,7 +140,10 @@ if __name__ == '__main__':
                 s.tempo = random.randrange(50,100)
                 pos = s.rect.topleft
                 e = Rival(matriz_enemigo,matriz_enemigo_explosion,pos)
+                e2 = Rival2(matriz_enemigo2,matriz_enemigo2_explosion,pos)
                 enemigos.add(e)
+                
+                enemigos2.add(e2)
         #DISPAROS DE LOS RIVALES
         for e in enemigos:
             if e.tempo == 0:
@@ -145,7 +152,7 @@ if __name__ == '__main__':
                 pos1 = [pos[0],pos[1]+20]
                 e = Bala(pos1,matriz_bala_enemigo,5)
                 balas_enemigos.add(e)
-                e.velx = -30
+                e.velx = -20
         #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS
         for b in balas_jugador:
             le = pg.sprite.spritecollide(b,enemigos,False)#no borra cuando hay colisión
@@ -157,6 +164,10 @@ if __name__ == '__main__':
         for e in enemigos:
             if e.muerte == 1 and e.col2 == 13:
                 enemigos.remove(e)
+        #eliminar enemigos2 con balas jugador
+        for e in enemigos2:
+            if e.muerte == 1 and e.col2 == 13:
+                enemigos2.remove(e)
         #Eliminar spawn con balas jugador
         for b in balas_jugador:
             ls = pg.sprite.spritecollide(b,spawns,False)#
@@ -193,10 +204,12 @@ if __name__ == '__main__':
         balas_enemigos.update()
         spawns.update()
         enemigos.update()
+        enemigos2.update()
         pantalla.fill(negro)
         jugadores.draw(pantalla)
         spawns.draw(pantalla)
         enemigos.draw(pantalla)
+        enemigos2.draw(pantalla)
         balas_jugador.draw(pantalla)
         balas_enemigos.draw(pantalla)
         #mostrar vidas en pantalla
@@ -205,4 +218,4 @@ if __name__ == '__main__':
         pantalla.blit(texto,[50,20])
         #Refresco de pantalla
         pg.display.flip()
-        reloj.tick(30)
+        reloj.tick(60)

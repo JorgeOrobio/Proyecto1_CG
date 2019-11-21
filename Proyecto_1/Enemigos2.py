@@ -1,7 +1,7 @@
 import pygame as pg
 from libreria import*
 
-class Rival(pg.sprite.Sprite):
+class Rival2(pg.sprite.Sprite):
     """clase rival"""
     def __init__(self,archivo,archivo2,pos):
         pg.sprite.Sprite.__init__(self)
@@ -26,10 +26,10 @@ class Rival(pg.sprite.Sprite):
     def update(self):
         self.rect.x += self.velx
         self.tempo -=1
-        self.image = self.matriz[self.col][self.fila]
 
         if self.muerte == 0:
-            if self.col >=5:
+            self.image = self.matriz[self.col][self.fila]
+            if self.col >=4:
                 self.col=0
             else:
                 self.col+=1
