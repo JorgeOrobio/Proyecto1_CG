@@ -59,8 +59,53 @@ def endgame(display,p8,p9):
 
     pg.display.flip()
     return p8,p9
-
     pass
+
+
+def pausegame(display,p10,p11):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "PAUSE"
+    creator_1 = Messages.render(creator_1,True,verde,blanco)
+
+    creator_2 = "TAKE A BREAK :V"
+    creator_2 = Messages.render(creator_2,True,verde,blanco)
+
+    back_message = "CONTINUE"
+    if not p10:
+        back_message = Messages2.render(back_message,True,rojo,azul)
+    else:
+        back_message = Messages2.render(back_message,True,azul,rojo)
+
+    exit_message = "EXIT"
+    if not p11:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+
+
+    y = size_img * 2
+    x = centrar_texto(back_message)
+    display.blit(back_message,[x,y])
+    p10= rango_menu(back_message,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p11 = rango_menu(exit_message,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    pg.display.flip()
+    return p10,p11
 
 if __name__ == '__main__':
 
@@ -71,6 +116,7 @@ if __name__ == '__main__':
     display_options = None
     display_game = None
     display_endgame = None
+    display_pause= None
 
     # GRUPOS
     bloques = pg.sprite.Group()
@@ -237,7 +283,7 @@ if __name__ == '__main__':
     end = False
     game_over = False
     pause = False
-    p1,p2,p3,p4,p5,p6,p7,p8,p9 = False,False,False,False,False,False,False,False,False
+    p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11 = False,False,False,False,False,False,False,False,False,False,False
 
     while not end and not game_over and not pause:
         event=pg.event.get()
@@ -249,6 +295,8 @@ if __name__ == '__main__':
             p8,p9 = endgame(display_endgame,p8,p9)
         if display_options != None:# CAMBIAR LAS OPCIONES CUANDO SE NOS OCURRA ALGO
             p1,p2,p3,p4 = menu(display_options,p1,p2,p3,p4)
+        if display_pause != None:
+            p10,p11 = pausegame(display_pause,p10,p11)
         for event in event:
             if event.type == pg.QUIT:
                 end = True
@@ -261,6 +309,7 @@ if __name__ == '__main__':
                 display_game = None
                 display_options = None
                 display_endgame = None
+                display_pause = None
                 display_credits = pg.display.set_mode([ancho,alto])
                 display_credits.fill(negro)
                 p3 = False
@@ -271,6 +320,7 @@ if __name__ == '__main__':
                 display_game = None
                 display_credits = None
                 display_endgame = None
+                display_pause = None
                 display_options = pg.display.set_mode([ancho,alto])
                 display_options.fill(negro)
                 p2 = False
@@ -281,6 +331,7 @@ if __name__ == '__main__':
                 display_credits = None
                 display_options = None
                 display_endgame = None
+                display_pause = None
                 display_game = pg.display.set_mode([ancho,alto])
                 display_game.fill(negro)
                 p1 = False
@@ -292,6 +343,7 @@ if __name__ == '__main__':
                 display_credits = None
                 display_options = None
                 display_endgame = None
+                display_pause = None
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p5 = False
@@ -302,6 +354,7 @@ if __name__ == '__main__':
                 display_credits = None
                 display_options = None
                 display = None
+                display_pause = None
                 display_game = pg.display.set_mode([ancho,alto])
                 display_game.fill(negro)
                 p8 = False
@@ -312,14 +365,49 @@ if __name__ == '__main__':
                 display_credits = None
                 display_options = None
                 display_endgame = None
+                display_pause = None
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p9 = False
                 pg.display.flip()
+            if event.type == pg.MOUSEBUTTONDOWN and p10: #PAUSA Y VUELVE A JUGAR
+                pg.display.quit()
+                display = None
+                display_credits = None
+                display_options = None
+                display_endgame = None
+                display_pause = None
+                display_game = pg.display.set_mode([ancho,alto])
+                display_game.fill(negro)
+                p10 = False
+                pg.display.flip()
+            if event.type == pg.MOUSEBUTTONDOWN and p11: #PAUSA Y VA A SALIR
+                pg.display.quit()
+                display_game = None
+                display_credits = None
+                display_options = None
+                display_endgame = None
+                display_pause = None
+                # REINICIAR TODAS LAS  VARIABLES DEL JUEGO PARA SIMULAR
+                # UN NUEVO INICIO
+                display = pg.display.set_mode([ancho,alto])
+                display.fill(negro)
+                p11 = False
+                pg.display.flip()
+
             # OPCIONES DEL MENU DE OPCIONES XD
             if display_game != None:
 ##################################################################################################################################################################
                 if event.type==pg.KEYDOWN:
+                    if event.key == pg.K_p:
+                        pg.display.quit()
+                        display_game = None
+                        display_credits = None
+                        display_options = None
+                        display_endgame= None
+                        display_pause = pg.display.set_mode([ancho,alto])
+                        display_pause.fill(negro)
+                        pass
                     if event.key == pg.K_DOWN:
                         j.vely=10
                         j.velx=0
