@@ -10,7 +10,7 @@ class Mothership(pg.sprite.Sprite):
         self.rect.x= -self.rect.width
         self.rect.y= -200
         self.disparo=self.rect.midtop
-        self.velx=1
+        self.velx=2
         self.vely=0
 
     def update(self):

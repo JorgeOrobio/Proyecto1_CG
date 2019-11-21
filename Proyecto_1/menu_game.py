@@ -107,31 +107,10 @@ def pausegame(display,p10,p11):
     pg.display.flip()
     return p10,p11
 
-if __name__ == '__main__':
-
-    # PANTALLA
-    pg.init()
-    display = pg.display.set_mode([ancho,alto])
-    display_credits = None
-    display_options = None
-    display_game = None
-    display_endgame = None
-    display_pause= None
-
-    # GRUPOS
-    bloques = pg.sprite.Group()
-    jugadores=pg.sprite.Group()
-    balas_jugador=pg.sprite.Group()
-    nodriza_a = pg.sprite.Group()
-    enemigos = pg.sprite.Group()
-    balas_enemigos = pg.sprite.Group()
-    nodriza_e = pg.sprite.Group()
-    spawns = pg.sprite.Group()
+def load_map(bloques,background):
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
     # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
-    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
-
     # APARTADO DE BLOQUES
     tam_sy, tam_sx = 64,64
     matrix_x,matrix_y=0,0
@@ -156,7 +135,64 @@ if __name__ == '__main__':
             i+=tam_sx
         i=0
         j+=tam_sy
+    return bloques
 ##################################################################################################################################################################
+    pass
+
+def create_spawns():
+
+    spawns = pg.sprite.Group()
+    ##SPAWN DE LOS ENEMIGOS
+    direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    # direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
+    matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
+
+    #MUERTE DE LOS SPAWNS ENEMIGOS
+    direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    # direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
+    matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
+
+    #CREACION SPAWN
+    posx_spawns = 980
+    posy_spawns = 60
+    esp_entre = 20
+    s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
+    ##aumentar posx_spawns para que el spawn quede fuera de la pantalla
+    for i in range(posy_spawns,alto - s.rect.height-esp_entre,s.rect.height+esp_entre):
+        s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
+        spawns.add(s)
+        posy_spawns += s.rect.height+esp_entre
+    vidas_spawn = s.vidas
+    return spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion
+
+
+if __name__ == '__main__':
+
+    # PANTALLA
+    pg.init()
+    display = pg.display.set_mode([ancho,alto])
+    display_credits = None
+    display_options = None
+    display_game = None
+    display_endgame = None
+    display_pause= None
+
+    # GRUPOS
+    bloques = pg.sprite.Group()
+    jugadores=pg.sprite.Group()
+    balas_jugador=pg.sprite.Group()
+    nodriza_a = pg.sprite.Group()
+    enemigos = pg.sprite.Group()
+    balas_enemigos = pg.sprite.Group()
+    nodriza_e = pg.sprite.Group()
+    spawns = pg.sprite.Group()
+
+    # BLOQUES
+    ancho_fondo = 9216
+    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    bloques = load_map(bloques,background)
 
     # ALIADOS
 
@@ -197,20 +233,6 @@ if __name__ == '__main__':
     # direccion_imagen_enemigo_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     imagen_enemigo_explosion=pg.image.load(direccion_imagen_enemigo_expl)
     matriz_enemigo_explosion=matriz_sprites(imagen_enemigo_explosion,896,64,64,64)
-
-    ##SPAWN DE LOS ENEMIGOS
-    direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
-    # direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
-    imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
-    matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
-
-    #MUERTE DE LOS SPAWNS ENEMIGOS
-    direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
-    # direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
-    imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
-    matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
-
-
 ##################################################################################################################################################################
     # BALAS
 
@@ -236,18 +258,8 @@ if __name__ == '__main__':
     #manejo de la vidas jugador
     vidas_jugador = j.vidas
 
-
-    #CREACION SPAWN
-    posx_spawns = 980
-    posy_spawns = 60
-    esp_entre = 20
-    s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
-    ##aumentar posx_spawns para que el spawn quede fuera de la pantalla
-    for i in range(posy_spawns,alto - s.rect.height-esp_entre,s.rect.height+esp_entre):
-        s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_spawn_enemigo_explosion)
-        spawns.add(s)
-        posy_spawns += s.rect.height+esp_entre
-    vidas_spawn = s.vidas
+    # CREACION DE SPAWNS
+    spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
 
     # CREACION NAVE NODRIZA
     mothership = Mothership(imagen_naveM)
@@ -388,8 +400,23 @@ if __name__ == '__main__':
                 display_options = None
                 display_endgame = None
                 display_pause = None
-                # REINICIAR TODAS LAS  VARIABLES DEL JUEGO PARA SIMULAR
-                # UN NUEVO INICIO
+                i=240
+                nivel = 0
+                healt=1000
+                healt_s = str(healt)
+                hp = Messages.render(healt_s,True,negro,gris)
+                shield=100000
+                shield_s = str(shield)
+                shield_M = Messages.render(shield_s,True,negro,gris)
+                j.rect.y=centro_y
+                spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
+                bloques = pg.sprite.Group()
+                bloques = load_map(bloques,background)
+                enemigos = pg.sprite.Group()
+                mothership = Mothership(imagen_naveM)
+                nodriza_a.add(mothership)
+                mothership2 = Mothership_E(imagen_naveME)
+                nodriza_e.add(mothership2)
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p11 = False
@@ -523,10 +550,31 @@ if __name__ == '__main__':
                     if j.vidas <= 0 and j.col2 == 16:
                         print("loser")
                         j.vidas = 3
+                        vidas_jugador = j.vidas
                         pg.display.quit()
                         display_game = None
                         display_credits = None
                         display_options = None
+                        i=240
+                        nivel = 0
+                        healt=1000
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+                        shield=100000
+                        shield_s = str(shield)
+                        shield_M = Messages.render(shield_s,True,negro,gris)
+                        j.rect.y=centro_y
+                        spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
+                        bloques = pg.sprite.Group()
+                        bloques = load_map(bloques,background)
+                        enemigos = pg.sprite.Group()
+                        balas_enemigos = pg.sprite.Group()
+                        nodriza_a.remove(mothership)
+                        mothership = Mothership(imagen_naveM)
+                        nodriza_a.add(mothership)
+                        nodriza_e.remove(mothership2)
+                        mothership2 = Mothership_E(imagen_naveME)
+                        nodriza_e.add(mothership2)
                         display_endgame = pg.display.set_mode([ancho,alto])
                         display_endgame.fill(negro)
 ##################################################################################################################################################################
