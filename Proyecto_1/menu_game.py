@@ -411,12 +411,12 @@ if __name__ == '__main__':
                         m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
                         modificadores1.add(m)
                 #CREACION DE LOS MODIFICADORES 1
-                for s in spawns:
-                    if s.tempo == 0 :
-                        s.tempo = random.randrange(50,130)
-                        m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
-                        modificadores1.add(m)
-                        pos = s.rect.topleft
+                # for s in spawns:
+                #     if s.tempo == 0 :
+                #         s.tempo = random.randrange(50,130)
+                #         m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
+                #         modificadores1.add(m)
+                #         pos = s.rect.topleft
                 #DISPAROS DE LOS RIVALES
                 for e in enemigos:
                     if e.tempo == 0:
