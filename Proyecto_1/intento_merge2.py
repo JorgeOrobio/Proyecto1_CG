@@ -634,6 +634,7 @@ if __name__ == '__main__':
                                 m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
                                 modificadores1.add(m)
                         enemigos.remove(e)
+                        ms_explosion.play()
                 #COLISION DE LAS BALAS DEL JUGADOR CON LOS MODIFICADORES 1
                 for b in balas_jugador:
                     le = pg.sprite.spritecollide(b,modificadores1,False)#no borra cuando hay colision
@@ -655,6 +656,7 @@ if __name__ == '__main__':
                 # ELIMINACION DE SPAWNS
                 for s in spawns:
                     if s.vidas <= 0 and s.col2 == 13:
+                        ms_explosion.play()
                         spawns.remove(s)
 
                 #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
@@ -669,6 +671,8 @@ if __name__ == '__main__':
                 # ELIMINACION DEL JUGADOR
                 for j in jugadores:
                     if j.vidas <= 0 and j.col2 == 16:
+                        msfondo.stop()
+                        ms_perdio.play()
                         print("loser")
                         j.vidas = 3
                         j.modificador = False
