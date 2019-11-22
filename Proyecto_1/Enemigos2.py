@@ -21,11 +21,33 @@ class Rival2(pg.sprite.Sprite):
         self.velx=-5
         self.vely=0
         self.tempo=random.randrange(300)
+        self.tempoy1=random.randrange(100)
+        self.tempoy2=random.randrange(100)
+        self.luck = False
         self.muerte = 0
+
 
     def update(self):
         self.rect.x += self.velx
+        self.rect.y += self.vely
         self.tempo -=1
+        self.tempoy1 -=1
+        self.tempoy2 -=1
+
+        if self.tempoy1 <=0:
+            self.tempoy1=random.randrange(100)
+            self.vely = 10
+        elif self.tempoy2 <=0:
+            self.tempoy2=random.randrange(100)
+            self.vely = -self.vely
+
+        # LIMITES DE PANTALLA ENEMIGO
+        if self.rect.y > (alto - self.rect.height):
+            self.rect.y = alto - self.rect.height
+            self.velx= -self.vely
+        if self.rect.y < 0:
+            self.rect.y=0
+            self.velx= -self.vely
 
         if self.muerte == 0:
             self.image = self.matriz[self.col][self.fila]

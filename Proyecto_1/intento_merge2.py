@@ -111,6 +111,7 @@ def load_map(bloques,background):
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
     # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     # APARTADO DE BLOQUES
     tam_sy, tam_sx = 64,64
     matrix_x,matrix_y=0,0
@@ -189,8 +190,8 @@ if __name__ == '__main__':
     modificadores1 = pg.sprite.Group()
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
-    background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
-    #background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     ancho_fondo = 9216
     bloques = load_map(bloques,background)
 ##################################################################################################################################################################
@@ -329,9 +330,9 @@ if __name__ == '__main__':
     #msfondo = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/MUSE.ogg")
     ms_click = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/CloudClick.ogg")
     #ms_click = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/CloudClick.ogg")
-    ms_disparo_j = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg.ogg")
+    ms_disparo_j = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg")
     #ms_disparo_j = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg.ogg")
-    ms_disparo_e = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_enemigo.ogg.ogg")
+    ms_disparo_e = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_enemigo.ogg")
     #ms_disparo_e = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_enemigo.ogg.ogg")
     ms_creditos = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")
     #ms_creditos = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")

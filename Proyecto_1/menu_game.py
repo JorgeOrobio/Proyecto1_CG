@@ -155,6 +155,12 @@ if __name__ == '__main__':
     # dirreccion_imagen_naveM="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/mothership.png"
     imagen_naveME=pg.image.load(dirreccion_imagen_naveM)
 
+    # ENEMIGOS 2
+    direccion_imagen_enemigo2="//home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/small_ship_animation/enemigo2.png"
+    # direccion_imagen_enemigo2="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/small_ship_animation/enemigo2.png"
+    imagen_enemig2o=pg.image.load(direccion_imagen_enemigo2)
+    matriz_enemigo2=matriz_sprites(imagen_enemigo2,340,61,68,61)
+
     #MUERTE ENEMIGOS
     direccion_imagen_enemigo_expl="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     # direccion_imagen_enemigo_expl="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
@@ -412,7 +418,12 @@ if __name__ == '__main__':
                 #CREACION DE LOS RIVALES DESDE EL SPAWN
                 for s in spawns:
                     if s.tempo == 0 :
-                        s.tempo = random.randrange(50,100)
+                        s.tempo = random.randrange(50,150)
+                        pos = s.rect.topleft
+                        e = Rival(matriz_enemigo,matriz_enemigo_explosion,pos)
+                        enemigos.add(e)
+                    if s.tempo2 == 0 :
+                        s.tempo2 = random.randrange(300,500)
                         pos = s.rect.topleft
                         e = Rival(matriz_enemigo,matriz_enemigo_explosion,pos)
                         enemigos.add(e)

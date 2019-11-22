@@ -19,13 +19,15 @@ class Spawn(pg.sprite.Sprite):
         self.rect.x = pto[0] + 300
         self.rect.y = pto[1]
         self.velx = -5
-        self.tempo=random.randrange(600)
+        self.tempo=random.randrange(300)
+        self.tempo2=random.randrange(600)
         self.vidas = 20
 
     def update(self):
         # ANIMACION DE PERSONAJE
         self.image = self.matriz[self.col][self.fila]
         self.tempo -= 1
+        self.tempo2 -= 1
         if self.vidas > 0 :
             if self.col >=2:
                 self.col=0

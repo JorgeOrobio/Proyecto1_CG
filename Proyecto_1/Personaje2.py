@@ -29,6 +29,7 @@ class Jugador(pg.sprite.Sprite):
         self.vely=0
         self.vidas = 3
         self.modificador = False
+        self.modificador3 = False
 
     def update(self):
         # ANIMACION DE PERSONAJE

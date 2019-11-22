@@ -1,7 +1,7 @@
 import pygame as pg
 from libreria import*
 
-class Skin(pg.sprite.Sprite):
+class Slow(pg.sprite.Sprite):
     """clase rival"""
     def __init__(self,archivo,archivo2,pos):
         pg.sprite.Sprite.__init__(self)
@@ -18,13 +18,13 @@ class Skin(pg.sprite.Sprite):
         self.rect=self.image.get_rect()
         self.rect.x=pos[0]
         self.rect.y=pos[1]
-        self.velx=-5
+        self.velx=-3
         self.vely=0
+        self.masvida = True
         self.muerte = 0
 
     def update(self):
         self.rect.x += self.velx
-
         if self.muerte == 0:
             self.image = self.matriz[self.col][self.fila]
             if self.col >=1:
@@ -34,7 +34,7 @@ class Skin(pg.sprite.Sprite):
 
         if self.muerte == 1:
             self.image = self.matriz2[self.col2][self.fila2]
-            if self.col2 >=16:
+            if self.col2 >=13:
                 self.col2=0
             else:
                 self.col2+=1
