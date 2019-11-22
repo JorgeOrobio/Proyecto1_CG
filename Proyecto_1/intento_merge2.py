@@ -325,14 +325,20 @@ if __name__ == '__main__':
 ##################################################################################################################################################################
     #MUSICA
     pg.mixer.init()
-    #msfondo = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/MUSE.ogg")
-    msfondo = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/MUSE.ogg")
-    ms_click = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/CloudClick.ogg")
-    ms_disparo_j = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg.ogg")
-    ms_disparo_e = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_enemigo.ogg.ogg")
-    ms_creditos = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")
-    ms_explosion = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/explosion.ogg")
-    ms_perdio = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/NoHope.ogg")
+    msfondo = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/MUSE.ogg")
+    #msfondo = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/MUSE.ogg")
+    ms_click = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/CloudClick.ogg")
+    #ms_click = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/CloudClick.ogg")
+    ms_disparo_j = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg.ogg")
+    #ms_disparo_j = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg.ogg")
+    ms_disparo_e = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_enemigo.ogg.ogg")
+    #ms_disparo_e = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_enemigo.ogg.ogg")
+    ms_creditos = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")
+    #ms_creditos = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")
+    ms_explosion = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/explosion.ogg")
+    #ms_explosion = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/explosion.ogg")
+    ms_perdio = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/NoHope.ogg")
+    #ms_perdio = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/NoHope.ogg")
 ##################################################################################################################################################################
     # FINALIZADORES DE ETAPAS(JUEGO, PAUSA, MENU), Y VARIABLES
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
