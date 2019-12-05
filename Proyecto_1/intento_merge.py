@@ -109,6 +109,40 @@ def pausegame(display,p10,p11):
     pg.display.flip()
     return p10,p11
 
+def win(display,p12):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "CONGRATULATIONS"
+    creator_1 = Messages2.render(creator_1,True,verde,blanco)
+
+    creator_2 = "YA NO ERES UN MANCO CULIAO"
+    creator_2 = Messages2.render(creator_2,True,verde,blanco)
+
+    exit_message = "EXIT"
+    if not p12:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+    y = size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p12 = rango_menu(exit_message,[x,y])
+
+
+    pg.display.flip()
+    return p12
+
+
 def load_map(bloques,background):
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
@@ -179,6 +213,7 @@ if __name__ == '__main__':
     display_game = None
     display_endgame = None
     display_pause = None
+    display_win = None
     # GRUPOS
     bloques = pg.sprite.Group()
     jugadores=pg.sprite.Group()
@@ -196,6 +231,7 @@ if __name__ == '__main__':
     # IMAGENES DE BLOQUES Y FONDO
     # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background2 = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa_sf.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     ancho_fondo = 9216
     bloques = load_map(bloques,background)
 ##################################################################################################################################################################
@@ -330,11 +366,11 @@ if __name__ == '__main__':
 ##################################################################################################################################################################
     # MENSAJES DE ESCUDO, VIDAS Y ADVERTENCIA
     Messages = pg.font.Font(None,32)
-    shield = 100000
+    shield = 1000000
     shield_s = str(shield)
     shield_M = Messages.render(shield_s,True,negro,gris)
 
-    healt = 1000
+    healt = 500
     healt_s = str(healt)
     hp = Messages.render(healt_s,True,negro,gris)
 
@@ -350,20 +386,39 @@ if __name__ == '__main__':
 ##################################################################################################################################################################
     #MUSICA
     pg.mixer.init()
-    msfondo = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/MUSE.ogg")
-    #msfondo = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/MUSE.ogg")
+    msfondo = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Music/rise.ogg")
+    #msfondo = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Music/rise.ogg")
+    ms_click = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/CloudClick.ogg")
+    #ms_click = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/CloudClick.ogg")
+    ms_disparo_j = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg")
+    #ms_disparo_j = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_jugaddor.ogg.ogg")
+    ms_disparo_e = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/laser_enemigo.ogg")
+    #ms_disparo_e = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/laser_enemigo.ogg.ogg")
+    ms_creditos = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")
+    #ms_creditos = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/End_Credits_Theme_ogg.ogg")
+    ms_explosion = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/explosion.ogg")
+    #ms_explosion = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/explosion.ogg")
+    ms_perdio = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/NoHope.ogg")
+    #ms_perdio = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/NoHope.ogg")
+    ms_modBuenos = pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Music/powerUp1.ogg")
+    # ms_modBuenos = pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Music/powerUp1.ogg")
+    ms_modMalos =  pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Music/lowDown.ogg")
+    # ms_modMalos =  pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Music/lowDown.ogg")
+    ms_juego =  pg.mixer.Sound("/home/jorge/github/Proyecto1_CG/Descargas/MUSE.ogg")
+    # ms_juego =  pg.mixer.Sound("/home/nicolas/github/Proyecto1_CG/Descargas/MUSE.ogg")
+
 
 ##################################################################################################################################################################
     # FINALIZADORES DE ETAPAS(JUEGO, PAUSA, MENU), Y VARIABLES
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
     nivel=0
-    probMod1 = 80
-    probMod2 = 60
+    probMod1 = 30
+    probMod2 = 10
     reloj=pg.time.Clock()
     end = False
     game_over = False
     pause = False
-    p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11 = False,False,False,False,False,False,False,False,False,False,False
+    p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12 = False,False,False,False,False,False,False,False,False,False,False,False
     msfondo.play()
     msfondo.set_volume(.1)
     while not end and not game_over and not pause:
@@ -378,104 +433,145 @@ if __name__ == '__main__':
             p1,p2,p3,p4 = menu(display_options,p1,p2,p3,p4)
         if display_pause != None:
             p10,p11 = pausegame(display_pause,p10,p11)
+        if display_win != None:
+            p12 = win(display_win,p12)
         for event in event:
             if event.type == pg.QUIT:
                 end = True
             # OPCIONES DEL MENU PRINCIPAL
-            if event.type == pg.MOUSEBUTTONDOWN and p4 or event.type == pg.MOUSEBUTTONDOWN and p6:
+            if event.type == pg.MOUSEBUTTONDOWN and p4 or event.type == pg.MOUSEBUTTONDOWN and p6 or event.type == pg.MOUSEBUTTONDOWN and p12: #GANA EL JUEGO:
                 end = True
             if event.type == pg.MOUSEBUTTONDOWN and p3:
+                ms_click.play()
+                ms_click.set_volume(0.2)
                 pg.display.quit()
                 display = None
                 display_game = None
                 display_options = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 display_credits = pg.display.set_mode([ancho,alto])
                 display_credits.fill(negro)
                 p3 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p2:
+                ms_click.play()
+                ms_click.set_volume(0.2)
                 pg.display.quit()
                 display = None
                 display_game = None
                 display_credits = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 display_options = pg.display.set_mode([ancho,alto])
                 display_options.fill(negro)
                 p2 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p1:
+                ms_click.play()
+                ms_click.set_volume(0.2)
                 pg.display.quit()
+                msfondo.stop()
+                ms_perdio.stop()
+                ms_juego.stop()
+                ms_creditos.stop()
+                ms_juego.play()
+                ms_juego.set_volume(0.4)
                 display = None
                 display_credits = None
                 display_options = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 display_game = pg.display.set_mode([ancho,alto])
                 display_game.fill(negro)
                 p1 = False
                 pg.display.flip()
             # OPCIONES DE CREDITOS
             if event.type == pg.MOUSEBUTTONDOWN and p5:
+                ms_click.play()
+                ms_click.set_volume(0.2)
                 pg.display.quit()
                 display_game = None
                 display_credits = None
                 display_options = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p5 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p8:# PERDIO Y VA A REINTENTAR
+                ms_perdio.stop()
+                ms_click.play()
+                ms_click.set_volume(0.2)
+                ms_juego.play()
+                ms_juego.set_volume(0.4)
                 pg.display.quit()
                 display_endgame = None
                 display_credits = None
                 display_options = None
                 display = None
                 display_pause = None
+                display_win = None
                 display_game = pg.display.set_mode([ancho,alto])
                 display_game.fill(negro)
                 p8 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p9: #PERDIO Y VA A SALIR
+                ms_perdio.stop()
+                ms_click.play()
+                ms_click.set_volume(0.2)
+                ms_juego.play()
+                ms_juego.set_volume(0.4)
                 pg.display.quit()
                 display_game = None
                 display_credits = None
                 display_options = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p9 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p10: #PAUSA Y VUELVE A JUGAR
+                ms_click.play()
+                ms_click.set_volume(0.2)
+                msfondo.stop()
+                ms_juego.play()
+                ms_juego.set_volume(0.4)
                 pg.display.quit()
                 display = None
                 display_credits = None
                 display_options = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 display_game = pg.display.set_mode([ancho,alto])
                 display_game.fill(negro)
                 p10 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p11: #PAUSA Y VA A SALIR
+                ms_click.play()
                 pg.display.quit()
+                ms_juego.stop()
                 display_game = None
                 display_credits = None
                 display_options = None
                 display_endgame = None
                 display_pause = None
+                display_win = None
                 j.modificador = False
                 i=240
                 nivel = 0
-                healt=1000
+                healt=500
                 healt_s = str(healt)
                 hp = Messages.render(healt_s,True,negro,gris)
-                shield=100000
+                shield=1000000
                 shield_s = str(shield)
                 shield_M = Messages.render(shield_s,True,negro,gris)
                 j.rect.y=centro_y
@@ -503,10 +599,14 @@ if __name__ == '__main__':
                 if event.type==pg.KEYDOWN:
                     if event.key == pg.K_p:
                         pg.display.quit()
+                        ms_juego.stop()
+                        msfondo.play()
+                        msfondo.set_volume(0.3)
                         display_game = None
                         display_credits = None
                         display_options = None
                         display_endgame= None
+                        display_win = None
                         display_pause = pg.display.set_mode([ancho,alto])
                         display_pause.fill(negro)
                         pass
@@ -544,6 +644,7 @@ if __name__ == '__main__':
                     #         j.fila=7
                     if event.key== pg.K_SPACE:
                         # CREAR BALA
+                        ms_disparo_j.play()
                         if j.fila == 7 or j.fila == 4:
                             b=Bala(j.rect.midright,matriz_bala_jugador,5)
                             balas_jugador.add(b)
@@ -629,6 +730,7 @@ if __name__ == '__main__':
                         e = Bala(pos1,matriz_bala_enemigo,5)
                         balas_enemigos.add(e)
                         e.velx = -30
+                        ms_disparo_e.play()
 
                 ############################################################
                 #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS
@@ -655,6 +757,7 @@ if __name__ == '__main__':
                                 pos = e.rect.topleft
                                 m = Skin(matriz_modificador1,matriz_modificador1_explosion,pos)
                                 modificadores1.add(m)
+                        ms_explosion.play()
                         enemigos2.remove(e)
                 ##EXPLOSION ENEMIGOS CON BALAS DE JUGADOR Y CREACION DE LOS MODIFICADORES 2
                 for e in enemigos:
@@ -666,6 +769,7 @@ if __name__ == '__main__':
                                 pos = e.rect.topleft
                                 m = Mas1Vida(matriz_modificador2,matriz_modificador1_explosion,pos)
                                 modificadores2.add(m)
+                        ms_explosion.play()
                         enemigos.remove(e)
 
                 #######################################################
@@ -674,6 +778,7 @@ if __name__ == '__main__':
                     #COLISION DEL JUGADOR CON LOS MODIFICADORES 1
                     le = pg.sprite.spritecollide(j,modificadores1,False)#no borra cuando hay colision
                     for r in le:
+                        ms_modBuenos.play()
                         r.muerte = 1
                         j.modificador = True
                         j.modificador3 = False
@@ -681,6 +786,7 @@ if __name__ == '__main__':
                     # COLISION DEL JUGADOR CON EL MODIFICADOR 2
                     lV = pg.sprite.spritecollide(j,modificadores2,False)#no borra cuando hay colision
                     for r in lV:
+                        ms_modBuenos.play()
                         r.muerte = 1
                         if r.masvida:
                             r.masvida = False
@@ -690,6 +796,7 @@ if __name__ == '__main__':
                     #COLISION DEL JUGADOR CON LOS MODIFICADORES 1
                     le = pg.sprite.spritecollide(j,modificadores3,False)#no borra cuando hay colision
                     for r in le:
+                        ms_modMalos.play()
                         r.muerte = 1
                         j.modificador3 = True
                         j.modificador = False
@@ -722,6 +829,7 @@ if __name__ == '__main__':
                 # ELIMINACION DE SPAWNS
                 for s in spawns:
                     if s.vidas <= 0 and s.col2 == 13:
+                        ms_explosion.play()
                         spawns.remove(s)
                 #######################################################
                 #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
@@ -752,6 +860,9 @@ if __name__ == '__main__':
                 for j in jugadores:
                     if j.vidas <= 0 and j.col2 == 16:
                         print("loser")
+                        ms_juego.stop()
+                        msfondo.stop()
+                        ms_perdio.play()
                         j.vidas = 3
                         j.modificador = False
                         vidas_jugador = j.vidas
@@ -759,12 +870,13 @@ if __name__ == '__main__':
                         display_game = None
                         display_credits = None
                         display_options = None
+                        display_win = None
                         i=240
                         nivel = 0
-                        healt=1000
+                        healt=500
                         healt_s = str(healt)
                         hp = Messages.render(healt_s,True,negro,gris)
-                        shield=100000
+                        shield=1000000
                         shield_s = str(shield)
                         shield_M = Messages.render(shield_s,True,negro,gris)
                         j.rect.y=centro_y
@@ -786,8 +898,13 @@ if __name__ == '__main__':
                         display_endgame.fill(negro)
 ##################################################################################################################################################################
             if display_game != None:
+                loser = False
                 if healt <= 0 or shield <=0:
                     print("loser")
+                    ms_juego.stop()
+                    msfondo.stop()
+                    ms_perdio.play()
+                    ms_perdio.set_volume(0.4)
                     j.vidas = 3
                     j.modificador = False
                     vidas_jugador = j.vidas
@@ -795,12 +912,14 @@ if __name__ == '__main__':
                     display_game = None
                     display_credits = None
                     display_options = None
+                    display_win = None
+                    loser = True
                     i=240
                     nivel = 0
-                    healt=1000
+                    healt=500
                     healt_s = str(healt)
                     hp = Messages.render(healt_s,True,negro,gris)
-                    shield=100000
+                    shield=1000000
                     shield_s = str(shield)
                     shield_M = Messages.render(shield_s,True,negro,gris)
                     j.rect.y=centro_y
@@ -840,7 +959,7 @@ if __name__ == '__main__':
                 continuara = False
                 if len(spawns) <= 0:
                     nodriza_e.update()
-                    if mothership2.rect.x == ancho - 300:
+                    if mothership2.rect.x == ancho - 200:
                         EndMessage= "TO  BE  CONTINUE  ... "
                         EndMessage = Messages.render(EndMessage,True,rojo,azul)
                         pos_w = centrar_texto(EndMessage)
@@ -855,12 +974,19 @@ if __name__ == '__main__':
                         display_game = None
                         display_credits = None
                         display_options = None
+                        display_pause= None
+                        display_endgame= None
+                        ms_juego.stop()
+                        ms_perdio.stop()
+                        msfondo.stop()
+                        ms_creditos.play()
+                        ms_creditos.set_volume(0.3)
                         i=240
                         nivel = 0
-                        healt=1000
+                        healt=500
                         healt_s = str(healt)
                         hp = Messages.render(healt_s,True,negro,gris)
-                        shield=100000
+                        shield=1000000
                         shield_s = str(shield)
                         shield_M = Messages.render(shield_s,True,negro,gris)
                         j.rect.y=centro_y
@@ -878,18 +1004,22 @@ if __name__ == '__main__':
                         modificadores1 = pg.sprite.Group()
                         modificadores2 = pg.sprite.Group()
                         modificadores3 = pg.sprite.Group()
-                        display_endgame = pg.display.set_mode([ancho,alto])
-                        display_endgame.fill(negro)
+                        display_win = pg.display.set_mode([ancho,alto])
+                        display_win.fill(negro)
                 if nivel == 0:
                     bloques.update()
                 balas_jugador.update()
                 # ACTUALIZACIONES
-                if not continuara:
-                    display_game.blit(background,[i,nivel])
+                if not continuara and not loser:
+                    display_game.fill(negro)
+                    # display_game.blit(background2,[i,nivel])
                     jugadores.draw(display_game)
-                if nivel ==0 and not continuara:
+                if nivel ==0 and not continuara and not loser:
+                    display_game.fill(negro)
+                    # display_game.blit(background2,[i,nivel])
+                    jugadores.draw(display_game)
                     bloques.draw(display_game)
-                if nivel!=0 and not continuara:
+                if nivel!=0 and not continuara and not loser:
                     nodriza_a.draw(display_game)
                     spawns.draw(display_game)
                     enemigos.draw(display_game)
@@ -899,15 +1029,15 @@ if __name__ == '__main__':
                     modificadores1.draw(display_game)
                     modificadores2.draw(display_game)
                     modificadores3.draw(display_game)
-                if len(spawns) <= 0 and  not continuara:
+                if len(spawns) <= 0 and  not continuara and not loser:
                     nodriza_e.draw(display_game)
 
                 # MENSAJE DE ADVERTENCIA INICIAL
-                if i >= -2000 and nivel == 0 and not continuara:
+                if i >= -2000 and nivel == 0 and not continuara and not loser:
                     display_game.blit(WarningM,[pos_w,0])
                 j_vidas = 'Vidas: '+ str(vidas_jugador)
                 texto = Messages.render(j_vidas,True,negro,gris)
-                if not continuara:
+                if not continuara and not loser:
                     display_game.blit(texto,[200,0])
                     display_game.blit(salud,[0,0])
                     display_game.blit(escudo,[0,32])

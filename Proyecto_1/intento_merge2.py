@@ -489,40 +489,6 @@ if __name__ == '__main__':
                 display.fill(negro)
                 p11 = False
                 pg.display.flip()
-            # OPCIONES DE CREDITOS
-            if event.type == pg.MOUSEBUTTONDOWN and p5:
-                ms_click.play()
-                pg.display.quit()
-                display_game = None
-                display_credits = None
-                display_options = None
-                display_endgame = None
-                display = pg.display.set_mode([ancho,alto])
-                display.fill(negro)
-                p5 = False
-                pg.display.flip()
-            if event.type == pg.MOUSEBUTTONDOWN and p8:# PERDIO Y VA A REINTENTAR
-                ms_click.play()
-                pg.display.quit()
-                display_endgame = None
-                display_credits = None
-                display_options = None
-                display = None
-                display_game = pg.display.set_mode([ancho,alto])
-                display_game.fill(negro)
-                p8 = False
-                pg.display.flip()
-            if event.type == pg.MOUSEBUTTONDOWN and p9: #PERDIO Y VA A SALIR
-                ms_click.play()
-                pg.display.quit()
-                display_game = None
-                display_credits = None
-                display_options = None
-                display_endgame = None
-                display = pg.display.set_mode([ancho,alto])
-                display.fill(negro)
-                p9 = False
-                pg.display.flip()
             # OPCIONES DEL MENU DE OPCIONES XD
             if display_game != None:
 ##################################################################################################################################################################
