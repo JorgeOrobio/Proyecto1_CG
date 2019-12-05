@@ -110,8 +110,8 @@ def pausegame(display,p10,p11):
 def load_map(bloques,background):
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
-    # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
-    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    #background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     # APARTADO DE BLOQUES
     tam_sy, tam_sx = 64,64
     matrix_x,matrix_y=0,0
@@ -144,14 +144,14 @@ def create_spawns():
 
     spawns = pg.sprite.Group()
     ##SPAWN DE LOS ENEMIGOS
-    direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
-    #direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    #direccion_imagen_spawn_enemigo = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
+    direccion_imagen_spawn_enemigo = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Red/comm_redship/spawn.png"
     imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
     matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
 
     #MUERTE DE LOS SPAWNS ENEMIGOS
-    direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
-    #direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    #direccion_imagen_spawn_enemigo_explosion = "/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
+    direccion_imagen_spawn_enemigo_explosion = "/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Complete_sprites/Spaceship_art_pack_larger/Effects/Red Explosion/explosion_red.png"
     imagen_spawn_enemigo_explosion = pg.image.load(direccion_imagen_spawn_enemigo_explosion)
     matriz_spawn_enemigo_explosion=matriz_sprites(imagen_spawn_enemigo_explosion,896,64,64,64)
 
@@ -190,8 +190,8 @@ if __name__ == '__main__':
     modificadores1 = pg.sprite.Group()
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
-    # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
-    background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    #background = pg.image.load("/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     ancho_fondo = 9216
     bloques = load_map(bloques,background)
 ##################################################################################################################################################################
@@ -199,14 +199,14 @@ if __name__ == '__main__':
     # ALIADOS
 
     # JUGADOR
-    dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
-    #dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
+    #dirreccion_imagen_jugador="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
+    dirreccion_imagen_jugador="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf.png"
     imagen_jugador=pg.image.load(dirreccion_imagen_jugador)
     matriz_jugador=matriz_sprites(imagen_jugador,320,512,64,64)
 
     #SKIN ROJA JUGADOR
-    dirreccion_imagen_jugador_explosion="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf_OP.png"
-    #dirreccion_imagen_jugador_explosion="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf_OP.png"
+    #dirreccion_imagen_jugador_explosion="/home/jorge/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf_OP.png"
+    dirreccion_imagen_jugador_explosion="/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Personaje/jugador/nave_terminada_sf_OP.png"
     imagen_jugador2=pg.image.load(dirreccion_imagen_jugador_explosion)
     matriz_jugador2=matriz_sprites(imagen_jugador2,320,512,64,64)
 
