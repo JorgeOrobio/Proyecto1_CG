@@ -17,7 +17,7 @@ class Rival(pg.sprite.Sprite):
 
         self.rect=self.image.get_rect()
         self.limit = pos[0]
-        self.rect.x=pos[0] + 300
+        self.rect.x=pos[0]
         self.rect.y=pos[1]
         self.velx=-5
         self.vely=0
