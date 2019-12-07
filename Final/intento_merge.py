@@ -17,131 +17,6 @@ import sys
 
 def menu_options():
     pass
-def endgame(display,p8,p9):
-    display.fill(negro)
-    size_img = 32
-    Messages = pg.font.Font(None,size_img)
-    Messages2 = pg.font.Font(None,size_img*2)
-    creator_1 = "GAME OVER"
-    creator_1 = Messages.render(creator_1,True,verde,blanco)
-
-    creator_2 = "MANCO CULIAO"
-    creator_2 = Messages.render(creator_2,True,verde,blanco)
-
-    back_message = "TRY AGAIN"
-    if not p8:
-        back_message = Messages2.render(back_message,True,rojo,azul)
-    else:
-        back_message = Messages2.render(back_message,True,azul,rojo)
-
-    exit_message = "EXIT"
-    if not p9:
-        exit_message = Messages2.render(exit_message,True,rojo,azul)
-    else:
-        exit_message = Messages2.render(exit_message,True,azul,rojo)
-
-
-    y = size_img * 2
-    x = centrar_texto(back_message)
-    display.blit(back_message,[x,y])
-    p8= rango_menu(back_message,[x,y])
-
-    y += size_img *2
-    x = centrar_texto(exit_message)
-    display.blit(exit_message,[x,y])
-    p9 = rango_menu(exit_message,[x,y])
-
-    y += size_img * 4
-    x = centrar_texto(creator_1)
-    display.blit(creator_1,[x,y])
-
-    y += size_img
-    x = centrar_texto(creator_2)
-    display.blit(creator_2,[x,y])
-
-    pg.display.flip()
-    return p8,p9
-    pass
-
-
-def pausegame(display,p10,p11):
-    display.fill(negro)
-    size_img = 32
-    Messages = pg.font.Font(None,size_img)
-    Messages2 = pg.font.Font(None,size_img*2)
-    creator_1 = "PAUSE"
-    creator_1 = Messages.render(creator_1,True,verde,blanco)
-
-    creator_2 = "TAKE A BREAK :V"
-    creator_2 = Messages.render(creator_2,True,verde,blanco)
-
-    back_message = "CONTINUE"
-    if not p10:
-        back_message = Messages2.render(back_message,True,rojo,azul)
-    else:
-        back_message = Messages2.render(back_message,True,azul,rojo)
-
-    exit_message = "EXIT"
-    if not p11:
-        exit_message = Messages2.render(exit_message,True,rojo,azul)
-    else:
-        exit_message = Messages2.render(exit_message,True,azul,rojo)
-
-
-    y = size_img * 2
-    x = centrar_texto(back_message)
-    display.blit(back_message,[x,y])
-    p10= rango_menu(back_message,[x,y])
-
-    y += size_img *2
-    x = centrar_texto(exit_message)
-    display.blit(exit_message,[x,y])
-    p11 = rango_menu(exit_message,[x,y])
-
-    y += size_img * 4
-    x = centrar_texto(creator_1)
-    display.blit(creator_1,[x,y])
-
-    y += size_img
-    x = centrar_texto(creator_2)
-    display.blit(creator_2,[x,y])
-
-    pg.display.flip()
-    return p10,p11
-
-def win(display,p12):
-    display.fill(negro)
-    size_img = 32
-    Messages = pg.font.Font(None,size_img)
-    Messages2 = pg.font.Font(None,size_img*2)
-    creator_1 = "CONGRATULATIONS"
-    creator_1 = Messages2.render(creator_1,True,verde,blanco)
-
-    creator_2 = "YA NO ERES UN MANCO CULIAO"
-    creator_2 = Messages2.render(creator_2,True,verde,blanco)
-
-    exit_message = "EXIT"
-    if not p12:
-        exit_message = Messages2.render(exit_message,True,rojo,azul)
-    else:
-        exit_message = Messages2.render(exit_message,True,azul,rojo)
-    y = size_img * 4
-    x = centrar_texto(creator_1)
-    display.blit(creator_1,[x,y])
-
-    y += size_img *2
-    x = centrar_texto(creator_2)
-    display.blit(creator_2,[x,y])
-
-    y += size_img * 4
-    x = centrar_texto(exit_message)
-    display.blit(exit_message,[x,y])
-    p12 = rango_menu(exit_message,[x,y])
-
-
-    pg.display.flip()
-    return p12
-
 
 def load_map(bloques,background):
 ##################################################################################################################################################################
@@ -227,6 +102,7 @@ if __name__ == '__main__':
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
     background = pg.image.load("Sprites/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background2 = pg.image.load("Sprites/Mapa/mapa_sf.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     ancho_fondo = 9216
     bloques = load_map(bloques,background)
 ##################################################################################################################################################################
@@ -382,7 +258,8 @@ if __name__ == '__main__':
 ##################################################################################################################################################################
     # FINALIZADORES DE ETAPAS(JUEGO, PAUSA, MENU), Y VARIABLES
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
-    nivel=0
+    subnivel=0
+    nivel = 1
     probMod1 = 30
     probMod2 = 10
     reloj=pg.time.Clock()
@@ -538,6 +415,7 @@ if __name__ == '__main__':
                 display_win = None
                 j.modificador = False
                 i=240
+                subnivel = 0
                 nivel = 0
                 healt=1000
                 healt_s = str(healt)
@@ -607,12 +485,17 @@ if __name__ == '__main__':
                             j.vely=-10
                             j.velx=0
                             j.fila = 7
-                    # if event.key == pg.K_RIGHT:
-                    #     time.sleep(0.01)
-                    #     if event.key == pg.K_UP:
-                    #         j.velx=10
-                    #         j.vely=-10
-                    #         j.fila=7
+                    if nivel == 2:
+                        if event.key == pg.K_RIGHT:
+                                j.velx=10
+                                j.vely=0
+                                j.fila=2
+                                j.fila3=2
+                        if event.key == pg.K_LEFT:
+                                j.velx=-10
+                                j.vely=0
+                                j.fila=2
+                                j.fila3=2
                     if event.key== pg.K_SPACE:
                         # CREAR BALA
                         # ms_disparo_j.play()
@@ -641,13 +524,15 @@ if __name__ == '__main__':
                     j.fila=2
                     j.fila3=2
 ##################################################################################################################################################################
+        ###################################
+        # LIMPIEZA DE OBJETOS EN TODOS LOS NIVELES
+        ###################################
         if display_game != None:
             # CAJA DE CONTROL
             # LIMPIEZA DE BALAS AL SALIR DE PANTALLA
             for b in balas_jugador:
                 if b.rect.x<0 or b.rect.x>ancho or b.rect.y>alto or b.rect.y<0:
                     balas_jugador.remove(b)
-
             for b in balas_enemigos:
                 if b.rect.x<0 or b.rect.x>ancho or b.rect.y>alto or b.rect.y<0:
                     balas_enemigos.remove(b)
@@ -673,8 +558,10 @@ if __name__ == '__main__':
                     shield_M = Messages.render(shield_s,True,negro,gris)
                     j.BlockDeath(b)
 ##################################################################################################################################################################
-
-            if nivel != 0:
+            ###################################
+            # CONTROLES DEL NIVEL 1
+            ###################################
+            if subnivel == -64*11 and nivel == 1:
                 #CREACION DE LOS RIVALES DESDE EL SPAWN
                 for s in spawns:
                     if s.tempo == 0 :
@@ -845,7 +732,8 @@ if __name__ == '__main__':
                         display_options = None
                         display_win = None
                         i=240
-                        nivel = 0
+                        subnivel = 0
+                        nivel = 1
                         healt=1000
                         healt_s = str(healt)
                         hp = Messages.render(healt_s,True,negro,gris)
@@ -870,6 +758,9 @@ if __name__ == '__main__':
                         display_endgame = pg.display.set_mode([ancho,alto])
                         display_endgame.fill(negro)
 ##################################################################################################################################################################
+            ###################################
+            # MOSTRAR EN LOS NIVELES
+            ###################################
             if display_game != None:
                 loser = False
                 if healt <= 0 or j.shield <=0:
@@ -888,7 +779,8 @@ if __name__ == '__main__':
                     display_win = None
                     loser = True
                     i=240
-                    nivel = 0
+                    subnivel = 0
+                    nivel = 1
                     healt=1000
                     healt_s = str(healt)
                     hp = Messages.render(healt_s,True,negro,gris)
@@ -914,13 +806,13 @@ if __name__ == '__main__':
 
                 if i == -ancho_fondo + ancho:
                     i = 0
-                    nivel = -64*11
+                    subnivel = -64*11
                     for b in bloques:
                         bloques.remove(b)
     ##################################################################################################################################################################
                 i-=8
                 jugadores.update()
-                if nivel != 0:
+                if subnivel == -64*11:
                     nodriza_a.update()
                     spawns.update()
                     enemigos.update()
@@ -929,21 +821,37 @@ if __name__ == '__main__':
                     modificadores1.update()
                     modificadores2.update()
                     modificadores3.update()
-                continuara = False
-                if len(spawns) <= 0:
+                if len(spawns) <= 0:      #VICTORIA
                     nodriza_e.update()
-                    if mothership2.rect.x == ancho - 200:
+                    if mothership2.rect.x == ancho - 300:
+                        Messages2 = pg.font.Font(None,64)
                         EndMessage= "TO  BE  CONTINUE  ... "
-                        EndMessage = Messages.render(EndMessage,True,rojo,azul)
+                        EndMessage = Messages2.render(EndMessage,True,rojo,azul)
                         pos_w = centrar_texto(EndMessage)
                         display_game.blit(EndMessage,[pos_w,300])
                         pg.display.flip()
                         j.vidas = 3
-                        continuara= True
+                        nivel = 2
                         j.modificador = False
                         vidas_jugador = j.vidas
                         time.sleep(5)
+                        EndMessage= "TO  BE  CONTINUE  ... "
+                        EndMessage = Messages2.render(EndMessage,True,negro,negro)
+                        display_game.blit(EndMessage,[pos_w,300])
+                        EndMessage= "...  NOW ... XD "
+                        EndMessage = Messages2.render(EndMessage,True,rojo,azul)
+                        pos_w = centrar_texto(EndMessage)
+                        display_game.blit(EndMessage,[pos_w,300])
+                        pg.display.flip()
+                        time.sleep(5)
+                        #######################################################
+                        #######################################################
+                        #######################################################
+                        #######################################################
                         pg.display.quit()
+
+                        #############################################################################################################
+                        # INICIALIZAR TODAS LAS VARIABLES
                         display_game = None
                         display_credits = None
                         display_options = None
@@ -955,7 +863,8 @@ if __name__ == '__main__':
                         # ms_creditos.play()
                         # ms_creditos.set_volume(0.3)
                         i=240
-                        nivel = 0
+                        subnivel = 0
+                        nivel = 1
                         healt=1000
                         healt_s = str(healt)
                         hp = Messages.render(healt_s,True,negro,gris)
@@ -979,20 +888,22 @@ if __name__ == '__main__':
                         modificadores3 = pg.sprite.Group()
                         display_win = pg.display.set_mode([ancho,alto])
                         display_win.fill(negro)
-                if nivel == 0:
+                if subnivel == 0:
                     bloques.update()
                 balas_jugador.update()
                 # ACTUALIZACIONES
-                if not continuara and not loser:
-                    display_game.fill(negro)
-                    # display_game.blit(background2,[i,nivel])
+                if nivel == 1 and not loser:
+                    # display_game.fill(negro)
+                    print(i,subnivel)
+                    display_game.blit(background2,[i,subnivel])
                     jugadores.draw(display_game)
-                if nivel ==0 and not continuara and not loser:
-                    display_game.fill(negro)
-                    # display_game.blit(background2,[i,nivel])
+                if subnivel ==0 and nivel == 1 and not loser:
+                    # display_game.fill(negro)
+                    print(i,subnivel)
+                    display_game.blit(background2,[i,subnivel])
                     jugadores.draw(display_game)
                     bloques.draw(display_game)
-                if nivel!=0 and not continuara and not loser:
+                if subnivel == -64*11 and nivel == 1 and not loser:
                     nodriza_a.draw(display_game)
                     spawns.draw(display_game)
                     enemigos.draw(display_game)
@@ -1002,15 +913,15 @@ if __name__ == '__main__':
                     modificadores1.draw(display_game)
                     modificadores2.draw(display_game)
                     modificadores3.draw(display_game)
-                if len(spawns) <= 0 and  not continuara and not loser:
+                if len(spawns) <= 0 and  nivel == 1 and not loser:
                     nodriza_e.draw(display_game)
 
                 # MENSAJE DE ADVERTENCIA INICIAL
-                if i >= -2000 and nivel == 0 and not continuara and not loser:
+                if i >= -2000 and subnivel == 0 and nivel == 1 and not loser:
                     display_game.blit(WarningM,[pos_w,0])
                 j_vidas = 'Vidas: '+ str(vidas_jugador)
                 texto = Messages.render(j_vidas,True,negro,gris)
-                if not continuara and not loser:
+                if nivel == 1 and not loser:
                     display_game.blit(texto,[200,0])
                     display_game.blit(salud,[0,0])
                     display_game.blit(escudo,[0,32])

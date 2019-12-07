@@ -395,3 +395,128 @@ def menu_creditos(display,p5,p6):
 
     pg.display.flip()
     return p5,p6
+
+def endgame(display,p8,p9):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "GAME OVER"
+    creator_1 = Messages.render(creator_1,True,verde,blanco)
+
+    creator_2 = "MANCO CULIAO"
+    creator_2 = Messages.render(creator_2,True,verde,blanco)
+
+    back_message = "TRY AGAIN"
+    if not p8:
+        back_message = Messages2.render(back_message,True,rojo,azul)
+    else:
+        back_message = Messages2.render(back_message,True,azul,rojo)
+
+    exit_message = "EXIT"
+    if not p9:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+
+
+    y = size_img * 2
+    x = centrar_texto(back_message)
+    display.blit(back_message,[x,y])
+    p8= rango_menu(back_message,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p9 = rango_menu(exit_message,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    pg.display.flip()
+    return p8,p9
+    pass
+
+
+def pausegame(display,p10,p11):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "PAUSE"
+    creator_1 = Messages.render(creator_1,True,verde,blanco)
+
+    creator_2 = "TAKE A BREAK :V"
+    creator_2 = Messages.render(creator_2,True,verde,blanco)
+
+    back_message = "CONTINUE"
+    if not p10:
+        back_message = Messages2.render(back_message,True,rojo,azul)
+    else:
+        back_message = Messages2.render(back_message,True,azul,rojo)
+
+    exit_message = "EXIT"
+    if not p11:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+
+
+    y = size_img * 2
+    x = centrar_texto(back_message)
+    display.blit(back_message,[x,y])
+    p10= rango_menu(back_message,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p11 = rango_menu(exit_message,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    pg.display.flip()
+    return p10,p11
+
+def win(display,p12):
+    display.fill(negro)
+    size_img = 32
+    Messages = pg.font.Font(None,size_img)
+    Messages2 = pg.font.Font(None,size_img*2)
+    creator_1 = "CONGRATULATIONS"
+    creator_1 = Messages2.render(creator_1,True,verde,blanco)
+
+    creator_2 = "YA NO ERES UN MANCO CULIAO"
+    creator_2 = Messages2.render(creator_2,True,verde,blanco)
+
+    exit_message = "EXIT"
+    if not p12:
+        exit_message = Messages2.render(exit_message,True,rojo,azul)
+    else:
+        exit_message = Messages2.render(exit_message,True,azul,rojo)
+    y = size_img * 4
+    x = centrar_texto(creator_1)
+    display.blit(creator_1,[x,y])
+
+    y += size_img *2
+    x = centrar_texto(creator_2)
+    display.blit(creator_2,[x,y])
+
+    y += size_img * 4
+    x = centrar_texto(exit_message)
+    display.blit(exit_message,[x,y])
+    p12 = rango_menu(exit_message,[x,y])
+
+
+    pg.display.flip()
+    return p12
