@@ -1,5 +1,6 @@
 import pygame as pg
 from libreria import*
+import random
 
 class Mothership(pg.sprite.Sprite):
     """clase mothership"""
@@ -10,8 +11,9 @@ class Mothership(pg.sprite.Sprite):
         self.rect.x= -self.rect.width
         self.rect.y= -200
         self.disparo=self.rect.midtop
-        self.velx=1
+        self.velx=2
         self.vely=0
+        self.animacion = False
 
     def update(self):
         # LIMITES DE PANTALLA PERSONAJE
