@@ -81,19 +81,25 @@ def clean_group(grupo):
     return grupo
     pass
 
-def animacion_final_nivel_1(display_game,mothership,mothership2,j,background2,healt,salud):
-    display_game.fill(negro)
-
-
-    pass
-
-if __name__ == '__main__':
-
-    # PANTALLA
-    pg.init()
-    display = pg.display.set_mode([ancho,alto])
-    display_credits = None
-    display_options = None
+def animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,reloj):
+    fin_animacion = False
+    while  not fin_animacion:
+        while healt >= 0:
+            healt-=1
+            Messages = pg.font.Font(None,32)
+            healt_s = str(healt)
+            hp = Messages.render(healt_s,True,negro,gris)
+            display_game.blit(hp,[100,0])
+            pg.display.flip()
+            reloj.tick(30)
+        for e in nodriza_a:
+            while e.rect.x <= 500 - e.rect.width:
+                e.rect.x += 10
+                nodriza_a.draw(display_game)
+                reloj.tick(30)
+                pg.display.flip()
+        dir_nuclear_bomb = "Sprites/Efectos/misil.jpg"
+        imag_nuclear_bomb = pg.imag.load(dir_nuclear_bomb)
     display_game = None
     display_endgame = None
     display_pause = None
@@ -662,11 +668,13 @@ if __name__ == '__main__':
                         # ms_explosion.play()
                         enemigos.remove(e)
                 # EXPLOSION DE LA NAVE NODRIZA FALTAN LOS SPRITES
-                print(mothership2.vida)
                 for e in nodriza_e:
                     if e.vida <= 0:
+                        print("vida",e.vida)
                         e.activate = False
-                        animacion_final_nivel_1(display_game,mothership,mothership2,j,background2,healt,salud)
+                        print("enemigos: ",len(enemigos),"\n enemigos",len(enemigos2))
+                        # if len(enemigos) <= 0 or len(enemigos2) <= 0:
+                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,reloj)
                         nodriza_e.remove(e)
                 #######################################################
                 # COLISION DEL JUGADOR CON LOS MODIFICADORES
@@ -759,7 +767,6 @@ if __name__ == '__main__':
                 # INTERACCION O PUESTA EN ESCENA DEL JEFE FINAL 1
                 for e in nodriza_e:
                     if e.activate:
-                        print("oh no")
                         mothership2.tempo -= 1
                         if mothership2.tempo <= 0:
                             mothership2.tempo = random.randrange(20,50)
@@ -778,7 +785,6 @@ if __name__ == '__main__':
                 # ELIMINACION DEL JUGADOR
                 for j in jugadores:
                     if j.vidas <= 0 and j.col2 == 16:
-                        print("loser")
                         # ms_juego.stop()
                         # msfondo.stop()
                         # ms_perdio.play()
@@ -827,7 +833,6 @@ if __name__ == '__main__':
             if display_game != None:
                 loser = False
                 if healt <= 0 or j.shield <=0 or temporizador <=0:
-                    print("loser")
                     # ms_juego.stop()
                     # msfondo.stop()
                     # ms_perdio.play()
