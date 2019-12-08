@@ -98,8 +98,22 @@ def animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,r
                 nodriza_a.draw(display_game)
                 reloj.tick(30)
                 pg.display.flip()
-        dir_nuclear_bomb = "Sprites/Efectos/misil.jpg"
-        imag_nuclear_bomb = pg.imag.load(dir_nuclear_bomb)
+        dir_nuclear = "Sprites/Efectos/misil.jpg"
+        imag_nuclear = pg.image.load(dir_nuclear)
+        b = Bala()
+        ####################################################################
+        # CUADRAR ANIMACION DE LA NAVE ENEMIGA CON LA BOMBA NUCLEAR
+        ####################################################################
+
+    pass
+
+if __name__ == '__main__':
+
+    # PANTALLA
+    pg.init()
+    display = pg.display.set_mode([ancho,alto])
+    display_credits = None
+    display_options = None
     display_game = None
     display_endgame = None
     display_pause = None
