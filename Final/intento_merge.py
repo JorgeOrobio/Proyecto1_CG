@@ -81,6 +81,12 @@ def clean_group(grupo):
     return grupo
     pass
 
+def animacion_final_nivel_1(display_game,mothership,mothership2,j,background2,healt,salud):
+    display_game.fill(negro)
+
+
+    pass
+
 if __name__ == '__main__':
 
     # PANTALLA
@@ -658,7 +664,9 @@ if __name__ == '__main__':
                 # EXPLOSION DE LA NAVE NODRIZA FALTAN LOS SPRITES
                 print(mothership2.vida)
                 for e in nodriza_e:
-                    if e.vida == 0:
+                    if e.vida <= 0:
+                        e.activate = False
+                        animacion_final_nivel_1(display_game,mothership,mothership2,j,background2,healt,salud)
                         nodriza_e.remove(e)
                 #######################################################
                 # COLISION DEL JUGADOR CON LOS MODIFICADORES
@@ -749,21 +757,22 @@ if __name__ == '__main__':
 
                 #######################################################
                 # INTERACCION O PUESTA EN ESCENA DEL JEFE FINAL 1
-                if mothership2.activate:
-                    print("oh no")
-                    mothership2.tempo -= 1
-                    if mothership2.tempo <= 0:
-                        mothership2.tempo = random.randrange(20,50)
-                        pos = [(mothership2.rect.x+100),random.randrange(50,500)]
-                        e = Rival(matriz_enemigo,matriz_red_explotion,pos)
-                        enemigos.add(e)
-                        pos = [(mothership2.rect.x+100),random.randrange(50,500)]
-                        e2 = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
-                        enemigos2.add(e2)
-                        pos = [(mothership2.rect.x+100),random.randrange(50,500)]
-                        mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
-                        modificadores3.add(mod)
-                    pass
+                for e in nodriza_e:
+                    if e.activate:
+                        print("oh no")
+                        mothership2.tempo -= 1
+                        if mothership2.tempo <= 0:
+                            mothership2.tempo = random.randrange(20,50)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e = Rival(matriz_enemigo,matriz_red_explotion,pos)
+                            enemigos.add(e)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e2 = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
+                            enemigos2.add(e2)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                        pass
 
                 #######################################################
                 # ELIMINACION DEL JUGADOR

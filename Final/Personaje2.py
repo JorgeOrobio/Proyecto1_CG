@@ -29,7 +29,7 @@ class Jugador(pg.sprite.Sprite):
         self.disparo=self.rect.midtop
         self.velx=0
         self.vely=0
-        self.vidas = 3
+        self.vidas = 300
         self.shield = 1000000
         ########################################################################################
         self.modificador = False

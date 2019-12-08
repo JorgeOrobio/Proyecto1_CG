@@ -7,10 +7,10 @@ class Mothership_E(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.image=archivo
         self.rect=self.image.get_rect()
-        self.rect.x=ancho
+        self.rect.x=ancho + 100
         self.rect.y= -200
         self.disparo=self.rect.midtop
-        self.velx= -1
+        self.velx= -2
         self.vely=0
         self.activate = activate
         self.tempo= random.randrange(20,50)
