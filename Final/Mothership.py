@@ -21,3 +21,8 @@ class Mothership(pg.sprite.Sprite):
             self.rect.x = 300 - self.rect.width
             self.velx=0
         self.rect.x+=self.velx
+
+    def explosion(self,archivo,i):
+        if self.animacion:
+            self.image = archivo[i]
+        pass
