@@ -526,37 +526,39 @@ def win(display,p12):
     display.blit(exit_message,[x,y])
     p12 = rango_menu(exit_message,[x,y])
 
+    pg.display.flip()
+    return p12
+
 def controls(display,p13,p14):
     display.fill(negro)
     size_img = 32
     Messages = pg.font.Font(None,size_img)
     Messages2 = pg.font.Font(None,size_img*2)
+    direccion_imagen_controls = "Sprites/controles.png"
+    imagen_controls = pg.image.load(direccion_imagen_controls)
 
     back_message = "MENU"
-    if not p5:
+    if not p13:
         back_message = Messages2.render(back_message,True,rojo,azul)
     else:
         back_message = Messages2.render(back_message,True,azul,rojo)
 
     exit_message = "EXIT"
-    if not p6:
+    if not p14:
         exit_message = Messages2.render(exit_message,True,rojo,azul)
     else:
         exit_message = Messages2.render(exit_message,True,azul,rojo)
 
 
-    y = size_img * 2
+    y = size_img * 15
     x = centrar_texto(back_message)
     display.blit(back_message,[x,y])
-    p5= rango_menu(back_message,[x,y])
+    p13= rango_menu(back_message,[x,y])
 
     y += size_img *2
     x = centrar_texto(exit_message)
     display.blit(exit_message,[x,y])
-    p6 = rango_menu(exit_message,[x,y])
-
+    p14 = rango_menu(exit_message,[x,y])
+    display.blit(imagen_controls,[0,0])
     pg.display.flip()
     return p13,p14
-
-    pg.display.flip()
-    return p12

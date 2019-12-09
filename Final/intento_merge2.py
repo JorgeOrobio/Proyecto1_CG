@@ -112,7 +112,7 @@ if __name__ == '__main__':
     pg.init()
     display = pg.display.set_mode([ancho,alto])
     display_credits = None
-    display_options = None
+    display_controls = None
     display_game = None
     display_endgame = None
     display_pause = None
@@ -308,7 +308,7 @@ if __name__ == '__main__':
     end = False
     game_over = False
     pause = False
-    p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12 = False,False,False,False,False,False,False,False,False,False,False,False
+    p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14 = False,False,False,False,False,False,False,False,False,False,False,False,False,False
     # msfondo.play()
     # msfondo.set_volume(.1)
     while not end and not game_over and not pause:
@@ -319,8 +319,8 @@ if __name__ == '__main__':
             p5,p6 = menu_creditos(display_credits,p5,p6)
         if display_endgame != None:
             p8,p9 = endgame(display_endgame,p8,p9)
-        if display_options != None:# CAMBIAR LAS OPCIONES CUANDO SE NOS OCURRA ALGO
-            p1,p2,p3,p4 = menu(display_options,p1,p2,p3,p4)
+        if display_controls != None:# CAMBIAR LAS OPCIONES CUANDO SE NOS OCURRA ALGO
+            p13,p14 = controls(display_controls,p13,p14)
         if display_pause != None:
             p10,p11 = pausegame(display_pause,p10,p11)
         if display_win != None:
@@ -329,7 +329,7 @@ if __name__ == '__main__':
             if event.type == pg.QUIT:
                 end = True
             # OPCIONES DEL MENU PRINCIPAL
-            if event.type == pg.MOUSEBUTTONDOWN and p4 or event.type == pg.MOUSEBUTTONDOWN and p6 or event.type == pg.MOUSEBUTTONDOWN and p12: #GANA EL JUEGO:
+            if event.type == pg.MOUSEBUTTONDOWN and p4 or event.type == pg.MOUSEBUTTONDOWN and p6 or event.type == pg.MOUSEBUTTONDOWN and p12 or event.type == pg.MOUSEBUTTONDOWN and p14: #GANA EL JUEGO:
                 end = True
             if event.type == pg.MOUSEBUTTONDOWN and p3:
                 # ms_click.play()
@@ -337,7 +337,7 @@ if __name__ == '__main__':
                 pg.display.quit()
                 display = None
                 display_game = None
-                display_options = None
+                display_controls = None
                 display_endgame = None
                 display_pause = None
                 display_win = None
@@ -355,8 +355,8 @@ if __name__ == '__main__':
                 display_endgame = None
                 display_pause = None
                 display_win = None
-                display_options = pg.display.set_mode([ancho,alto])
-                display_options.fill(negro)
+                display_controls = pg.display.set_mode([ancho,alto])
+                display_controls.fill(negro)
                 p2 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p1:
@@ -371,7 +371,7 @@ if __name__ == '__main__':
                 # ms_juego.set_volume(0.4)
                 display = None
                 display_credits = None
-                display_options = None
+                display_controls = None
                 display_endgame = None
                 display_pause = None
                 display_win = None
@@ -386,13 +386,28 @@ if __name__ == '__main__':
                 pg.display.quit()
                 display_game = None
                 display_credits = None
-                display_options = None
+                display_controls = None
                 display_endgame = None
                 display_pause = None
                 display_win = None
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p5 = False
+                pg.display.flip()
+            #OPCIONES CONTROLES
+            if event.type == pg.MOUSEBUTTONDOWN and p13:
+                # ms_click.play()
+                # ms_click.set_volume(0.2)
+                pg.display.quit()
+                display_game = None
+                display_credits = None
+                display_controls = None
+                display_endgame = None
+                display_pause = None
+                display_win = None
+                display = pg.display.set_mode([ancho,alto])
+                display.fill(negro)
+                p13 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p8:# PERDIO Y VA A REINTENTAR
                 # ms_perdio.stop()
@@ -403,7 +418,7 @@ if __name__ == '__main__':
                 pg.display.quit()
                 display_endgame = None
                 display_credits = None
-                display_options = None
+                display_controls = None
                 display = None
                 display_pause = None
                 display_win = None
@@ -420,7 +435,7 @@ if __name__ == '__main__':
                 pg.display.quit()
                 display_game = None
                 display_credits = None
-                display_options = None
+                display_controls = None
                 display_endgame = None
                 display_pause = None
                 display_win = None
@@ -437,7 +452,7 @@ if __name__ == '__main__':
                 pg.display.quit()
                 display = None
                 display_credits = None
-                display_options = None
+                display_controls = None
                 display_endgame = None
                 display_pause = None
                 display_win = None
@@ -451,7 +466,7 @@ if __name__ == '__main__':
                 # ms_juego.stop()
                 display_game = None
                 display_credits = None
-                display_options = None
+                display_controls = None
                 display_endgame = None
                 display_pause = None
                 display_win = None
@@ -499,7 +514,7 @@ if __name__ == '__main__':
                         # msfondo.set_volume(0.3)
                         display_game = None
                         display_credits = None
-                        display_options = None
+                        display_controls = None
                         display_endgame= None
                         display_win = None
                         display_pause = pg.display.set_mode([ancho,alto])
@@ -807,7 +822,7 @@ if __name__ == '__main__':
                         pg.display.quit()
                         display_game = None
                         display_credits = None
-                        display_options = None
+                        display_controls = None
                         display_win = None
                         i=240
                         subnivel = 0
@@ -856,7 +871,7 @@ if __name__ == '__main__':
                     pg.display.quit()
                     display_game = None
                     display_credits = None
-                    display_options = None
+                    display_controls = None
                     display_win = None
                     loser = True
                     i=240
@@ -949,7 +964,7 @@ if __name__ == '__main__':
                         # pg.display.quit()
                         # display_game = None
                         # display_credits = None
-                        # display_options = None
+                        # display_controls = None
                         # display_pause= None
                         # display_endgame= None
                         # # ms_juego.stop()
