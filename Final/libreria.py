@@ -305,7 +305,7 @@ def menu(display,p1,p2,p3,p4):
     else:
         play_message = Messages.render(play_message,True,azul,rojo)
 
-    option_message = "OPTIONS"
+    option_message = "CONTROLS"
     if not p2:
         option_message = Messages.render(option_message,True,rojo,azul)
     else:
@@ -362,6 +362,10 @@ def menu_creditos(display,p5,p6):
     creator_2 = "Nicolas Aguirre Espinosa"
     creator_2 = Messages.render(creator_2,True,verde,blanco)
 
+    creator_3 = "Maria Paula Loaiza Lopez"
+    creator_3 = Messages.render(creator_3,True,verde,blanco)
+
+
     back_message = "MENU"
     if not p5:
         back_message = Messages2.render(back_message,True,rojo,azul)
@@ -392,6 +396,11 @@ def menu_creditos(display,p5,p6):
     y += size_img
     x = centrar_texto(creator_2)
     display.blit(creator_2,[x,y])
+
+    y += size_img
+    x = centrar_texto(creator_3)
+    display.blit(creator_3,[x,y])
+
 
     pg.display.flip()
     return p5,p6
