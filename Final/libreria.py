@@ -562,3 +562,119 @@ def controls(display,p13,p14):
     display.blit(imagen_controls,[0,0])
     pg.display.flip()
     return p13,p14
+
+def preludio():
+	fondo= pygame.image.load('fondo5.jpg')
+	fuente=pygame.font.Font(None,64)
+	pantalla.blit(fondo,[0,0])
+	mensaje="Durante milenios ha habido una lucha entre" 
+	mensaje1="el bien y el mal, se necesitarestaurar por fin"
+	mensaje2="la paz en toda la galaxia por ello la flota"
+	mensaje3="real de Alpha Centuary debe viajar a una"
+	mensaje4="reunión diplomatica para asi conseguir un" 
+	mensaje5="nuevo aliado que inclinaría labalanza hacia"
+	mensaje6="el fin de este conflicto." 
+   
+
+	mensaje7="Se necesita garantizar la seguridad de esta"
+	mensaje8="flota, para ello contratan al piloto más"
+	mensaje9="implacable de todo el universo, el capitán"
+	mensaje10="Charles A. Ludwing con la nave más" 
+	mensaje11="poderosa conocida, Arcadia."
+                   
+
+
+	mensaje12="Al inicio de su travesía son interceptados" 
+	mensaje13="por la Armada Galáctica,que supieron de" 
+	mensaje14="esta maniobra por un informante, el capitan" 
+	mensaje15="tiene un solo objetivo en mente, cumplir su"
+	mensaje16="misión, decide actuar como cebo y" 
+	mensaje17="separarse de la flota real atrayendo así" 
+	mensaje18="a las naves cazas por una grieta lunar."
+    
+
+    
+	texto=fuente.render(mensaje,True,blanco)
+	texto1=fuente.render(mensaje1,True,blanco)
+	texto2=fuente.render(mensaje2,True,blanco)
+	texto3=fuente.render(mensaje3,True,blanco)
+	texto4=fuente.render(mensaje4,True,blanco)
+	texto5=fuente.render(mensaje5,True,blanco)
+	texto6=fuente.render(mensaje6,True,blanco)
+	texto7=fuente.render(mensaje7,True,blanco)
+	texto8=fuente.render(mensaje8,True,blanco)
+	texto9=fuente.render(mensaje9,True,blanco)
+	texto10=fuente.render(mensaje10,True,blanco)
+	texto11=fuente.render(mensaje11,True,blanco)
+	texto12=fuente.render(mensaje12,True,blanco)
+	texto13=fuente.render(mensaje13,True,blanco)
+	texto14=fuente.render(mensaje14,True,blanco)
+	texto15=fuente.render(mensaje15,True,blanco)
+	texto16=fuente.render(mensaje16,True,blanco)
+	texto17=fuente.render(mensaje17,True,blanco)
+	texto18=fuente.render(mensaje18,True,blanco)
+    
+
+ 
+	pantalla.blit(texto,[90,94])
+	pantalla.blit(texto1,[90,158])
+	pantalla.blit(texto2,[90,222])
+	pantalla.blit(texto3,[90,286])
+	pantalla.blit(texto4,[90,350])
+	pantalla.blit(texto5,[90,414])
+	pantalla.blit(texto6,[90,478])
+
+	pygame.display.flip()
+	time.sleep(10)
+	pantalla.blit(fondo,[0,0])
+	pantalla.blit(texto7,[100,158])
+	pantalla.blit(texto8,[100,222])
+	pantalla.blit(texto9,[100,286])
+	pantalla.blit(texto10,[100,350])
+	pantalla.blit(texto11,[100,414])
+
+	pygame.display.flip()
+	time.sleep(10)
+	pantalla.blit(fondo,[0,0])
+	pantalla.blit(texto12,[100,94])
+	pantalla.blit(texto13,[100,158])
+	pantalla.blit(texto14,[100,222])
+	pantalla.blit(texto15,[100,286])
+	pantalla.blit(texto16,[100,350])
+	pantalla.blit(texto17,[100,414])
+	pantalla.blit(texto18,[100,478])
+
+	pygame.display.flip()
+	time.sleep(10)
+
+	pygame.display.flip()
+
+
+def interludio():
+	fondo= pygame.image.load('fondo6.jpg')
+	fuente=pygame.font.Font(None,64)
+
+	pantalla.blit(fondo,[0,0])
+	mensaje="Luego de haber estado al borde de la" 
+	mensaje1="muerte,todos los tripulantes de la flota"
+	mensaje2="real han logrado desembarcar en Arcadia"
+	mensaje3="para así disponerse a emprender" 
+	mensaje4="nuevamente su viaje hacia su destino final." 
+
+	texto=fuente.render(mensaje,True,blanco)
+	texto1=fuente.render(mensaje1,True,blanco)
+	texto2=fuente.render(mensaje2,True,blanco)
+	texto3=fuente.render(mensaje3,True,blanco)
+	texto4=fuente.render(mensaje4,True,blanco)
+
+	pantalla.blit(texto,[90,158])
+	pantalla.blit(texto1,[90,222])
+	pantalla.blit(texto2,[90,286])
+	pantalla.blit(texto3,[90,350])
+	pantalla.blit(texto4,[90,414])
+
+	pygame.display.flip()
+	time.sleep(10)
+
+	pygame.display.flip()
+
