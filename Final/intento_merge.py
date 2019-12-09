@@ -18,6 +18,9 @@ import sys
 def menu_options():
     pass
 
+def interludio():
+    pass
+
 def load_map(bloques,background):
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
@@ -81,51 +84,172 @@ def clean_group(grupo):
     return grupo
     pass
 
-def animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,reloj,i,subnivel):
-    fin_animacion = False
-    while  not fin_animacion:
-        while healt >= 0:
-            healt-=1
-            Messages = pg.font.Font(None,32)
-            healt_s = str(healt)
-            hp = Messages.render(healt_s,True,negro,gris)
-            display_game.blit(hp,[100,0])
+def animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel):
+    print("animacion")
+    while healt >= 0:
+        healt-=1
+        Messages = pg.font.Font(None,32)
+        healt_s = str(healt)
+        hp = Messages.render(healt_s,True,negro,gris)
+        hp_n =Messages.render(healt_s,True,negro,negro)
+        display_game.blit(hp_n,[100,0])
+        display_game.blit(hp,[100,0])
+        pg.display.flip()
+        reloj.tick(30)
+    print("1")
+    for e in nodriza_a:
+        while e.rect.x <= 500 - e.rect.width:
+            e.rect.x += 10
+            display_game.blit(background2,[i,subnivel])
+            jugadores.draw(display_game)
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.draw(display_game)
+            nodriza_e.draw(display_game)
             pg.display.flip()
             reloj.tick(30)
-        for e in nodriza_a:
-            while e.rect.x <= 500 - e.rect.width:
-                e.rect.x += 10
-                nodriza_a.draw(display_game)
-                reloj.tick(30)
-                pg.display.flip()
-        time.sleep(2)
-        for e in nodriza_a:
-            while e.rect.x >= 300 - e.rect.width:
-                e.rect.x -= 10
-                display_game.blit(background2,[i,subnivel])
-                nodriza_a.draw(display_game)
-                reloj.tick(30)
-                pg.display.flip()
-        dir_nuclear = "Sprites/Efectos/misil.jpg"
-        imag_nuclear = pg.image.load(dir_nuclear)
-        matriz_nuclear = matriz_sprites(imag_nuclear,200,120,200,120)
-        dir_exploma = "Sprites/Efectos/explosion_madre.png"
-        imag_exploma = pg.image.load(dir_exploma)
-        matriz_exploma = matriz_sprites(imag_exploma,18180,1024,1010,1024)
-        for e in nodriza_e:
-            bomba = Bala([e.midleft],matriz_nuclear)
-            bomba.velx = -10
-            while(bomba.rect.x >= 500):
-                bomba.update()
-            ls = pg.sprite.spritecollide(bomba,nodriza_a,False)
-            for n in ls:
-                n.animacion = True
-                for i in range(16):
-                    n.explosion(matriz_exploma,i)
-                    nodriza_a.draw(display_game)
-                    pg.display.flip()
-                    reloj.tick(30)
-
+    print("2")
+    time.sleep(2)
+    for e in nodriza_a:
+        while e.rect.x >= 300 - e.rect.width:
+            e.rect.x -= 10
+            display_game.blit(background2,[i,subnivel])
+            jugadores.draw(display_game)
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+    nuclear = pg.sprite.Group()
+    dir_nuclear = "Sprites/Efectos/misil.png"
+    imag_nuclear = pg.image.load(dir_nuclear)
+    matriz_nuclear = matriz_sprites(imag_nuclear,150,150,150,150)
+    dir_exploma = "Sprites/Efectos/explosion_madre.png"
+    imag_exploma = pg.image.load(dir_exploma)
+    matriz_exploma = matriz_sprites(imag_exploma,8080,1024,1010,1024)
+    print("3")
+    for e in nodriza_e:
+        bomba = Bala(e.rect.center,matriz_nuclear)
+        bomba.velx = -10
+        nuclear.add(bomba)
+        while(bomba.rect.x >= 50):
+            nuclear.update()
+            display_game.blit(background2,[i,subnivel])
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.update()
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+        print("4")
+    for n in nodriza_a:
+        n.animacion = True
+        n.velx = -2
+        for i in range(5):
+            n.explosion(matriz_exploma,i)
+            display_game.blit(background2,[i,subnivel])
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.update()
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            # nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+    #         for e in modificadores3:
+    #             e.muerte = True
+    #             e.velx = 0
+    #             for i in range(11):
+    #                 enemigos.update()
+    #                 display_game.blit(background2,[i,subnivel])
+    #                 enemigos.draw(display_game)
+    #                 enemigos2.draw(display_game)
+    #                 modificadores3.draw(display_game)
+    #                 nodriza_a.update()
+    #                 jugadores.draw(display_game)
+    #                 nodriza_a.draw(display_game)
+    #                 nuclear.draw(display_game)
+    #                 nodriza_e.draw(display_game)
+    #                 pg.display.flip()
+    #                 reloj.tick(30)
+    #             modificadores3.remove(e)
+    #         print("5")
+    #         for e in enemigos:
+    #             e.muerte = True
+    #             e.velx = 0
+    #             e.vely = 0
+    #             for i in range(11):
+    #                 enemigos.update()
+    #                 display_game.blit(background2,[i,subnivel])
+    #                 enemigos.draw(display_game)
+    #                 enemigos2.draw(display_game)
+    #                 modificadores3.draw(display_game)
+    #                 nodriza_a.update()
+    #                 jugadores.draw(display_game)
+    #                 nodriza_a.draw(display_game)
+    #                 nuclear.draw(display_game)
+    #                 nodriza_e.draw(display_game)
+    #                 pg.display.flip()
+    #                 reloj.tick(30)
+    #             enemigos.remove(e)
+    #         print("6")
+    #         for e in enemigos2:
+    #             e.muerte = True
+    #             e.velx = 0
+    #             e.vely = 0
+    #             for i in range(12):
+    #                 enemigos2.update()
+    #                 display_game.blit(background2,[i,subnivel])
+    #                 enemigos.draw(display_game)
+    #                 enemigos2.draw(display_game)
+    #                 modificadores3.draw(display_game)
+    #                 nodriza_a.update()
+    #                 jugadores.draw(display_game)
+    #                 nodriza_a.draw(display_game)
+    #                 nuclear.draw(display_game)
+    #                 nodriza_e.draw(display_game)
+    #                 pg.display.flip()
+    #                 reloj.tick(30)
+    #             enemigos2.remove(e)
+    #         print("7")
+    #         display_game.blit(background2,[i,subnivel])
+    #         nodriza_a.update()
+    #         jugadores.draw(display_game)
+    #         nodriza_a.draw(display_game)
+    #         nodriza_e.draw(display_game)
+    #         pg.display.flip()
+    #         reloj.tick(30)
+    for e in nodriza_a:
+        while e.rect.x >= -e.rect.width:
+            e.rect.x -= 10
+            display_game.blit(background2,[i,subnivel])
+            # nodriza_a.draw(display_game)
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            # nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+    for e in nodriza_e:
+        while e.rect.x <= ancho:
+            e.rect.x += 10
+            display_game.blit(background2,[i,subnivel])
+            # nodriza_a.draw(display_game)
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            # nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
 
 
 
@@ -716,8 +840,10 @@ if __name__ == '__main__':
                         e.activate = False
                         print("enemigos: ",len(enemigos),"\n enemigos",len(enemigos2))
                         # if len(enemigos) <= 0 or len(enemigos2) <= 0:
-                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,reloj,i,subnivel)
+                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
                         nodriza_e.remove(e)
+                        interludio()
+                        nivel = 2
                 #######################################################
                 # COLISION DEL JUGADOR CON LOS MODIFICADORES
                 if len(modificadores1) >= 0:

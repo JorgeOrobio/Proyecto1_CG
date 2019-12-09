@@ -24,5 +24,5 @@ class Mothership(pg.sprite.Sprite):
 
     def explosion(self,archivo,i):
         if self.animacion:
-            self.image = archivo[i]
+            self.image = archivo[i][0]
         pass
