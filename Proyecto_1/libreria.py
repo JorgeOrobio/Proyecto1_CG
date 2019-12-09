@@ -305,7 +305,7 @@ def menu(display,p1,p2,p3,p4):
     else:
         play_message = Messages.render(play_message,True,azul,rojo)
 
-    option_message = "OPTIONS"
+    option_message = "CONTROLS"
     if not p2:
         option_message = Messages.render(option_message,True,rojo,azul)
     else:
