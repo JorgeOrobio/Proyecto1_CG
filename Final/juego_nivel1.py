@@ -3,7 +3,6 @@ from libreria import*
 from Personaje2 import*
 from Spawn import *
 from Bala import*
-from Bala_Seguidora import*
 from Mothership import *
 from Objetos import *
 from Enemigos import *
@@ -729,9 +728,9 @@ if __name__ == '__main__':
                         e.tempo = random.randrange(10)
                         pos = e.rect.topleft
                         pos1 = [pos[0],pos[1]+20]
-                        pos2 = [j.rect.x,j.rect.y]
-                        e = Bala_seguidora(pos1,pos2,matriz_bala_enemigo,5)
+                        e = Bala(pos1,matriz_bala_enemigo,5)
                         balas_enemigos.add(e)
+                        e.velx = -30
                         ms_disparo_e.play()
 
                 ############################################################
@@ -782,7 +781,9 @@ if __name__ == '__main__':
                 # EXPLOSION DE LA NAVE NODRIZA FALTAN LOS SPRITES
                 for e in nodriza_e:
                     if e.vida <= 0:
+                        print("vida",e.vida)
                         e.activate = False
+                        print("enemigos: ",len(enemigos),"\n enemigos",len(enemigos2))
                         # if len(enemigos) <= 0 or len(enemigos2) <= 0:
                         animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
                         nodriza_e.remove(e)
