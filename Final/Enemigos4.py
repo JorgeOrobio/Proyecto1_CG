@@ -1,7 +1,7 @@
 import pygame as pg
 from libreria import*
 
-class Rival2(pg.sprite.Sprite):
+class Rival4(pg.sprite.Sprite):
     """clase rival"""
     def __init__(self,archivo,archivo2,pos):
         pg.sprite.Sprite.__init__(self)
@@ -32,7 +32,8 @@ class Rival2(pg.sprite.Sprite):
         # MOVIMIENTO COMO SU VELOCIDAD SEAN ALEATORIOS PARA AGREGAR MAS DIFICULTAD
         # AL JUEGO ADEMAS DE QUE ESTOS ENEMIGOS TAMBIEN VAN A PODER DISPARAR
         # PROYECTILES, PERO ESTOS NO VAN A SEGUIR AL JUGADOR
-
+        self.velx=random.randrange(-10,10)
+        self.vely=random.randrange(-10,10)
         self.rect.x += self.velx
         self.rect.y += self.vely
         self.tempo -=1

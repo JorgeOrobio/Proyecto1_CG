@@ -76,6 +76,66 @@ def create_spawns():
     vidas_spawn = s.vidas
     return spawns,vidas_spawn,matriz_spawn_enemigo,matriz_red_explotion
 
+
+def load_map2(bloques,background):
+##################################################################################################################################################################
+    # IMAGENES DE BLOQUES Y FONDO
+    # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    # APARTADO DE BLOQUES
+    tam_sy, tam_sx = 64,64
+    matrix_x,matrix_y=0,0
+    i,j=0,0
+    ancho_fondo = 9216
+    alto_fondo = 1344
+    matrix_background = matriz_sprites(background,ancho_fondo,alto_fondo,tam_sx,tam_sy)
+    mapaf = open("mapa2.txt",'r')
+    mapaf = mapaf.read()
+    mapaf=mapaf.split('\n')
+    # AGREGANDO BLOQUES DEL MAPA
+    for filas in mapaf:
+        for ele in filas:
+            # AQUI PUEDE AGREGAR LA CONDICION PARA AGREGAR BLOQUES
+            if ele == "#":
+                matrix_x,matrix_y = 0,0
+                b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
+                bloques.add(b)
+            if ele == ".":
+                matrix_x,matrix_y = 0,4
+            # display_game.blit(matrix_background[x][matrix_y],[i,j])
+            i+=tam_sx
+        i=0
+        j+=tam_sy
+    return bloques
+##################################################################################################################################################################
+    pass
+
+def create_spawns2():
+
+    spawns = pg.sprite.Group()
+    ##SPAWN DE LOS ENEMIGOS
+    direccion_imagen_spawn_enemigo = "Sprites/Personaje/enemigos/Spawn.png"
+    imagen_spawn_enemigo = pg.image.load(direccion_imagen_spawn_enemigo)
+    matriz_spawn_enemigo=matriz_sprites(imagen_spawn_enemigo,273,88,91,88)
+
+    dir_red_explotion="Sprites/Efectos/Explosion_red.png"
+    imagen_red_explotion=pg.image.load(dir_red_explotion)
+    matriz_red_explotion=matriz_sprites(imagen_red_explotion,896,64,64,64)
+
+    #CREACION SPAWN
+    posx_spawns = 980
+    posy_spawns = 60
+    esp_entre = 40
+    s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_red_explotion)
+    ##aumentar posx_spawns para que el spawn quede fuera de la pantalla
+    for i in range(posy_spawns,alto - s.rect.height-esp_entre,s.rect.height+esp_entre):
+        s = Spawn([posx_spawns,posy_spawns],matriz_spawn_enemigo,matriz_red_explotion)
+        spawns.add(s)
+        posy_spawns += s.rect.height+esp_entre
+    vidas_spawn = s.vidas
+    return spawns,vidas_spawn,matriz_spawn_enemigo,matriz_red_explotion
+
+
+
 def clean_group(grupo):
     for g in grupo:
         grupo.remove(g)

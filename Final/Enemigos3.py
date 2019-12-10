@@ -20,10 +20,9 @@ class Rival3(pg.sprite.Sprite):
         self.rect.y=pos[1]
         self.velx=-5
         self.vely=0
-        self.tempo=random.randrange(300)
+        self.tempo=random.randrange(150)
         self.luck = False
         self.muerte = 0
-        self.seguir = seguimiento #PARA SEGUIR AL JUGADOR
 
     def update(self):
 
