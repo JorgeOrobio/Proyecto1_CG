@@ -272,12 +272,17 @@ if __name__ == '__main__':
     nodriza_a = pg.sprite.Group()
     enemigos = pg.sprite.Group()
     enemigos2 = pg.sprite.Group()
+    enemigos3 = pg.sprite.Group()
+    enemigos4 = pg.sprite.Group()
     balas_enemigos = pg.sprite.Group()
     nodriza_e = pg.sprite.Group()
     spawns = pg.sprite.Group()
+    spawns2 = pg.sprite.Group()
+    spawns3 = pg.sprite.Group()
     modificadores1 = pg.sprite.Group()
     modificadores2 = pg.sprite.Group()
     modificadores3 = pg.sprite.Group()
+
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
     background = pg.image.load("Sprites/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
@@ -1020,7 +1025,18 @@ if __name__ == '__main__':
                 ###################################
 
                 #CREACION DE LOS RIVALES DESDE EL SPAWN
-                for s in spawns:
+                for s in spawns2:
+                    if s.tempo == 0 :
+                        s.tempo = random.randrange(50,100)
+                        pos = s.rect.topleft
+                        e = Rival3(matriz_enemigo,matriz_red_explotion,pos)
+                        enemigos3.add(e)
+                        oportunidad = random.randrange(100)
+                        if oportunidad > 80:
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                #CREACION DE LOS  OTROS RIVALES DESDE EL SPAWN
+                for s in spawns3:
                     if s.tempo == 0 :
                         s.tempo = random.randrange(50,150)
                         pos = s.rect.topleft
