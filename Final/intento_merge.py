@@ -18,9 +18,6 @@ import sys
 def menu_options():
     pass
 
-def interludio():
-    pass
-
 def load_map(bloques,background):
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
@@ -507,9 +504,8 @@ if __name__ == '__main__':
                 ms_menu.stop()
                 ms_perdio.stop()
                 ms_juego.stop()
+                mensaje_de_introduccion = False
                 # ms_creditos.stop()
-                ms_juego.play()
-                ms_juego.set_volume(0.4)
                 display = None
                 display_credits = None
                 display_controls = None
@@ -729,6 +725,16 @@ if __name__ == '__main__':
         # LIMPIEZA DE OBJETOS EN TODOS LOS NIVELES
         ###################################
         if display_game != None:
+            ###################################
+            # TEXTO DEL PRELUDIO
+            ###################################
+            if not mensaje_de_introduccion:
+                preludio(display_game)
+                mensaje_de_introduccion = True
+                ms_juego.play()
+                ms_juego.set_volume(0.4)
+            ###################################
+
             # CAJA DE CONTROL
             # LIMPIEZA DE BALAS AL SALIR DE PANTALLA
             for b in balas_jugador:
@@ -844,7 +850,7 @@ if __name__ == '__main__':
                         # if len(enemigos) <= 0 or len(enemigos2) <= 0:
                         animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
                         nodriza_e.remove(e)
-                        interludio()
+                        interludio(display_game)
                         nivel = 2
                 #######################################################
                 # COLISION DEL JUGADOR CON LOS MODIFICADORES
@@ -1095,51 +1101,7 @@ if __name__ == '__main__':
                             time.sleep(5)
                             mensaje_primer_jefe = True
                         mothership2.activate = True
-                        #######################################################
-                        #######################################################
-                        #######################################################
-                        #######################################################
 
-                        #############################################################################################################
-                        # INICIALIZAR TODAS LAS VARIABLES
-                        # WIN CODE
-                        # pg.display.quit()
-                        # display_game = None
-                        # display_credits = None
-                        # display_controls = None
-                        # display_pause= None
-                        # display_endgame= None
-                        # # ms_juego.stop()
-                        # # ms_perdio.stop()
-                        # # ms_menu.stop()
-                        # # ms_creditos.play()
-                        # # ms_creditos.set_volume(0.3)
-                        # i=240
-                        # subnivel = 0
-                        # nivel = 1
-                        # healt=1000
-                        # healt_s = str(healt)
-                        # hp = Messages.render(healt_s,True,negro,gris)
-                        # j.shield=1000000
-                        # shield_s = str(j.shield)
-                        # shield_M = Messages.render(shield_s,True,negro,gris)
-                        # j.rect.y=centro_y
-                        # spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
-                        # bloques = pg.sprite.Group()
-                        # bloques = load_map(bloques,background)
-                        # enemigos = pg.sprite.Group()
-                        # balas_enemigos = pg.sprite.Group()
-                        # nodriza_a.remove(mothership)
-                        # mothership = Mothership(imagen_naveM)
-                        # nodriza_a.add(mothership)
-                        # nodriza_e.remove(mothership2)
-                        # mothership2 = Mothership_E(imagen_naveME)
-                        # nodriza_e.add(mothership2)
-                        # modificadores1 = pg.sprite.Group()
-                        # modificadores2 = pg.sprite.Group()
-                        # modificadores3 = pg.sprite.Group()
-                        # display_win = pg.display.set_mode([ancho,alto])
-                        # display_win.fill(negro)
                 if subnivel == 0:
                     bloques.update()
                 balas_jugador.update()
