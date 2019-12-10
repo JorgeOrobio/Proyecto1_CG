@@ -1,7 +1,7 @@
 import pygame as pg
 from libreria import*
 
-class Spawn2(pg.sprite.Sprite):
+class Spawn3(pg.sprite.Sprite):
 
     def __init__(self,pto,archivo,archivo2):
         pg.sprite.Sprite.__init__(self)
