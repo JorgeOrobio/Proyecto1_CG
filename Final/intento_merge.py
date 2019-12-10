@@ -938,6 +938,259 @@ if __name__ == '__main__':
                         modificadores3 = pg.sprite.Group()
                         display_endgame = pg.display.set_mode([ancho,alto])
                         display_endgame.fill(negro)
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+            ###################################
+            # CONTROLES DEL NIVEL 2
+            ###################################
+            if subnivel == -64*11 and nivel == 2:
+                ###################################
+                # ENTRADA DE EL NUEVO MAPA
+                ###################################
+                ###################################
+                # ENTRADA DE SPAWNS ENEMIGOS
+                ###################################
+                ###################################
+                # ENTRADA DE SPAWNS ENEMIGOS
+                ###################################
+
+                ###################################
+                # ENTRADA DE ENEMIGOS
+                ###################################
+
+                #CREACION DE LOS RIVALES DESDE EL SPAWN
+                for s in spawns:
+                    if s.tempo == 0 :
+                        s.tempo = random.randrange(50,150)
+                        pos = s.rect.topleft
+                        e = Rival(matriz_enemigo,matriz_red_explotion,pos)
+                        enemigos.add(e)
+                        oportunidad = random.randrange(100)
+                        if oportunidad > 80:
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                    if s.tempo2 == 0 :
+                        s.tempo2 = random.randrange(300,500)
+                        pos = s.rect.topleft
+                        e = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
+                        enemigos2.add(e)
+                #DISPAROS DE LOS RIVALES
+                for e in enemigos:
+                    if e.tempo == 0:
+                        e.tempo = random.randrange(10)
+                        pos = e.rect.topleft
+                        pos1 = [pos[0],pos[1]+20]
+                        pos2 = [j.rect.x,j.rect.y]
+                        e = Bala_seguidora(pos1,pos2,matriz_bala_enemigo,5)
+                        balas_enemigos.add(e)
+                        ms_disparo_e.play()
+
+                ############################################################
+                #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS
+                for b in balas_jugador:
+                    le = pg.sprite.spritecollide(b,enemigos,False)#no borra cuando hay colision
+                    for r in le:
+                        r.muerte = 1
+                        balas_jugador.remove(b)
+                #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS2
+                for b in balas_jugador:
+                    le = pg.sprite.spritecollide(b,enemigos2,False)#no borra cuando hay colision
+                    for r in le:
+                        r.muerte = 1
+                        balas_jugador.remove(b)
+                # COLISION DE LAS BALAS DEL JUGADOR CON LA NAVE NODRIZA
+                for b in balas_jugador:
+                    lm = pg.sprite.spritecollide(b,nodriza_e,False)
+                    for r in lm:
+                        r.vida -= 1
+                        balas_jugador.remove(b)
+
+                ################################################################
+                #EXPLOSION ENEMIGOS CON BALAS DE JUGADOR Y CREACION DE LOS MODIFICADORES 1
+                for e in enemigos2:
+                    if e.muerte == 1 and e.col2 == 12:
+                        if not(e.luck):
+                            e.luck = True
+                            luck = random.randrange(100)
+                            if luck < probMod1:
+                                pos = e.rect.topleft
+                                m = Skin(matriz_modificador1,matriz_blue_explotion,pos)
+                                modificadores1.add(m)
+                        ms_explosion.play()
+                        enemigos2.remove(e)
+                ##EXPLOSION ENEMIGOS CON BALAS DE JUGADOR Y CREACION DE LOS MODIFICADORES 2
+                for e in enemigos:
+                    if e.muerte == 1 and e.col2 == 12:
+                        if not(e.luck):
+                            e.luck = True
+                            luck = random.randrange(100)
+                            if luck < probMod2:
+                                pos = e.rect.topleft
+                                m = Mas1Vida(matriz_modificador2,matriz_blue_explotion,pos)
+                                modificadores2.add(m)
+                        ms_explosion.play()
+                        enemigos.remove(e)
+                # EXPLOSION DE LA NAVE NODRIZA FALTAN LOS SPRITES
+                for e in nodriza_e:
+                    if e.vida <= 0:
+                        e.activate = False
+                        # if len(enemigos) <= 0 or len(enemigos2) <= 0:
+                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
+                        nodriza_e.remove(e)
+                        interludio(display_game)
+                        nivel = 2
+                #######################################################
+                # COLISION DEL JUGADOR CON LOS MODIFICADORES
+                if len(modificadores1) >= 0:
+                    #COLISION DEL JUGADOR CON LOS MODIFICADORES 1
+                    le = pg.sprite.spritecollide(j,modificadores1,False)#no borra cuando hay colision
+                    for r in le:
+                        ms_modBuenos.play()
+                        r.muerte = 1
+                        j.modificador = True
+                        punto_partida_modificador1 = i
+                        j.modificador3 = False
+                if len(modificadores2) >= 0:
+                    # COLISION DEL JUGADOR CON EL MODIFICADOR 2
+                    lV = pg.sprite.spritecollide(j,modificadores2,False)#no borra cuando hay colision
+                    for r in lV:
+                        ms_modBuenos.play()
+                        r.muerte = 1
+                        if r.masvida:
+                            r.masvida = False
+                            j.vidas += 1
+                            vidas_jugador = j.vidas
+                if len(modificadores3) >= 0:
+                    #COLISION DEL JUGADOR CON LOS MODIFICADORES 1
+                    le = pg.sprite.spritecollide(j,modificadores3,False)#no borra cuando hay colision
+                    for r in le:
+                        ms_modMalos.play()
+                        r.muerte = 1
+                        j.modificador3 = True
+                        j.modificador = False
+                # print(j.vidas)
+                # FIN DEL MODIFICADOR
+                    # POR DEFINIR
+
+                ################################################################################################
+                #EXPLOSION ENEMIGOS CON BALAS DE JUGADOR
+                for e in modificadores1:
+                    if e.muerte == 1 and e.col2 == 16:
+                        modificadores1.remove(e)
+
+                # EXPLOSION MODIFICADORES 2
+                for e in modificadores2:
+                    if e.muerte == 1 and e.col2 == 16:
+                        modificadores2.remove(e)
+
+                for e in modificadores3:
+                    if e.muerte == 1 and e.col2 == 12:
+                        modificadores2.remove(e)
+                #################################################
+                #DISMINUIR VIDAS DE SPAWN CON BALAS DE JUGADOR
+                for b in balas_jugador:
+                    ls = pg.sprite.spritecollide(b,spawns,False)#
+                    for r in ls:
+                        r.vidas -= 1
+                        balas_jugador.remove(b)
+
+                # ELIMINACION DE SPAWNS
+                for s in spawns:
+                    if s.vidas <= 0 and s.col2 == 13:
+                        ms_explosion.play()
+                        spawns.remove(s)
+                #######################################################
+                #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
+                for b in balas_enemigos:
+                    ls = pg.sprite.spritecollide(b,jugadores,False)
+                    for r in ls:
+                        balas_enemigos.remove(b)
+                        j.vidas -= 1
+                        if vidas_jugador > 0:
+                            vidas_jugador = j.vidas
+
+                ######################################################
+                # COLISION DE ENEMIGOS CON LA NAVE NODRIZA ALIADA
+                ls = pg.sprite.spritecollide(mothership,enemigos,False)
+                for c in ls:
+                    if c.rect.x <= 150:
+                        enemigos.remove(c)
+                        healt-=10
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+                ls = pg.sprite.spritecollide(mothership,enemigos2,False)
+                for c in ls:
+                    if c.rect.x <= 150:
+                        enemigos2.remove(c)
+                        healt-=10
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+
+                #######################################################
+                # INTERACCION O PUESTA EN ESCENA DEL JEFE FINAL 1
+                for e in nodriza_e:
+                    if e.activate:
+                        mothership2.tempo -= 1
+                        if mothership2.tempo <= 0:
+                            mothership2.tempo = random.randrange(20,50)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e = Rival(matriz_enemigo,matriz_red_explotion,pos)
+                            enemigos.add(e)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e2 = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
+                            enemigos2.add(e2)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                        pass
+
+                #######################################################
+                # ELIMINACION DEL JUGADOR
+                for j in jugadores:
+                    if j.vidas <= 0 and j.col2 == 16:
+                        ms_juego.stop()
+                        ms_menu.stop()
+                        ms_perdio.play()
+                        j.vidas = 3
+                        j.modificador = False
+                        vidas_jugador = j.vidas
+                        pg.display.quit()
+                        display_game = None
+                        display_credits = None
+                        display_controls = None
+                        display_win = None
+                        i=240
+                        subnivel = 0
+                        nivel = 1
+                        healt=1000
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+                        temporizador = 90
+                        milisegundos = 99
+                        temporizador_s = str(temporizador)+":"+str(milisegundos )
+                        tiempo = Messages.render(temporizador_s,True,negro,gris)
+                        j.shield=1000000
+                        shield_s = str(j.shield)
+                        shield_M = Messages.render(shield_s,True,negro,gris)
+                        j.rect.y=centro_y
+                        spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
+                        bloques = pg.sprite.Group()
+                        bloques = load_map(bloques,background)
+                        enemigos = pg.sprite.Group()
+                        balas_enemigos = pg.sprite.Group()
+                        nodriza_a.remove(mothership)
+                        mothership = Mothership(imagen_naveM)
+                        nodriza_a.add(mothership)
+                        nodriza_e.remove(mothership2)
+                        mothership2 = Mothership_E(imagen_naveME,False)
+                        nodriza_e.add(mothership2)
+                        modificadores1 = pg.sprite.Group()
+                        modificadores2 = pg.sprite.Group()
+                        modificadores3 = pg.sprite.Group()
+                        display_endgame = pg.display.set_mode([ancho,alto])
+                        display_endgame.fill(negro)
+
 ##################################################################################################################################################################
             ###################################
             # MOSTRAR EN LOS NIVELES
