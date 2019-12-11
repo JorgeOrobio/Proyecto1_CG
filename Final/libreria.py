@@ -625,7 +625,7 @@ def preludio(pantalla):
 	pantalla.blit(texto6,[90,478])
 
 	pg.display.flip()
-	time.sleep(10)
+	time.sleep(1)
 	pantalla.blit(fondo,[0,0])
 	pantalla.blit(texto7,[100,158])
 	pantalla.blit(texto8,[100,222])
@@ -634,7 +634,7 @@ def preludio(pantalla):
 	pantalla.blit(texto11,[100,414])
 
 	pg.display.flip()
-	time.sleep(10)
+	time.sleep(1)
 	pantalla.blit(fondo,[0,0])
 	pantalla.blit(texto12,[100,94])
 	pantalla.blit(texto13,[100,158])
@@ -645,7 +645,7 @@ def preludio(pantalla):
 	pantalla.blit(texto18,[100,478])
 
 	pg.display.flip()
-	time.sleep(10)
+	time.sleep(1)
 
 	pg.display.flip()
 
