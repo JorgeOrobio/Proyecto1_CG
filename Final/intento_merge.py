@@ -1046,11 +1046,6 @@ if __name__ == '__main__':
                         if oportunidad > 80:
                             mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
                             modificadores3.add(mod)
-                    if s.tempo2 == 0 :
-                        s.tempo2 = random.randrange(300,500)
-                        pos = s.rect.topleft
-                        e = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
-                        enemigos2.add(e)
                 #DISPAROS DE LOS RIVALES
                 for e in enemigos:
                     if e.tempo == 0:
