@@ -3,7 +3,7 @@ from libreria import*
 
 class Rival3(pg.sprite.Sprite):
     """clase rival"""
-    def __init__(self,archivo,archivo2,pos,segimiento):
+    def __init__(self,archivo,archivo2,pos):
         pg.sprite.Sprite.__init__(self)
         self.fila=0
         self.col=0

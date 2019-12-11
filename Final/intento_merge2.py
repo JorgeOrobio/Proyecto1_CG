@@ -27,8 +27,8 @@ def load_map(bloques,background):
     tam_sy, tam_sx = 51,51
     matrix_x,matrix_y=0,0
     i,j=0,0
-    ancho_fondo = 9216
-    alto_fondo = 1344
+    ancho_fondo = 204
+    alto_fondo = 51
     matrix_background = matriz_sprites(background,ancho_fondo,alto_fondo,tam_sx,tam_sy)
     mapaf = open("mapa2n.txt",'r')
     mapaf = mapaf.read()
@@ -309,7 +309,7 @@ if __name__ == '__main__':
 
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
-    background = pg.image.load("Sprites/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    background = pg.image.load("Sprites/Efectos/asteroides.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     background2 = pg.image.load("Sprites/Mapa/mapa_sf.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     ancho_fondo = 9216
     bloques = load_map(bloques,background)
