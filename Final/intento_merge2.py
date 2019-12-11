@@ -3,6 +3,7 @@ from libreria import*
 from Personaje2 import*
 from Spawn import *
 from Bala import*
+from Bala_Seguidora import*
 from Mothership import *
 from Objetos import *
 from Enemigos import *
@@ -15,7 +16,8 @@ import time
 import random
 import sys
 
-
+def menu_options():
+    pass
 
 def load_map(bloques,background):
 ##################################################################################################################################################################
@@ -74,32 +76,190 @@ def create_spawns():
     vidas_spawn = s.vidas
     return spawns,vidas_spawn,matriz_spawn_enemigo,matriz_red_explotion
 
+
+def load_map2(bloques,background):
+##################################################################################################################################################################
+    # IMAGENES DE BLOQUES Y FONDO
+    # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
+    # APARTADO DE BLOQUES
+    tam_sy, tam_sx = 64,64
+    matrix_x,matrix_y=0,0
+    i,j=0,0
+    ancho_fondo = 9216
+    alto_fondo = 1344
+    matrix_background = matriz_sprites(background,ancho_fondo,alto_fondo,tam_sx,tam_sy)
+    mapaf = open("mapa2.txt",'r')
+    mapaf = mapaf.read()
+    mapaf=mapaf.split('\n')
+    # AGREGANDO BLOQUES DEL MAPA
+    for filas in mapaf:
+        for ele in filas:
+            # AQUI PUEDE AGREGAR LA CONDICION PARA AGREGAR BLOQUES
+            if ele == "#":
+                matrix_x,matrix_y = 0,0
+                b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
+                bloques.add(b)
+            if ele == ".":
+                matrix_x,matrix_y = 0,4
+            # display_game.blit(matrix_background[x][matrix_y],[i,j])
+            i+=tam_sx
+        i=0
+        j+=tam_sy
+    return bloques
+##################################################################################################################################################################
+    pass
+
+def create_spawns2():
+    spawns2 = pg.sprite.Group()
+    spawns3 = pg.sprite.Group()
+    ##SPAWN DE LOS ENEMIGOS2
+    direccion_imagen_spawn_enemigo2 = "Sprites/Personaje/enemigos/spawn2.png"
+    imagen_spawn_enemigo2 = pg.image.load(direccion_imagen_spawn_enemigo2)
+    matriz_spawn_enemigo2 =matriz_sprites(imagen_spawn_enemigo2,128,64,64,64)
+
+    dir_red_explotion2="Sprites/Efectos/Explosion_red.png"
+    imagen_red_explotion2=pg.image.load(dir_red_explotion2)
+    matriz_red_explotion2=matriz_sprites(imagen_red_explotion2,896,64,64,64)
+
+    #SPAWN ENEMIGOS 3
+    direccion_imagen_spawn_enemigo3 = "Sprites/Personaje/enemigos/spawn3.png"
+    imagen_spawn_enemigo3 = pg.image.load(direccion_imagen_spawn_enemigo3)
+    matriz_spawn_enemigo3 =matriz_sprites(imagen_spawn_enemigo3,128,64,64,64)
+
+    dir_red_explotion3="Sprites/Efectos/Explosion_red.png"
+    imagen_red_explotion3=pg.image.load(dir_red_explotion3)
+    matriz_red_explotion3=matriz_sprites(imagen_red_explotion3,896,64,64,64)
+
+    #CREACION SPAWN
+    posx_spawns2 = 980
+    posy_spawns2 = 130
+    posx_spawns3 = 980
+    posy_spawns3 = 60
+    esp_entre = 40
+    s2 = Spawn2([posx_spawns2,posy_spawns2],matriz_spawn_enemigo2,matriz_red_explotion2)
+    s3 = Spawn3([posx_spawns3,posy_spawns3],matriz_spawn_enemigo3,matriz_red_explotion3)
+    ##aumentar posx_spawns para que el spawn quede fuera de la pantalla
+    for i in range(posy_spawns2,alto - s2.rect.height-esp_entre,s2.rect.height+esp_entre):
+        s2 = Spawn2([posx_spawns2,posy_spawns2],matriz_spawn_enemigo2,matriz_red_explotion2)
+        spawns2.add(s2)
+        posy_spawns2 += s2.rect.height+esp_entre
+    vidas_spawn2 = s2.vidas
+    return spawns2,vidas_spawn2,matriz_spawn_enemigo2,matriz_red_explotion2,spawns3,vidas_spawn3,matriz_spawn_enemigo3,matriz_red_explotion3
+
+
+
 def clean_group(grupo):
     for g in grupo:
         grupo.remove(g)
     return grupo
     pass
 
-def animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,reloj):
-    fin_animacion = False
-    while  not fin_animacion:
-        while healt >= 0:
-            healt-=1
-            Messages = pg.font.Font(None,32)
-            healt_s = str(healt)
-            hp = Messages.render(healt_s,True,negro,gris)
-            display_game.blit(hp,[100,0])
+def animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel):
+    print("animacion")
+    while healt >= 0:
+        healt-=1
+        Messages = pg.font.Font(None,32)
+        healt_s = str(healt)
+        hp = Messages.render(healt_s,True,negro,gris)
+        hp_n =Messages.render(healt_s,True,negro,negro)
+        display_game.blit(hp_n,[100,0])
+        display_game.blit(hp,[100,0])
+        pg.display.flip()
+        reloj.tick(30)
+    print("1")
+    for e in nodriza_a:
+        while e.rect.x <= 500 - e.rect.width:
+            e.rect.x += 10
+            display_game.blit(background2,[i,subnivel])
+            jugadores.draw(display_game)
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.draw(display_game)
+            nodriza_e.draw(display_game)
             pg.display.flip()
             reloj.tick(30)
-        for e in nodriza_a:
-            while e.rect.x <= 500 - e.rect.width:
-                e.rect.x += 10
-                nodriza_a.draw(display_game)
-                reloj.tick(30)
-                pg.display.flip()
-        dir_nuclear = "Sprites/Efectos/misil.jpg"
-        imag_nuclear = pg.image.load(dir_nuclear)
-        b = Bala()
+    print("2")
+    time.sleep(2)
+    for e in nodriza_a:
+        while e.rect.x >= 300 - e.rect.width:
+            e.rect.x -= 10
+            display_game.blit(background2,[i,subnivel])
+            jugadores.draw(display_game)
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+    nuclear = pg.sprite.Group()
+    dir_nuclear = "Sprites/Efectos/misil.png"
+    imag_nuclear = pg.image.load(dir_nuclear)
+    matriz_nuclear = matriz_sprites(imag_nuclear,150,150,150,150)
+    dir_exploma = "Sprites/Efectos/explosion_madre.png"
+    imag_exploma = pg.image.load(dir_exploma)
+    matriz_exploma = matriz_sprites(imag_exploma,8080,1024,1010,1024)
+    print("3")
+    for e in nodriza_e:
+        bomba = Bala(e.rect.center,matriz_nuclear)
+        bomba.velx = -10
+        nuclear.add(bomba)
+        while(bomba.rect.x >= 50):
+            nuclear.update()
+            display_game.blit(background2,[i,subnivel])
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.update()
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+        print("4")
+    for n in nodriza_a:
+        n.animacion = True
+        n.velx = -2
+        for i in range(5):
+            n.explosion(matriz_exploma,i)
+            display_game.blit(background2,[i,subnivel])
+            enemigos.draw(display_game)
+            enemigos2.draw(display_game)
+            modificadores3.draw(display_game)
+            nodriza_a.update()
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            # nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+    for e in nodriza_a:
+        while e.rect.x >= -e.rect.width:
+            e.rect.x -= 10
+            display_game.blit(background2,[i,subnivel])
+            # nodriza_a.draw(display_game)
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            # nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+    for e in nodriza_e:
+        while e.rect.x <= ancho:
+            e.rect.x += 10
+            display_game.blit(background2,[i,subnivel])
+            # nodriza_a.draw(display_game)
+            jugadores.draw(display_game)
+            nodriza_a.draw(display_game)
+            # nuclear.draw(display_game)
+            nodriza_e.draw(display_game)
+            pg.display.flip()
+            reloj.tick(30)
+
+
+
         ####################################################################
         # CUADRAR ANIMACION DE LA NAVE ENEMIGA CON LA BOMBA NUCLEAR
         ####################################################################
@@ -124,12 +284,17 @@ if __name__ == '__main__':
     nodriza_a = pg.sprite.Group()
     enemigos = pg.sprite.Group()
     enemigos2 = pg.sprite.Group()
+    enemigos3 = pg.sprite.Group()
+    enemigos4 = pg.sprite.Group()
     balas_enemigos = pg.sprite.Group()
     nodriza_e = pg.sprite.Group()
     spawns = pg.sprite.Group()
+    spawns2 = pg.sprite.Group()
+    spawns3 = pg.sprite.Group()
     modificadores1 = pg.sprite.Group()
     modificadores2 = pg.sprite.Group()
     modificadores3 = pg.sprite.Group()
+
 ##################################################################################################################################################################
     # IMAGENES DE BLOQUES Y FONDO
     background = pg.image.load("Sprites/Mapa/mapa2.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
@@ -278,7 +443,7 @@ if __name__ == '__main__':
     ms_menu = pg.mixer.Sound("Musica/menu.ogg")
     ms_perdio = pg.mixer.Sound("Musica/NoHope.ogg")
     ms_disparo_j = pg.mixer.Sound("Musica/laser_jugador.ogg")
-    ms_disparo_e = pg.mixer.Sound("Musica/lases_enemigo.ogg")
+    ms_disparo_e = pg.mixer.Sound("Musica/laser_enemigo.ogg")
     ms_modBuenos = pg.mixer.Sound("Musica/powerUp1.ogg")
     ms_modMalos =  pg.mixer.Sound("Musica/lowDown.ogg")
     ms_explosion = pg.mixer.Sound("Musica/explosion.ogg")
@@ -307,12 +472,12 @@ if __name__ == '__main__':
             p5,p6 = menu_creditos(display_credits,p5,p6)
         if display_endgame != None:
             p8,p9 = endgame(display_endgame,p8,p9)
-        if display_controls != None:# CAMBIAR LAS OPCIONES CUANDO SE NOS OCURRA ALGO
-            p13,p14 = controls(display_controls,p13,p14)
         if display_pause != None:
             p10,p11 = pausegame(display_pause,p10,p11)
         if display_win != None:
             p12 = win(display_win,p12)
+        if display_controls != None:# CAMBIAR LAS OPCIONES CUANDO SE NOS OCURRA ALGO
+            p13,p14 = controls(display_controls,p13,p14)
         for event in event:
             if event.type == pg.QUIT:
                 end = True
@@ -353,9 +518,9 @@ if __name__ == '__main__':
                 pg.display.quit()
                 ms_menu.stop()
                 ms_perdio.stop()
+                ms_juego.stop()
+                mensaje_de_introduccion = False
                 # ms_creditos.stop()
-                ms_juego.play()
-                ms_juego.set_volume(0.4)
                 display = None
                 display_credits = None
                 display_controls = None
@@ -380,21 +545,6 @@ if __name__ == '__main__':
                 display = pg.display.set_mode([ancho,alto])
                 display.fill(negro)
                 p5 = False
-                pg.display.flip()
-            #OPCIONES CONTROLES
-            if event.type == pg.MOUSEBUTTONDOWN and p13:
-                ms_click.play()
-                ms_click.set_volume(0.2)
-                pg.display.quit()
-                display_game = None
-                display_credits = None
-                display_controls = None
-                display_endgame = None
-                display_pause = None
-                display_win = None
-                display = pg.display.set_mode([ancho,alto])
-                display.fill(negro)
-                p13 = False
                 pg.display.flip()
             if event.type == pg.MOUSEBUTTONDOWN and p8:# PERDIO Y VA A REINTENTAR
                 ms_perdio.stop()
@@ -489,6 +639,20 @@ if __name__ == '__main__':
                 display.fill(negro)
                 p11 = False
                 pg.display.flip()
+            if event.type == pg.MOUSEBUTTONDOWN and p13:
+                ms_click.play()
+                ms_click.set_volume(0.2)
+                pg.display.quit()
+                display_game = None
+                display_credits = None
+                display_controls = None
+                display_endgame = None
+                display_pause = None
+                display_win = None
+                display = pg.display.set_mode([ancho,alto])
+                display.fill(negro)
+                p13 = False
+                pg.display.flip()
             # OPCIONES DE CREDITOS
             # OPCIONES DEL MENU DE OPCIONES XD
             if display_game != None:
@@ -576,6 +740,16 @@ if __name__ == '__main__':
         # LIMPIEZA DE OBJETOS EN TODOS LOS NIVELES
         ###################################
         if display_game != None:
+            ###################################
+            # TEXTO DEL PRELUDIO
+            ###################################
+            if not mensaje_de_introduccion:
+                preludio(display_game)
+                mensaje_de_introduccion = True
+                ms_juego.play()
+                ms_juego.set_volume(0.4)
+            ###################################
+
             # CAJA DE CONTROL
             # LIMPIEZA DE BALAS AL SALIR DE PANTALLA
             for b in balas_jugador:
@@ -632,9 +806,9 @@ if __name__ == '__main__':
                         e.tempo = random.randrange(10)
                         pos = e.rect.topleft
                         pos1 = [pos[0],pos[1]+20]
-                        e = Bala(pos1,matriz_bala_enemigo,5)
+                        pos2 = [j.rect.x,j.rect.y]
+                        e = Bala_seguidora(pos1,pos2,matriz_bala_enemigo,5)
                         balas_enemigos.add(e)
-                        e.velx = -30
                         ms_disparo_e.play()
 
                 ############################################################
@@ -668,7 +842,7 @@ if __name__ == '__main__':
                                 pos = e.rect.topleft
                                 m = Skin(matriz_modificador1,matriz_blue_explotion,pos)
                                 modificadores1.add(m)
-                        # ms_explosion.play()
+                        ms_explosion.play()
                         enemigos2.remove(e)
                 ##EXPLOSION ENEMIGOS CON BALAS DE JUGADOR Y CREACION DE LOS MODIFICADORES 2
                 for e in enemigos:
@@ -680,17 +854,17 @@ if __name__ == '__main__':
                                 pos = e.rect.topleft
                                 m = Mas1Vida(matriz_modificador2,matriz_blue_explotion,pos)
                                 modificadores2.add(m)
-                        # ms_explosion.play()
+                        ms_explosion.play()
                         enemigos.remove(e)
                 # EXPLOSION DE LA NAVE NODRIZA FALTAN LOS SPRITES
                 for e in nodriza_e:
                     if e.vida <= 0:
-                        print("vida",e.vida)
                         e.activate = False
-                        print("enemigos: ",len(enemigos),"\n enemigos",len(enemigos2))
                         # if len(enemigos) <= 0 or len(enemigos2) <= 0:
-                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,background2,healt,reloj)
+                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
                         nodriza_e.remove(e)
+                        interludio(display_game)
+                        nivel = 2
                 #######################################################
                 # COLISION DEL JUGADOR CON LOS MODIFICADORES
                 if len(modificadores1) >= 0:
@@ -749,7 +923,7 @@ if __name__ == '__main__':
                 # ELIMINACION DE SPAWNS
                 for s in spawns:
                     if s.vidas <= 0 and s.col2 == 13:
-                        # ms_explosion.play()
+                        ms_explosion.play()
                         spawns.remove(s)
                 #######################################################
                 #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
@@ -841,6 +1015,271 @@ if __name__ == '__main__':
                         modificadores3 = pg.sprite.Group()
                         display_endgame = pg.display.set_mode([ancho,alto])
                         display_endgame.fill(negro)
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+            ###################################
+            # CONTROLES DEL NIVEL 2
+            ###################################
+            if subnivel == -64*11 and nivel == 2:
+                ###################################
+                # ENTRADA DE EL NUEVO MAPA
+                ###################################
+                ###################################
+                # ENTRADA DE SPAWNS ENEMIGOS2
+
+                ###################################
+                ###################################
+                # ENTRADA DE SPAWNS ENEMIGOS
+                ###################################
+
+                ###################################
+                # ENTRADA DE ENEMIGOS
+                ###################################
+
+                #CREACION DE LOS RIVALES DESDE EL SPAWN
+                for s in spawns2:
+                    if s.tempo == 0 :
+                        s.tempo = random.randrange(50,100)
+                        pos = s.rect.topleft
+                        e = Rival3(matriz_enemigo,matriz_red_explotion,pos)
+                        enemigos3.add(e)
+                        oportunidad = random.randrange(100)
+                        if oportunidad > 80:
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                #CREACION DE LOS  OTROS RIVALES DESDE EL SPAWN
+                for s in spawns3:
+                    if s.tempo == 0 :
+                        s.tempo = random.randrange(50,150)
+                        pos = s.rect.topleft
+                        e = Rival(matriz_enemigo,matriz_red_explotion,pos)
+                        enemigos.add(e)
+                        oportunidad = random.randrange(100)
+                        if oportunidad > 80:
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                    if s.tempo2 == 0 :
+                        s.tempo2 = random.randrange(300,500)
+                        pos = s.rect.topleft
+                        e = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
+                        enemigos2.add(e)
+                #DISPAROS DE LOS RIVALES
+                for e in enemigos:
+                    if e.tempo == 0:
+                        e.tempo = random.randrange(10)
+                        pos = e.rect.topleft
+                        pos1 = [pos[0],pos[1]+20]
+                        pos2 = [j.rect.x,j.rect.y]
+                        e = Bala_seguidora(pos1,pos2,matriz_bala_enemigo,5)
+                        balas_enemigos.add(e)
+                        ms_disparo_e.play()
+
+                ############################################################
+                #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS
+                for b in balas_jugador:
+                    le = pg.sprite.spritecollide(b,enemigos,False)#no borra cuando hay colision
+                    for r in le:
+                        r.muerte = 1
+                        balas_jugador.remove(b)
+                #COLISION DE LAS BALAS DEL JUGADOR CON LOS ENEMIGOS2
+                for b in balas_jugador:
+                    le = pg.sprite.spritecollide(b,enemigos2,False)#no borra cuando hay colision
+                    for r in le:
+                        r.muerte = 1
+                        balas_jugador.remove(b)
+                # COLISION DE LAS BALAS DEL JUGADOR CON LA NAVE NODRIZA
+                for b in balas_jugador:
+                    lm = pg.sprite.spritecollide(b,nodriza_e,False)
+                    for r in lm:
+                        r.vida -= 1
+                        balas_jugador.remove(b)
+
+                ################################################################
+                #EXPLOSION ENEMIGOS CON BALAS DE JUGADOR Y CREACION DE LOS MODIFICADORES 1
+                for e in enemigos2:
+                    if e.muerte == 1 and e.col2 == 12:
+                        if not(e.luck):
+                            e.luck = True
+                            luck = random.randrange(100)
+                            if luck < probMod1:
+                                pos = e.rect.topleft
+                                m = Skin(matriz_modificador1,matriz_blue_explotion,pos)
+                                modificadores1.add(m)
+                        ms_explosion.play()
+                        enemigos2.remove(e)
+                ##EXPLOSION ENEMIGOS CON BALAS DE JUGADOR Y CREACION DE LOS MODIFICADORES 2
+                for e in enemigos:
+                    if e.muerte == 1 and e.col2 == 12:
+                        if not(e.luck):
+                            e.luck = True
+                            luck = random.randrange(100)
+                            if luck < probMod2:
+                                pos = e.rect.topleft
+                                m = Mas1Vida(matriz_modificador2,matriz_blue_explotion,pos)
+                                modificadores2.add(m)
+                        ms_explosion.play()
+                        enemigos.remove(e)
+                # EXPLOSION DE LA NAVE NODRIZA FALTAN LOS SPRITES
+                for e in nodriza_e:
+                    if e.vida <= 0:
+                        e.activate = False
+                        # if len(enemigos) <= 0 or len(enemigos2) <= 0:
+                        animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
+                        nodriza_e.remove(e)
+                        interludio(display_game)
+                        nivel = 2
+                #######################################################
+                # COLISION DEL JUGADOR CON LOS MODIFICADORES
+                if len(modificadores1) >= 0:
+                    #COLISION DEL JUGADOR CON LOS MODIFICADORES 1
+                    le = pg.sprite.spritecollide(j,modificadores1,False)#no borra cuando hay colision
+                    for r in le:
+                        ms_modBuenos.play()
+                        r.muerte = 1
+                        j.modificador = True
+                        punto_partida_modificador1 = i
+                        j.modificador3 = False
+                if len(modificadores2) >= 0:
+                    # COLISION DEL JUGADOR CON EL MODIFICADOR 2
+                    lV = pg.sprite.spritecollide(j,modificadores2,False)#no borra cuando hay colision
+                    for r in lV:
+                        ms_modBuenos.play()
+                        r.muerte = 1
+                        if r.masvida:
+                            r.masvida = False
+                            j.vidas += 1
+                            vidas_jugador = j.vidas
+                if len(modificadores3) >= 0:
+                    #COLISION DEL JUGADOR CON LOS MODIFICADORES 1
+                    le = pg.sprite.spritecollide(j,modificadores3,False)#no borra cuando hay colision
+                    for r in le:
+                        ms_modMalos.play()
+                        r.muerte = 1
+                        j.modificador3 = True
+                        j.modificador = False
+                # print(j.vidas)
+                # FIN DEL MODIFICADOR
+                    # POR DEFINIR
+
+                ################################################################################################
+                #EXPLOSION ENEMIGOS CON BALAS DE JUGADOR
+                for e in modificadores1:
+                    if e.muerte == 1 and e.col2 == 16:
+                        modificadores1.remove(e)
+
+                # EXPLOSION MODIFICADORES 2
+                for e in modificadores2:
+                    if e.muerte == 1 and e.col2 == 16:
+                        modificadores2.remove(e)
+
+                for e in modificadores3:
+                    if e.muerte == 1 and e.col2 == 12:
+                        modificadores2.remove(e)
+                #################################################
+                #DISMINUIR VIDAS DE SPAWN CON BALAS DE JUGADOR
+                for b in balas_jugador:
+                    ls = pg.sprite.spritecollide(b,spawns,False)#
+                    for r in ls:
+                        r.vidas -= 1
+                        balas_jugador.remove(b)
+
+                # ELIMINACION DE SPAWNS
+                for s in spawns:
+                    if s.vidas <= 0 and s.col2 == 13:
+                        ms_explosion.play()
+                        spawns.remove(s)
+                #######################################################
+                #COLISION DE LAS BALAS DE LOS ENEMIGOS CON EL JUGADOR
+                for b in balas_enemigos:
+                    ls = pg.sprite.spritecollide(b,jugadores,False)
+                    for r in ls:
+                        balas_enemigos.remove(b)
+                        j.vidas -= 1
+                        if vidas_jugador > 0:
+                            vidas_jugador = j.vidas
+
+                ######################################################
+                # COLISION DE ENEMIGOS CON LA NAVE NODRIZA ALIADA
+                ls = pg.sprite.spritecollide(mothership,enemigos,False)
+                for c in ls:
+                    if c.rect.x <= 150:
+                        enemigos.remove(c)
+                        healt-=10
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+                ls = pg.sprite.spritecollide(mothership,enemigos2,False)
+                for c in ls:
+                    if c.rect.x <= 150:
+                        enemigos2.remove(c)
+                        healt-=10
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+
+                #######################################################
+                # INTERACCION O PUESTA EN ESCENA DEL JEFE FINAL 1
+                for e in nodriza_e:
+                    if e.activate:
+                        mothership2.tempo -= 1
+                        if mothership2.tempo <= 0:
+                            mothership2.tempo = random.randrange(20,50)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e = Rival(matriz_enemigo,matriz_red_explotion,pos)
+                            enemigos.add(e)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e2 = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
+                            enemigos2.add(e2)
+                            pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            mod = Slow(matriz_modificador3,matriz_red_explotion,pos)
+                            modificadores3.add(mod)
+                        pass
+
+                #######################################################
+                # ELIMINACION DEL JUGADOR
+                for j in jugadores:
+                    if j.vidas <= 0 and j.col2 == 16:
+                        ms_juego.stop()
+                        ms_menu.stop()
+                        ms_perdio.play()
+                        j.vidas = 3
+                        j.modificador = False
+                        vidas_jugador = j.vidas
+                        pg.display.quit()
+                        display_game = None
+                        display_credits = None
+                        display_controls = None
+                        display_win = None
+                        i=240
+                        subnivel = 0
+                        nivel = 1
+                        healt=1000
+                        healt_s = str(healt)
+                        hp = Messages.render(healt_s,True,negro,gris)
+                        temporizador = 90
+                        milisegundos = 99
+                        temporizador_s = str(temporizador)+":"+str(milisegundos )
+                        tiempo = Messages.render(temporizador_s,True,negro,gris)
+                        j.shield=1000000
+                        shield_s = str(j.shield)
+                        shield_M = Messages.render(shield_s,True,negro,gris)
+                        j.rect.y=centro_y
+                        spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
+                        bloques = pg.sprite.Group()
+                        bloques = load_map(bloques,background)
+                        enemigos = pg.sprite.Group()
+                        balas_enemigos = pg.sprite.Group()
+                        nodriza_a.remove(mothership)
+                        mothership = Mothership(imagen_naveM)
+                        nodriza_a.add(mothership)
+                        nodriza_e.remove(mothership2)
+                        mothership2 = Mothership_E(imagen_naveME,False)
+                        nodriza_e.add(mothership2)
+                        modificadores1 = pg.sprite.Group()
+                        modificadores2 = pg.sprite.Group()
+                        modificadores3 = pg.sprite.Group()
+                        display_endgame = pg.display.set_mode([ancho,alto])
+                        display_endgame.fill(negro)
+
 ##################################################################################################################################################################
             ###################################
             # MOSTRAR EN LOS NIVELES
@@ -940,51 +1379,7 @@ if __name__ == '__main__':
                             time.sleep(5)
                             mensaje_primer_jefe = True
                         mothership2.activate = True
-                        #######################################################
-                        #######################################################
-                        #######################################################
-                        #######################################################
 
-                        #############################################################################################################
-                        # INICIALIZAR TODAS LAS VARIABLES
-                        # WIN CODE
-                        # pg.display.quit()
-                        # display_game = None
-                        # display_credits = None
-                        # display_controls = None
-                        # display_pause= None
-                        # display_endgame= None
-                        # # ms_juego.stop()
-                        # # ms_perdio.stop()
-                        # # msfondo.stop()
-                        # # ms_creditos.play()
-                        # # ms_creditos.set_volume(0.3)
-                        # i=240
-                        # subnivel = 0
-                        # nivel = 1
-                        # healt=1000
-                        # healt_s = str(healt)
-                        # hp = Messages.render(healt_s,True,negro,gris)
-                        # j.shield=1000000
-                        # shield_s = str(j.shield)
-                        # shield_M = Messages.render(shield_s,True,negro,gris)
-                        # j.rect.y=centro_y
-                        # spawns,vidas_spawn,matriz_spawn_enemigo,matriz_spawn_enemigo_explosion = create_spawns()
-                        # bloques = pg.sprite.Group()
-                        # bloques = load_map(bloques,background)
-                        # enemigos = pg.sprite.Group()
-                        # balas_enemigos = pg.sprite.Group()
-                        # nodriza_a.remove(mothership)
-                        # mothership = Mothership(imagen_naveM)
-                        # nodriza_a.add(mothership)
-                        # nodriza_e.remove(mothership2)
-                        # mothership2 = Mothership_E(imagen_naveME)
-                        # nodriza_e.add(mothership2)
-                        # modificadores1 = pg.sprite.Group()
-                        # modificadores2 = pg.sprite.Group()
-                        # modificadores3 = pg.sprite.Group()
-                        # display_win = pg.display.set_mode([ancho,alto])
-                        # display_win.fill(negro)
                 if subnivel == 0:
                     bloques.update()
                 balas_jugador.update()
