@@ -24,25 +24,37 @@ def load_map(bloques,background):
     # IMAGENES DE BLOQUES Y FONDO
     # background = pg.image.load("/home/nicolas/github/Proyecto1_CG/Sprites/Proyecto1/Mapa/background.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     # APARTADO DE BLOQUES
-    tam_sy, tam_sx = 64,64
+    tam_sy, tam_sx = 51,51
     matrix_x,matrix_y=0,0
     i,j=0,0
     ancho_fondo = 9216
     alto_fondo = 1344
     matrix_background = matriz_sprites(background,ancho_fondo,alto_fondo,tam_sx,tam_sy)
-    mapaf = open("mapa.txt",'r')
+    mapaf = open("mapa2n.txt",'r')
     mapaf = mapaf.read()
     mapaf=mapaf.split('\n')
     # AGREGANDO BLOQUES DEL MAPA
     for filas in mapaf:
         for ele in filas:
             # AQUI PUEDE AGREGAR LA CONDICION PARA AGREGAR BLOQUES
-            if ele == "#":
+            if ele == "&":
                 matrix_x,matrix_y = 0,0
                 b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
                 bloques.add(b)
+            if ele == "#":
+                matrix_x,matrix_y = 1,0
+                b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
+                bloques.add(b)
+            if ele == "*":
+                matrix_x,matrix_y = 2,0
+                b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
+                bloques.add(b)
+            if ele == "$":
+                matrix_x,matrix_y = 3,0
+                b = Bloque(matrix_background[matrix_x][matrix_y],[i,j])
+                bloques.add(b)
             if ele == ".":
-                matrix_x,matrix_y = 0,4
+                matrix_x,matrix_y = 4,0
             # display_game.blit(matrix_background[x][matrix_y],[i,j])
             i+=tam_sx
         i=0
