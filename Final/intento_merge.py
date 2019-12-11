@@ -1036,11 +1036,19 @@ if __name__ == '__main__':
             # CONTROLES DEL NIVEL 2
             ###################################
 
+<<<<<<< HEAD
             # if subnivel == 0 and nivel == 2:
                 ###################################
                 # ENTRADA DE EL NUEVO MAPA
                 ###################################
                 # bloques = load_map2(bloques,background3)
+=======
+            if subnivel == 0 and nivel == 2:
+                ###################################
+                # ENTRADA DE EL NUEVO MAPA
+                ###################################
+                bloques = load_map2(bloques,background3)
+>>>>>>> 60021f4f3a5ff91ed0b32aeba53de245fcec563c
             if subnivel == -64*11 and nivel == 2:
                 ###################################
                 # ENTRADA DE SPAWNS ENEMIGOS
