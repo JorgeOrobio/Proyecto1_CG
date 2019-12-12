@@ -18,7 +18,7 @@ class Rival3(pg.sprite.Sprite):
         self.limit = pos[0]
         self.rect.x=pos[0]
         self.rect.y=pos[1]
-        self.velx=-5
+        self.velx=-3
         self.vely=0
         self.tempo=random.randrange(150)
         self.luck = False
@@ -33,8 +33,23 @@ class Rival3(pg.sprite.Sprite):
         self.tempo -=1
         self.image = self.matriz[self.col][self.fila]
 
+
+        # LIMITES DE PANTALLA PERSONAJE
+        if self.rect.x > (ancho - self.rect.width):
+            self.rect.x = ancho - self.rect.width
+            self.velx= - self.velx
+        if self.rect.x < 0:
+            self.rect.x=0
+            self.velx= -self.velx
+        if self.rect.y > (alto - self.rect.height):
+            self.rect.y = alto - self.rect.height
+            self.vely = -self.vely
+        if self.rect.y < 0:
+            self.rect.y=0
+            self.vely = -self.vely
+
         if self.muerte == 0:
-            if self.col >=6:
+            if self.col >=1:
                 self.col=0
             else:
                 self.col+=1

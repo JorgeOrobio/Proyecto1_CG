@@ -4,18 +4,29 @@ from libreria import*
 
 class Bloque(pg.sprite.Sprite):
     """clase bloque"""
-    def __init__(self,imagen,pos):
+    def __init__(self,imagen,pos,archivo= None):
         pg.sprite.Sprite.__init__(self)
         self.image = imagen
+        self.fila2=0
+        self.col2=0
+        self.matriz2 = archivo
         self.rect=self.image.get_rect()
         self.pos = pos
         self.rect.x=pos[0]+240
         self.rect.y=pos[1]
         self.velx=-8
         self.error=32
-        # self.grito_arc="/home/jorge/Escritorio/CGrafica/Music/Wilhelm_Scream.ogg"
-        # self.grito = pg.mixer.Sound(self.grito_arc)
+        self.luck = False
+        self.muerte = 0
+
     def update(self):
+        if self.matriz2 != None:
+            if self.muerte == 1:
+                self.image = self.matriz2[self.col2][self.fila2]
+                if self.col2 >=5:
+                    self.col2=0
+                else:
+                    self.col2+=1
         self.rect.x+=self.velx
 
     def OnLimit(self,pos_jugador):

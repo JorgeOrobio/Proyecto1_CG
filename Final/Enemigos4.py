@@ -32,20 +32,34 @@ class Rival4(pg.sprite.Sprite):
         # MOVIMIENTO COMO SU VELOCIDAD SEAN ALEATORIOS PARA AGREGAR MAS DIFICULTAD
         # AL JUEGO ADEMAS DE QUE ESTOS ENEMIGOS TAMBIEN VAN A PODER DISPARAR
         # PROYECTILES, PERO ESTOS NO VAN A SEGUIR AL JUGADOR
-        self.velx=random.randrange(-10,10)
-        self.vely=random.randrange(-10,10)
         self.rect.x += self.velx
         self.rect.y += self.vely
         self.tempo -=1
         self.tempoy1 -=1
         self.tempoy2 -=1
 
+        if self.rect.x > (ancho - self.rect.width):
+            self.rect.x = ancho - self.rect.width
+            self.velx= - self.velx
+        if self.rect.x < 0:
+            self.rect.x=0
+            self.velx= -self.velx
+        if self.rect.y > (alto - self.rect.height):
+            self.rect.y = alto - self.rect.height
+            self.vely = -self.vely
+        if self.rect.y < 0:
+            self.rect.y=0
+            self.vely = -self.vely
+
         if self.tempoy1 <=0:
             self.tempoy1=random.randrange(100)
             self.vely = 10
+            self.velx=random.randrange(-5,5)
         elif self.tempoy2 <=0:
             self.tempoy2=random.randrange(100)
             self.vely = -self.vely
+            self.vely=random.randrange(-5,5)
+
 
         # LIMITES DE PANTALLA ENEMIGO
         if self.rect.y > (alto - self.rect.height):
@@ -59,7 +73,7 @@ class Rival4(pg.sprite.Sprite):
 
         if self.muerte == 0:
             self.image = self.matriz[self.col][self.fila]
-            if self.col >=4:
+            if self.col >=1:
                 self.col=0
             else:
                 self.col+=1
@@ -70,4 +84,3 @@ class Rival4(pg.sprite.Sprite):
                 self.col2=0
             else:
                 self.col2+=1
-                print(self.col2)
