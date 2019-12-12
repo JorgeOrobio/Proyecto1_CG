@@ -416,7 +416,7 @@ if __name__ == '__main__':
     matriz_bala_enemigo=matriz_sprites(imagen_bala_enemigo,304,38,38,38)
 
     # MISIL ENEMIGO
-    direccion_imagen_misil_enemigo="Sprites/Efectos/misil2.png"
+    direccion_imagen_misil_enemigo="Sprites/Efectos/misilc.png"
     imagen_misil_enemigo=pg.image.load(direccion_imagen_misil_enemigo)
     matriz_misil_enemigo=matriz_sprites(imagen_misil_enemigo,80,40,40,40)
 
@@ -490,6 +490,7 @@ if __name__ == '__main__':
     # FINALIZADORES DE ETAPAS(JUEGO, PAUSA, MENU), Y VARIABLES
     mensaje_de_introduccion = False
     mensaje_primer_jefe = False
+    puntaje = 0
     cargar_mapa2 = True
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
     subnivel=0
@@ -909,11 +910,15 @@ if __name__ == '__main__':
                             e.activate = False
                             # if len(enemigos) <= 0 or len(enemigos2) <= 0:
                             animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
-                            nodriza_e.remove(e)
                             interludio(display_game)
                             nivel = 2
-                            e.vida = 2000
-                            vida_total_nod = 2000
+                            i = 0
+                            puntaje += temporizador
+                            temporizador = 90
+                            subnivel = 0
+                            e.vida = 1000
+                            vida_nodriza = 1000
+                            vida_total_nod = 1000
                     #######################################################
                     # COLISION DEL JUGADOR CON LOS MODIFICADORES
                     if len(modificadores1) >= 0:
@@ -1078,6 +1083,7 @@ if __name__ == '__main__':
                     # ENTRADA DE EL NUEVO MAPA
                     ###################################
                     bloques,matriz_explosion = load_map2(bloques,background3)
+                    cargar_mapa2 = True
                 if subnivel == 0:
                     #COLISION DE LAS BALAS DEL JUGADOR CON LOS BLOQUES
                     for b in balas_jugador:
@@ -1188,6 +1194,12 @@ if __name__ == '__main__':
                         for r in le:
                             r.muerte = 1
                             balas_jugador.remove(b)
+                    #COLISION DE LAS BALAS DEL JUGADOR CON LOS Misiles
+                    for b in balas_jugador:
+                        le = pg.sprite.spritecollide(b,enemigos4,False)#no borra cuando hay colision
+                        for r in le:
+                            r.muerte = 1
+                            balas_jugador.remove(b)
                     # COLISION DE LAS BALAS DEL JUGADOR CON LA NAVE NODRIZA
                     for b in balas_jugador:
                         lm = pg.sprite.spritecollide(b,nodriza_e,False)
@@ -1260,10 +1272,22 @@ if __name__ == '__main__':
                         if e.vida <= 0:
                             e.activate = False
                             # if len(enemigos) <= 0 or len(enemigos2) <= 0:
-                            animacion_final_nivel_1(display_game,nodriza_a,nodriza_e,jugadores,modificadores3,background2,healt,reloj,i,subnivel)
+                            puntaje += temporizador
+                            ms = "Puntaje: "+str(puntaje)+" Felicitaciones"
+                            ms = Messages.render(ms,True,azul,rojo)
+                            display_game.blit(ms,[400,300])
+                            time.sleep(3)
+                            pg.display.quit()
+                            display_game = None
+                            display_credits = None
+                            display_controls = None
+                            display_endgame = None
+                            display_pause = None
+                            display = None
+                            display_win = pg.display.set_mode([ancho,alto])
+                            display_win.fill(negro)
                             nodriza_e.remove(e)
-                            interludio(display_game)
-                            nivel = 2
+
 
                     #######################################################
                     # COLISION DEL JUGADOR CON LOS MODIFICADORES
@@ -1365,20 +1389,21 @@ if __name__ == '__main__':
                     #######################################################
                     # INTERACCION O PUESTA EN ESCENA DEL JEFE FINAL 2
                     for e in nodriza_e:
+                        # print(e.activate)
                         if e.activate:
-                            mothership2.tempo -= 1
-                            if mothership2.tempo <= 0:
-                                mothership2.tempo = random.randrange(50,100)
-                                pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                            e.tempo -= 1
+                            if e.tempo <= 0:
+                                e.tempo = random.randrange(50,100)
+                                pos = [(e.rect.x+100),random.randrange(50,500)]
                                 e = Rival(matriz_enemigo,matriz_red_explotion,pos)
                                 enemigos.add(e)
-                                pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                                pos = [(e.rect.x+100),random.randrange(50,500)]
                                 e2 = Rival2(matriz_enemigo2,matriz_red_explotion,pos)
                                 enemigos2.add(e2)
-                                pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                                pos = [(e.rect.x+100),random.randrange(50,500)]
                                 e3 = Rival3(matriz_enemigo3,matriz_red_explotion,pos)
                                 enemigos3.add(e3)
-                                pos = [(mothership2.rect.x+100),random.randrange(50,500)]
+                                pos = [(e.rect.x+100),random.randrange(50,500)]
                                 e4 = Rival4(matriz_enemigo4,matriz_red_explotion,pos)
                                 enemigos4.add(e4)
                             pass
@@ -1598,6 +1623,10 @@ if __name__ == '__main__':
                         modificadores3.update()
                         if len(spawns2) <= 0 and len(spawns3) <= 0:      #JEFE FINAL SEGUNDO NIVEL
                             nodriza_e.update()
+                            vida_nodriza = mothership2.vida
+                            vida_nes = str(vida_nodriza)+"/"+str(vida_total_nod)
+                            vida_nes = Messages.render(vida_nes,True,negro,gris)
+                            display_game.blit(vida_nes,[ancho-300,0])
                             if mothership2.rect.x == ancho - 300:
                                 if not mensaje_primer_jefe:
                                     Messages2 = pg.font.Font(None,64)
@@ -1618,6 +1647,16 @@ if __name__ == '__main__':
                                     time.sleep(5)
                                     mensaje_primer_jefe = True
                                 mothership2.activate = True
+                    print(len(spawns2))
+                    print(len(spawns3))
+                    if len(spawns2) <= 0 and len(spawns3) <=0:      #JEFE FINAL SEGUNDO NIVEL
+                        nodriza_e.update()
+                        vida_nodriza = mothership2.vida
+                        vida_nes = str(vida_nodriza)+"/"+str(vida_total_nod)
+                        vida_nes = Messages.render(vida_nes,True,negro,gris)
+                        display_game.blit(vida_nes,[ancho-300,0])
+                        if mothership2.rect.x == ancho - 300:
+                            mothership2.activate = True
                     if not loser:
                         display_game.blit(background2,[i,subnivel])
                         jugadores.draw(display_game)
