@@ -651,29 +651,32 @@ def preludio(pantalla):
 
 
 def interludio(pantalla):
-	fondo= pg.image.load('Sprites/Fondo/fondo6.jpg')
-	fuente=pg.font.Font(None,64)
+    fondo= pg.image.load('Sprites/Fondo/fondo6.jpg')
+    fondo2= pg.image.load('Sprites/Fondo/fondo7.jpg')
+    fuente=pg.font.Font(None,64)
 
-	pantalla.blit(fondo,[0,0])
-	mensaje="Luego de haber estado al borde de la"
-	mensaje1="muerte,todos los tripulantes de la flota"
-	mensaje2="real han logrado desembarcar en Arcadia"
-	mensaje3="para así disponerse a emprender"
-	mensaje4="nuevamente su viaje hacia su destino final."
+    pantalla.blit(fondo,[0,0])
+    mensaje="Luego de haber estado al borde de la"
+    mensaje1="muerte,todos los tripulantes de la flota"
+    mensaje2="real han logrado desembarcar en Arcadia"
+    mensaje3="para así disponerse a emprender"
+    mensaje4="nuevamente su viaje hacia su destino final."
 
-	texto=fuente.render(mensaje,True,blanco)
-	texto1=fuente.render(mensaje1,True,blanco)
-	texto2=fuente.render(mensaje2,True,blanco)
-	texto3=fuente.render(mensaje3,True,blanco)
-	texto4=fuente.render(mensaje4,True,blanco)
+    texto=fuente.render(mensaje,True,blanco)
+    texto1=fuente.render(mensaje1,True,blanco)
+    texto2=fuente.render(mensaje2,True,blanco)
+    texto3=fuente.render(mensaje3,True,blanco)
+    texto4=fuente.render(mensaje4,True,blanco)
 
-	pantalla.blit(texto,[90,158])
-	pantalla.blit(texto1,[90,222])
-	pantalla.blit(texto2,[90,286])
-	pantalla.blit(texto3,[90,350])
-	pantalla.blit(texto4,[90,414])
+    pantalla.blit(texto,[90,158])
+    pantalla.blit(texto1,[90,222])
+    pantalla.blit(texto2,[90,286])
+    pantalla.blit(texto3,[90,350])
+    pantalla.blit(texto4,[90,414])
 
-	pg.display.flip()
-	time.sleep(10)
+    pg.display.flip()
+    time.sleep(10)
 
-	pg.display.flip()
+    pantalla.blit(fondo2,[0,0])
+    pg.display.flip()
+    time.sleep(3)

@@ -317,7 +317,7 @@ if __name__ == '__main__':
     background2 = pg.image.load("Sprites/Mapa/mapa_sf.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     background3 = pg.image.load("Sprites/Efectos/asteroides.png") #CAMBIAR LA IMAGEN A SU RESPECTIVO SITIO DEPENDIENDO DEL PC
     ancho_fondo = 9216
-    bloques,matriz_explosion = load_map2(bloques,background3)
+    bloques = load_map(bloques,background)
 ##################################################################################################################################################################
 
     # ALIADOS
@@ -491,10 +491,10 @@ if __name__ == '__main__':
     mensaje_de_introduccion = False
     mensaje_primer_jefe = False
     puntaje = 0
-    cargar_mapa2 = True
+    cargar_mapa2 = False
     i=240 #POSICION DEL FONDO PARA EL DESPLAZAMIENTO
     subnivel=0
-    nivel = 2
+    nivel = 1
     probMod1 = 30
     probMod2 = 10
     reloj=pg.time.Clock()
