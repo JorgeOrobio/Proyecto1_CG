@@ -3,7 +3,7 @@ from libreria import*
 
 class Spawn2(pg.sprite.Sprite):
 
-    def __init__(self,pto,archivo,archivo2):
+    def __init__(self,pto,archivo,archivo2,limit = 450):
         pg.sprite.Sprite.__init__(self)
         self.fila=0
         self.col=0
@@ -15,10 +15,10 @@ class Spawn2(pg.sprite.Sprite):
         self.matriz2=archivo2
         self.image2= self.matriz2[self.col2][self.fila2]
         self.rect =self.image.get_rect()
-        self.limit =  pto[1]
+        self.limit =  limit
         self.rect.x = pto[0]
         self.rect.y = pto[1] + 300
-        self.velx = -5
+        self.vely = 5
         self.tempo=random.randrange(300)
         self.tempo2=random.randrange(600)
         self.vidas = 20
@@ -29,7 +29,7 @@ class Spawn2(pg.sprite.Sprite):
         self.tempo -= 1
         self.tempo2 -= 1
         if self.vidas > 0 :
-            if self.col >=2:
+            if self.col >=1:
                 self.col=0
             else:
                 self.col+=1
@@ -39,5 +39,5 @@ class Spawn2(pg.sprite.Sprite):
                 self.col2=0
             else:
                 self.col2+=1
-        if self.rect.y >= self.limit:
+        if self.rect.y <= self.limit:
             self.rect.y += self.vely
