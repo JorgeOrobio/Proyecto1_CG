@@ -917,8 +917,8 @@ if __name__ == '__main__':
                             temporizador = 90
                             subnivel = 0
                             e.vida = 1000
-                            vida_nodriza = 1000
-                            vida_total_nod = 1000
+                            vida_nodriza = 100
+                            vida_total_nod = 100
                     #######################################################
                     # COLISION DEL JUGADOR CON LOS MODIFICADORES
                     if len(modificadores1) >= 0:
@@ -1655,7 +1655,8 @@ if __name__ == '__main__':
                         vida_nes = str(vida_nodriza)+"/"+str(vida_total_nod)
                         vida_nes = Messages.render(vida_nes,True,negro,gris)
                         display_game.blit(vida_nes,[ancho-300,0])
-                        if mothership2.rect.x == ancho - 300:
+                        if mothership2.rect.x >= ancho - 300:
+                            mothership2.rect.x >= ancho - 300
                             mothership2.activate = True
                     if not loser:
                         display_game.blit(background2,[i,subnivel])
